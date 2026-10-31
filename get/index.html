@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>reverse.ai — download</title>
+<meta property="og:title" content="reverse.ai — download (Mac / Windows)">
+<meta property="og:description" content="Fixes Hebrew ⇄ English typed in the wrong keyboard. Free beta.">
+<style>
+:root { --bg: #f5f6fb; --ink: #141a38; --muted: #5d6380; --a: #4d5cfa; }
+@media (prefers-color-scheme: dark) { :root { --bg: #0d0f1e; --ink: #eef0fb; --muted: #a2a7c4; --a: #7f8bff; } }
+body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--bg); color: var(--ink);
+  font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; text-align: center; padding: 16px; box-sizing: border-box; }
+p { margin: 6px 0; }
+.muted { color: var(--muted); font-size: 15px; }
+a { color: var(--a); }
+</style>
+</head>
+<body>
+<div id="msg">
+  <p><b>reverse.ai</b></p>
+  <p class="muted"><a href="https://github.com/kazakov100/reverse-ai/releases/latest/download/reverse.ai-mac.dmg">Mac</a> · <a href="https://github.com/kazakov100/reverse-ai/releases/latest/download/reverse.ai-windows.zip">Windows</a></p>
+</div>
+<script>
+(function () {
+  var R = 'https://github.com/kazakov100/reverse-ai/releases/latest/download/';
+  var ua = navigator.userAgent, touch = navigator.maxTouchPoints > 1;
+  var os = /Windows/.test(ua) ? 'win'
+         : (/iPhone|iPad|iPod|Android/.test(ua) || (/Macintosh/.test(ua) && touch)) ? 'phone'
+         : /Macintosh|Mac OS X/.test(ua) ? 'mac' : 'other';
+  var links = '<a href="' + R + 'reverse.ai-mac.dmg">Mac</a> · <a href="' + R + 'reverse.ai-windows.zip">Windows</a>';
+  var msg = document.getElementById('msg');
+  if (os === 'phone') {
+    msg.innerHTML = '<p><b>reverse.ai</b></p><p>פתחו את הקישור במחשב (מק או ווינדוס)</p><p class="muted">Open this link on your computer (Mac or Windows)</p>';
+    return;
+  }
+  if (os === 'mac' || os === 'win') {
+    var mac = os === 'mac';
+    location.href = R + (mac ? 'reverse.ai-mac.dmg' : 'reverse.ai-windows.zip');
+    msg.innerHTML = '<p><b>reverse.ai</b> — ' + (mac ? 'ההורדה למק התחילה' : 'ההורדה לווינדוס התחילה') + '</p>' +
+      '<p class="muted">' + (mac ? 'Downloading for Mac…' : 'Downloading for Windows…') + '</p>' +
+      '<p class="muted">לא התחיל? / Didn’t start? ' + links + '</p>';
+    return;
+  }
+  msg.innerHTML = '<p><b>reverse.ai</b></p><p class="muted">' + links + '</p>';
+})();
+</script>
+</body>
+</html>
