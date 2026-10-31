@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>reverse.ai</title>
-<meta name="description" content="Typed in the wrong keyboard? reverse.ai fixes Hebrew ⇄ English gibberish as you type. Free beta for Mac and Windows.">
-<meta property="og:title" content="reverse.ai — wrong-keyboard fixer">
-<meta property="og:description" content="tbh rumv akuo → אני רוצה שלום. Press Tab. Free beta for Mac and Windows.">
+<meta name="description" content="For people who work in Hebrew and English: reverse.ai catches text typed in the wrong keyboard, in Claude Code, WhatsApp Web, Slack and anywhere else. Free beta for Mac and Windows.">
+<meta property="og:title" content="reverse.ai — think in Hebrew, work in English">
+<meta property="og:description" content="Typed a line in the wrong keyboard? Press Tab. Works in Claude Code, WhatsApp Web, Slack — Mac and Windows, free beta.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234d5cfa'/%3E%3Cstop offset='1' stop-color='%23219efa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='16' fill='url(%23g)'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='17' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,17 +15,17 @@
 :root {
   --a: #4d5cfa; --b: #219efa; --grad: linear-gradient(135deg, var(--a), var(--b));
   --bg: #f5f6fb; --card: #fff; --ink: #141a38; --muted: #5d6380; --line: rgba(20,26,56,.10); --chip: rgba(20,26,56,.05);
-  --shadow: 0 12px 32px rgba(20,26,56,.08);
+  --shadow: 0 12px 32px rgba(20,26,56,.08); --term: #12152a; --termInk: #e6e9f8;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #0d0f1e; --card: #171a2d; --ink: #eef0fb; --muted: #a2a7c4; --line: rgba(255,255,255,.10); --chip: rgba(255,255,255,.06); --shadow: 0 12px 32px rgba(0,0,0,.35); }
+  :root { --bg: #0d0f1e; --card: #171a2d; --ink: #eef0fb; --muted: #a2a7c4; --line: rgba(255,255,255,.10); --chip: rgba(255,255,255,.06); --shadow: 0 12px 32px rgba(0,0,0,.35); --term: #0a0c18; }
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 Rubik, system-ui, -apple-system, "Segoe UI", sans-serif; }
 [lang=he] .en, [lang=en] .he { display: none; }
 a { color: var(--a); }
-.wrap { max-width: 760px; margin: 0 auto; padding: 20px 16px 56px; }
+.wrap { max-width: 780px; margin: 0 auto; padding: 20px 16px 56px; }
 
 header { display: flex; align-items: center; gap: 10px; }
 .logo { width: 34px; height: 34px; border-radius: 50%; background: var(--grad); display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 15px; flex: none; }
@@ -33,23 +33,74 @@ header { display: flex; align-items: center; gap: 10px; }
 .pill { font-size: 12px; font-weight: 500; padding: 2px 9px; border-radius: 99px; background: var(--chip); color: var(--muted); }
 .lang { margin-inline-start: auto; border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 99px; padding: 6px 14px; font: inherit; font-size: 14px; cursor: pointer; }
 
-h1 { font-size: clamp(30px, 6.4vw, 46px); line-height: 1.12; letter-spacing: -.02em; margin: 44px 0 12px; }
+.eyebrow { margin: 44px 0 0; color: var(--a); font-weight: 500; font-size: 15px; }
+h1 { font-size: clamp(30px, 6.4vw, 48px); line-height: 1.1; letter-spacing: -.02em; margin: 8px 0 14px; }
 .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.lead { color: var(--muted); font-size: 18px; margin: 0 0 28px; max-width: 580px; }
+.lead { color: var(--muted); font-size: 18px; margin: 0 0 28px; max-width: 620px; }
+.k { direction: ltr; unicode-bidi: isolate; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .9em; background: var(--chip); padding: 1px 6px; border-radius: 5px; color: var(--ink); }
 
-/* demo: a text field and the app's suggestion bubble */
-.demo { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 20px; box-shadow: var(--shadow); }
-.field { direction: ltr; font-size: 20px; min-height: 46px; padding: 8px 14px; border-radius: 10px; background: var(--chip); display: flex; align-items: center; white-space: nowrap; overflow: hidden; }
+/* demo: an app's text field and the suggestion bubble */
+.demo { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px 20px 20px; box-shadow: var(--shadow); }
+.top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; direction: ltr; }
+.kb { font-size: 12px; font-weight: 700; letter-spacing: .04em; padding: 3px 9px; border-radius: 7px; border: 1px solid var(--line); color: var(--muted); transition: background .2s, color .2s; }
+.kb { display: inline-flex; align-items: center; gap: 6px; }
+.kb svg { width: 16px; height: 16px; }
+.kb.flash { background: var(--grad); color: #fff; border-color: transparent; }
+.stage { position: relative; margin-top: 14px; }
+.hint { position: absolute; top: 4px; left: 0; right: 0; margin: 0; color: var(--a); font-weight: 500; font-size: 15px; opacity: 0; transition: opacity .25s; }
+.hint.show { opacity: 1; }
+.app { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; color: var(--muted); direction: ltr; }
+.app #appIcon { display: inline-flex; }
+.app svg { width: 18px; height: 18px; }
+/* each app's screen: context on top, the input row at the bottom */
+.screen { direction: ltr; height: 184px; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--line); background: var(--card); }
+.ctx { flex: 1; min-height: 0; overflow: hidden; }
+.row { display: flex; align-items: center; gap: 8px; padding: 10px; }
+.row .field { flex: 1; min-width: 0; }
+.send:empty { display: none; }
+.screen.wa { background: #efeae2; border-color: transparent; }
+.wa .ctx { padding: 12px 12px 0; }
+.wa .msg { display: inline-block; direction: rtl; background: #fff; color: #111b21; padding: 6px 10px; border-radius: 0 8px 8px 8px; font-size: 15px; box-shadow: 0 1px .5px rgba(0,0,0,.13); }
+.wa .field { background: #fff; color: #111b21; border-radius: 22px; }
+.send.wa { width: 44px; height: 44px; border-radius: 50%; background: #00a884; display: grid; place-items: center; flex: none; }
+.send svg { width: 18px; height: 18px; fill: #fff; }
+.sl-ch { padding: 9px 12px; font-weight: 700; font-size: 15px; border-bottom: 1px solid var(--line); }
+.sl-msg { padding: 9px 12px 0; font-size: 15px; display: flex; gap: 8px; align-items: flex-start; }
+.sl-msg .av { width: 26px; height: 26px; border-radius: 6px; background: #e8912d; color: #fff; display: grid; place-items: center; font-size: 13px; font-weight: 700; flex: none; }
+.sl-msg b { display: block; font-size: 14px; }
+.slack .row { margin: 0 10px 10px; padding: 4px 6px 4px 0; border: 1px solid var(--line); border-radius: 8px; }
+.slack .field { background: none; }
+.send.slack { width: 32px; height: 28px; border-radius: 6px; background: #007a5a; display: grid; place-items: center; flex: none; }
+.gm-head { background: #f2f6fc; padding: 8px 14px; font-size: 14px; font-weight: 500; }
+.gm-line { padding: 6px 14px; font-size: 14px; color: var(--muted); border-bottom: 1px solid var(--line); }
+.gm-line span { color: var(--ink); margin-left: 8px; }
+.gmail .row { flex-direction: column; align-items: flex-start; gap: 6px; }
+.gmail .field { background: none; width: 100%; font-size: 18px; padding: 4px 4px; min-height: 40px; }
+.send.gmail { background: #0b57d0; color: #fff; padding: 8px 18px; border-radius: 18px; font-size: 14px; font-weight: 500; flex: none; }
+.screen.term { background: var(--term); border-color: transparent; }
+.tm-head { display: flex; gap: 6px; padding: 10px 12px 6px; }
+.tm-head i { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
+.tm-head i + i { background: #febc2e; } .tm-head i + i + i { background: #28c840; }
+.tm-line { padding: 2px 14px; font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace; color: #d97757; }
+.tm-line.dim { color: #8a8fb0; }
+@media (prefers-color-scheme: dark) {
+  .screen.wa { background: #0b141a; } .wa .msg { background: #202c33; color: #e9edef; } .wa .field { background: #2a3942; color: #e9edef; }
+  .gm-head { background: #283142; }
+}
+.field { direction: ltr; font-size: 20px; min-height: 48px; padding: 8px 14px; border-radius: 10px; background: var(--chip); display: flex; align-items: center; white-space: nowrap; overflow: hidden; }
 .field.rtl { direction: rtl; }
+.field.term { background: var(--term); color: var(--termInk); font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 17px; }
+.field.term::before { content: ">"; color: #d97757; margin-right: 10px; }
 .caret { display: inline-block; width: 2px; height: 24px; background: var(--a); margin-inline-start: 2px; animation: blink 1s steps(1) infinite; }
+.field.term .caret { background: var(--termInk); width: 9px; opacity: .8; }
 @keyframes blink { 50% { opacity: 0; } }
-.bubble { direction: ltr; margin: 14px auto 0 0; max-width: 430px; border-radius: 16px; padding: 14px; border: 1.2px solid transparent;
+.bubble { direction: ltr; margin: 0 auto 0 0; max-width: 430px; border-radius: 16px; padding: 14px; border: 1.2px solid transparent;
   background: linear-gradient(var(--card), var(--card)) padding-box, var(--grad) border-box;
   box-shadow: 0 10px 26px rgba(20,26,56,.16); opacity: 0; transform: translateY(6px); transition: opacity .25s, transform .25s; }
 .bubble.show { opacity: 1; transform: none; }
 .bh { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; }
 .bh .logo { width: 20px; height: 20px; font-size: 10px; }
-.sug { direction: rtl; margin: 10px 0 12px; padding: 10px 14px; border-radius: 10px; background: rgba(77,92,250,.08); font-size: 20px; font-weight: 700; }
+.sug { margin: 10px 0 12px; padding: 10px 14px; border-radius: 10px; background: rgba(77,92,250,.08); font-size: 20px; font-weight: 700; }
 .acts { display: flex; gap: 8px; flex-wrap: wrap; }
 .act { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px 7px 8px; border-radius: 99px; font-size: 14px; font-weight: 500; transition: transform .12s, filter .12s; }
 .act.fix { background: var(--grad); color: #fff; box-shadow: 0 4px 12px rgba(77,92,250,.35); }
@@ -59,21 +110,25 @@ h1 { font-size: clamp(30px, 6.4vw, 46px); line-height: 1.12; letter-spacing: -.0
 
 /* download */
 .get { margin: 30px 0 8px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
-.btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.btns { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.seg { display: inline-flex; background: var(--chip); border-radius: 12px; padding: 4px; }
+.seg button { border: 0; background: none; color: var(--muted); font: inherit; font-size: 15px; font-weight: 500; padding: 10px 16px; border-radius: 9px; cursor: pointer; }
+.seg button[aria-pressed=true] { background: var(--card); color: var(--ink); box-shadow: 0 1px 4px rgba(20,26,56,.12); }
 .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border-radius: 14px; background: var(--grad); color: #fff; text-decoration: none; font-size: 18px; font-weight: 500; box-shadow: 0 8px 20px rgba(77,92,250,.35); }
 .btn:hover { filter: brightness(1.06); }
-.btn.ghost { background: var(--card); color: var(--ink); border: 1px solid var(--line); box-shadow: none; }
 .btn svg { width: 20px; height: 20px; flex: none; }
 .small { color: var(--muted); font-size: 14px; margin: 0; }
 .note { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin: 0; }
 
-.feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 34px 0; }
-.feat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
-.feat b { display: block; margin-bottom: 2px; }
-.feat span { color: var(--muted); font-size: 14px; }
+h2 { font-size: 24px; letter-spacing: -.01em; margin: 48px 0 6px; }
+.sub { color: var(--muted); margin: 0 0 16px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+.grid.three { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+.card b { display: block; margin-bottom: 4px; font-size: 17px; }
+.card p { color: var(--muted); font-size: 15px; margin: 0; }
 
 /* install steps */
-h2 { font-size: 22px; margin: 40px 0 12px; }
 .tabs { display: inline-flex; background: var(--chip); border-radius: 99px; padding: 3px; margin-bottom: 14px; }
 .tab { border: 0; background: none; color: var(--muted); font: inherit; font-size: 15px; padding: 6px 16px; border-radius: 99px; cursor: pointer; }
 .tab[aria-selected=true] { background: var(--card); color: var(--ink); box-shadow: 0 1px 4px rgba(20,26,56,.12); }
@@ -85,7 +140,7 @@ code { direction: ltr; unicode-bidi: isolate; font-family: ui-monospace, Menlo, 
 
 footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 6px 16px; }
 
-@media (max-width: 480px) { .btn { width: 100%; justify-content: center; } .btns { width: 100%; } h1 { margin-top: 32px; } }
+@media (max-width: 480px) { .btn { width: 100%; justify-content: center; } .btns { width: 100%; } .seg { width: 100%; } .seg button { flex: 1; } .eyebrow { margin-top: 32px; } .grid { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .bubble { transition: none; } .caret { animation: none; } }
 </style>
 </head>
@@ -98,33 +153,64 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     <button class="lang" id="lang" type="button"><span class="he">English</span><span class="en">עברית</span></button>
   </header>
 
+  <p class="eyebrow"><span class="he">לכל מי שעובד בעברית ובאנגלית</span><span class="en">For people who work in Hebrew and English</span></p>
   <h1>
-    <span class="he">כתבת בשפה הלא נכונה?<br><span class="grad">לוחצים Tab וזהו.</span></span>
-    <span class="en">Typed in the wrong keyboard?<br><span class="grad">Just press Tab.</span></span>
+    <span class="he">חושבים בעברית. עובדים באנגלית.<br><span class="grad">ולא מקלידים שוב אף שורה.</span></span>
+    <span class="en">Think in Hebrew. Work in English.<br><span class="grad">Never retype a line again.</span></span>
   </h1>
   <p class="lead">
-    <span class="he">reverse.ai מזהה תוך כדי הקלדה טקסט שנכתב במקלדת הלא נכונה, מציע את התיקון ומחליף את שפת המקלדת. עברית ⇄ אנגלית, בכל אפליקציה.</span>
-    <span class="en">reverse.ai spots text typed in the wrong keyboard as you type, offers the fix and switches the keyboard for you. Hebrew ⇄ English, in any app.</span>
+    <span class="he">שרשור בסלאק באנגלית, וואטסאפ בעברית, פרומפט ל-Claude בשתיהן. כשמחליפים שפה כל היום, יוצא <span class="k">akuo</span> במקום שלום — מוחקים, מחליפים מקלדת, מקלידים שוב. reverse.ai תופס את זה תוך כדי הקלדה, מתקן בלחיצה על Tab ומחליף את שפת המקלדת בשבילך.</span>
+    <span class="en">A Slack thread in English, WhatsApp in Hebrew, a prompt to Claude in both. When you switch languages all day, you end up with <span class="k">akuo</span> instead of שלום — delete, switch keyboards, retype. reverse.ai catches it as you type, fixes it with one press of Tab and switches the keyboard for you.</span>
   </p>
 
   <div class="demo" aria-hidden="true">
-    <div class="field" id="field"><span id="typed"></span><span class="caret"></span></div>
+    <div class="top"><div class="app" id="app"><span id="appIcon"></span><span id="appName">WhatsApp Web</span></div><span class="kb" id="kb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6.5 10h.01M10.5 10h.01M14.5 10h.01M17.5 10h.01M7.5 14h9"/></svg><b id="kbLang">EN</b></span></div>
+    <div class="screen" id="screen">
+      <div class="ctx" id="ctx"></div>
+      <div class="row"><div class="field" id="field"><span id="typed"></span><span class="caret"></span></div><span class="send" id="send"></span></div>
+    </div>
+    <div class="stage">
+    <p class="hint" id="hint"></p>
     <div class="bubble" id="bubble">
       <div class="bh"><div class="logo">A</div>Did you mean</div>
-      <div class="sug">אני רוצה לעשות משהו כאן</div>
+      <div class="sug" id="sug"></div>
       <div class="acts">
-        <span class="act fix" id="fix"><span class="kc">Tab</span>Fix + switch to Hebrew</span>
+        <span class="act fix" id="fix"><span class="kc">Tab</span><span id="fixLabel"></span></span>
         <span class="act no"><span class="kc">Esc</span>Not now</span>
       </div>
+    </div>
     </div>
   </div>
 
   <section class="get" id="get"></section>
 
-  <div class="feats">
-    <div class="feat"><b><span class="he">פרטי לגמרי</span><span class="en">Fully private</span></b><span><span class="he">הכל רץ על המחשב שלך. שום דבר שמקלידים לא נשמר ולא נשלח.</span><span class="en">Runs on your computer. Nothing you type is stored or sent.</span></span></div>
-    <div class="feat"><b><span class="he">לא מציק</span><span class="en">Not annoying</span></b><span><span class="he">מציע רק כשיש משפט עם משמעות בשפה השנייה. Esc ומתעלם.</span><span class="en">Only offers when the other language makes a real phrase. Esc to ignore.</span></span></div>
-    <div class="feat"><b><span class="he">בכל מקום</span><span class="en">Works everywhere</span></b><span><span class="he">וואטסאפ, Claude, הטרמינל, הדפדפן — בלי לגעת בלוח ההעתקה.</span><span class="en">WhatsApp, Claude, the terminal, your browser — clipboard untouched.</span></span></div>
+  <h2><span class="he">בנוי לאפליקציות שאתם חיים בהן</span><span class="en">Made for the apps you live in</span></h2>
+  <p class="sub"><span class="he">במק ובווינדוס, בכל מקום שאפשר להקליד.</span><span class="en">On Mac and Windows, anywhere you can type.</span></p>
+  <div class="grid">
+    <div class="card"><b>Claude &amp; Claude Code</b>
+      <p class="he">פרומפטים בעברית או באנגלית, באפליקציה או בטרמינל. התיקון מוקלד כהקשות, אז הוא עובד גם בתוך Claude Code ולא נוגע בלוח ההעתקה.</p>
+      <p class="en">Prompts in Hebrew or English, in the desktop app or the terminal. Fixes are typed as keystrokes, so it works inside Claude Code and never touches your clipboard.</p></div>
+    <div class="card"><b>WhatsApp Web</b>
+      <p class="he">תופס את הג׳יבריש לפני שלוחצים Enter ושולחים אותו לקבוצה.</p>
+      <p class="en">Catches the gibberish before you hit Enter and send it to the group.</p></div>
+    <div class="card"><b>Slack, Gmail, Jira, Notion</b>
+      <p class="he">עובד בכל המערכת, לא כתוסף לאפליקציה אחת — בכל תיבת טקסט, במק ובווינדוס.</p>
+      <p class="en">Works system-wide, not as a plugin for one app — any text box, on Mac and Windows.</p></div>
+    <div class="card"><b><span class="he">טרמינל ו-IDE</span><span class="en">Terminal &amp; IDE</span></b>
+      <p class="he">פקודות כמו <code>git status</code> ו-<code>npm i</code> נשארות כמו שהן. הוא מתערב רק כשבשפה השנייה יוצא משפט אמיתי.</p>
+      <p class="en">Commands like <code>git status</code> and <code>npm i</code> are left alone. It only steps in when the other language makes a real phrase.</p></div>
+  </div>
+
+  <div class="grid three" style="margin-top:12px">
+    <div class="card"><b><span class="he">פרטי לגמרי</span><span class="en">Fully private</span></b>
+      <p class="he">הכל רץ על המחשב שלך. שום דבר שמקלידים לא נשמר ולא נשלח.</p>
+      <p class="en">Runs on your computer. Nothing you type is stored or sent.</p></div>
+    <div class="card"><b><span class="he">מקש אחד</span><span class="en">One key</span></b>
+      <p class="he">Tab מתקן ומחליף מקלדת. Esc מתעלם.</p>
+      <p class="en">Tab fixes it and switches the keyboard. Esc ignores it.</p></div>
+    <div class="card"><b><span class="he">לא מציק</span><span class="en">Not annoying</span></b>
+      <p class="he">נבדק על מאות אלפי מילים: בערך מילה אחת מכל 10,000 משתנה בטעות.</p>
+      <p class="en">Tested on hundreds of thousands of words: about 1 word in 10,000 is changed by mistake.</p></div>
   </div>
 
   <h2><span class="he">התקנה</span><span class="en">Install</span></h2>
@@ -161,13 +247,12 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     </ol>
   </div>
   <p class="small" style="margin-top:12px">
-    <span class="he">צריך שיהיו מותקנות מקלדת עברית ומקלדת אנגלית. לנסות: כשהמקלדת על אנגלית מקלידים <code>tbh rumv akuo</code> ולוחצים Tab.</span>
-    <span class="en">You need both a Hebrew and an English keyboard installed. Try it: with the English keyboard on, type <code>tbh rumv akuo</code> and press Tab.</span>
+    <span class="he">צריך שיהיו מותקנות מקלדת עברית ומקלדת אנגלית.</span>
+    <span class="en">You need both a Hebrew and an English keyboard installed.</span>
   </p>
 
   <footer>
     <span><span class="he">גרסת בטא</span><span class="en">Beta</span> · Mac (Apple M1+, macOS 14+) · Windows 10/11 64-bit</span>
-    <a href="https://github.com/kazakov100/reverse-ai/releases/latest"><span class="he">כל הקבצים והגרסאות</span><span class="en">All files and versions</span></a>
   </footer>
 </div>
 
@@ -180,7 +265,7 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
   }
   var saved = null;
   try { saved = localStorage.getItem('lang'); } catch (e) {}
-  setLang(saved === 'en' ? 'en' : 'he');
+  setLang(saved === 'he' ? 'he' : 'en');
   document.getElementById('lang').onclick = function () { setLang(root.lang === 'he' ? 'en' : 'he'); };
 
   // which download to lead with
@@ -190,54 +275,87 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
          : /Macintosh|Mac OS X/.test(ua) ? 'mac' : 'other';
   var R = 'https://github.com/kazakov100/reverse-ai/releases/latest/download/';
   var icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>';
-  function btn(which, ghost) {
+  function file(which) { return R + (which === 'mac' ? 'reverse.ai-mac.dmg' : 'reverse.ai-windows.zip'); }
+  function btn(which) {
     var mac = which === 'mac';
-    return '<a class="btn' + (ghost ? ' ghost' : '') + '" href="' + R + (mac ? 'reverse.ai-mac.dmg' : 'reverse.ai-windows.zip') + '">' + icon +
+    return '<a class="btn" href="' + file(which) + '">' + icon +
       '<span class="he">הורדה ל' + (mac ? 'מק' : 'ווינדוס') + '</span><span class="en">Download for ' + (mac ? 'Mac' : 'Windows') + '</span></a>';
   }
-  var get = document.getElementById('get'), html;
-  if (os === 'mac' || os === 'win') {
-    var other = os === 'mac' ? 'win' : 'mac';
-    html = '<div class="btns">' + btn(os) + '</div>' +
-      '<p class="small"><span class="he">' + (os === 'mac' ? 'שבב של אפל (M1 ומעלה), macOS 14 ומעלה. ' : 'Windows 10/11, ‏64 ביט. ') +
-      '<a href="' + R + (other === 'mac' ? 'reverse.ai-mac.dmg' : 'reverse.ai-windows.zip') + '">גם ל' + (other === 'mac' ? 'מק' : 'ווינדוס') + '</a></span>' +
-      '<span class="en">' + (os === 'mac' ? 'Apple chip (M1 or newer), macOS 14+. ' : 'Windows 10/11, 64-bit. ') +
-      '<a href="' + R + (other === 'mac' ? 'reverse.ai-mac.dmg' : 'reverse.ai-windows.zip') + '">Also for ' + (other === 'mac' ? 'Mac' : 'Windows') + '</a></span></p>';
-  } else {
-    html = (os === 'mobile' ? '<p class="note"><span class="he">reverse.ai עובד על מחשב. פתחו את הקישור הזה במק או בווינדוס כדי להוריד.</span><span class="en">reverse.ai runs on computers. Open this link on your Mac or Windows PC to download.</span></p>' : '') +
-      '<div class="btns">' + btn('mac') + btn('win', true) + '</div>';
-  }
-  get.innerHTML = html;
+  var get = document.getElementById('get');
 
-  // install tabs, opened on the detected system
+  // the chosen system drives the download button, the Mac / Windows switch and the install steps
+  var note = os === 'mobile' ? '<p class="note"><span class="he">reverse.ai עובד על מחשב. פתחו את הקישור הזה במק או בווינדוס כדי להוריד.</span><span class="en">reverse.ai runs on computers. Open this link on your Mac or Windows PC to download.</span></p>' : '';
   function show(which) {
     ['mac', 'win'].forEach(function (k) {
       document.getElementById('t-' + k).setAttribute('aria-selected', k === which);
       document.getElementById('p-' + k).hidden = k !== which;
     });
+    get.innerHTML = note + '<div class="btns">' + btn(which) +
+      '<div class="seg" role="group" aria-label="System">' +
+      '<button type="button" data-os="mac" aria-pressed="' + (which === 'mac') + '">Mac</button>' +
+      '<button type="button" data-os="win" aria-pressed="' + (which === 'win') + '">Windows</button></div></div>' +
+      '<p class="small"><span class="he">' + (which === 'mac' ? 'שבב של אפל (M1 ומעלה), macOS 14 ומעלה.' : 'Windows 10/11, ‏64 ביט.') + '</span>' +
+      '<span class="en">' + (which === 'mac' ? 'Apple chip (M1 or newer), macOS 14+.' : 'Windows 10/11, 64-bit.') + '</span></p>';
+    get.querySelectorAll('.seg button').forEach(function (b) { b.onclick = function () { show(b.dataset.os); }; });
   }
   document.getElementById('t-mac').onclick = function () { show('mac'); };
   document.getElementById('t-win').onclick = function () { show('win'); };
   show(os === 'win' ? 'win' : 'mac');
 
-  // demo: type gibberish, the bubble offers the fix, Tab applies it
-  var field = document.getElementById('field'), typed = document.getElementById('typed'),
-      bubble = document.getElementById('bubble'), fix = document.getElementById('fix');
-  var src = 'tbh rumv kgau, navu fti', dst = 'אני רוצה לעשות משהו כאן';
+  // demo: a wrong-keyboard line in two apps; Tab fixes it, switches the keyboard, and you keep typing
+  var scenes = [
+    { app: 'WhatsApp Web', kind: 'wa', ctx: '<div class="msg">מה התוכניות לסופ״ש?</div>',
+      send: '<svg viewBox="0 0 24 24"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg>',
+      icon: '<svg viewBox="0 0 24 24"><path fill="#25D366" d="M12 2a10 10 0 0 0-8.7 14.9L2 22l5.3-1.3A10 10 0 1 0 12 2z"/><path fill="#fff" d="M9 7.3c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .6.4l.8 1.9c.1.2.1.4-.1.6l-.5.6c-.1.2-.2.3 0 .6.4.7.9 1.3 1.5 1.8.7.6 1.3.9 1.6 1 .2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.7.8c.2.1.4.2.4.4 0 .3 0 1-.4 1.5-.5.5-1.3.9-2.1.8-.9-.1-2.4-.5-4-1.9-1.7-1.5-2.6-3.3-2.8-4-.2-.7-.1-1.5.3-2.1z"/></svg>', src: 'tbh rumv kgau, navu fti', dst: 'אני רוצה לעשות משהו כאן', more: ', מי בא?', from: 'EN', target: 'Hebrew' },
+    { app: 'Slack', kind: 'slack', ctx: '<div class="sl-ch"># product</div><div class="sl-msg"><span class="av">N</span><span><b>Noa</b>the new build is ready for review</span></div>',
+      send: '<svg viewBox="0 0 24 24"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg>',
+      icon: '<svg viewBox="0 0 24 24"><rect x="6" y="2" width="3.6" height="12" rx="1.8" fill="#36C5F0"/><rect x="10" y="6" width="12" height="3.6" rx="1.8" fill="#2EB67D"/><rect x="14.4" y="10" width="3.6" height="12" rx="1.8" fill="#ECB22E"/><rect x="2" y="14.4" width="12" height="3.6" rx="1.8" fill="#E01E5A"/></svg>', src: "בשמ 'ק דטמב שכאקר ךומבי", dst: 'can we sync after lunch', more: ' tomorrow?', from: 'HE', target: 'English' },
+    { app: 'Gmail', kind: 'gmail', ctx: '<div class="gm-head">New message</div><div class="gm-line">To<span>team@company.com</span></div>',
+      send: 'Send',
+      icon: '<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M2 7v11a1.5 1.5 0 0 0 1.5 1.5H6V9.5z"/><path fill="#34A853" d="M18 9.5v10h2.5A1.5 1.5 0 0 0 22 18V7z"/><path fill="#EA4335" d="M6 9.5V19.5h0V9.5l6 4.5 6-4.5V5.2l-6 4.5-6-4.5z"/><path fill="#FBBC04" d="M18 5.2v4.3l4-2.5V6.2c0-1.4-1.6-2.2-2.7-1.4z"/><path fill="#C5221F" d="M2 6.2V7l4 2.5V5.2l-1.3-1C3.6 3.4 2 4.8 2 6.2z"/></svg>', src: 'tanj keck gsfui gs njr', dst: 'אשמח לקבל עדכון עד מחר', more: ' בבוקר 🙏', from: 'EN', target: 'Hebrew' },
+    { app: 'Claude Code', kind: 'term', ctx: '<div class="tm-head"><i></i><i></i><i></i></div><div class="tm-line">✻ Welcome to Claude Code</div><div class="tm-line dim">cwd: ~/projects/web-app</div>',
+      send: '',
+      icon: '<svg viewBox="0 0 24 24"><g stroke="#D97757" stroke-width="2.6" stroke-linecap="round"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/></g></svg>', src: 'כןס איק ךםעןמ נוע', dst: 'fix the login bug', more: ' and add a test', from: 'HE', target: 'English' }
+  ];
+  var appIcon = document.getElementById('appIcon'), screen = document.getElementById('screen'), ctx = document.getElementById('ctx'),
+      send = document.getElementById('send'), appName = document.getElementById('appName'), kb = document.getElementById('kb'), kbLang = document.getElementById('kbLang'),
+      field = document.getElementById('field'), typed = document.getElementById('typed'), bubble = document.getElementById('bubble'),
+      hint = document.getElementById('hint'), sug = document.getElementById('sug'), fix = document.getElementById('fix'),
+      fixLabel = document.getElementById('fixLabel');
+  function setScene(s) {
+    appName.textContent = s.app; appIcon.innerHTML = s.icon; screen.className = 'screen ' + s.kind; ctx.innerHTML = s.ctx;
+    send.className = 'send ' + s.kind; send.innerHTML = s.send; s.term = s.kind === 'term'; field.classList.toggle('term', s.term);
+    field.classList.toggle('rtl', !s.term && s.from === 'HE'); typed.textContent = ''; kbLang.textContent = s.from; hint.classList.remove('show');
+    sug.textContent = s.dst; sug.dir = s.target === 'Hebrew' ? 'rtl' : 'ltr'; fixLabel.textContent = 'Fix + switch to ' + s.target;
+    hint.innerHTML = '<span class="en">✓ Keyboard switched to ' + s.target + ' — just keep typing</span>' +
+      '<span class="he">✓ המקלדת עברה ל' + (s.target === 'Hebrew' ? 'עברית' : 'אנגלית') + ' — פשוט ממשיכים להקליד</span>';
+  }
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    typed.textContent = src; bubble.classList.add('show'); return;
+    setScene(scenes[0]); typed.textContent = scenes[0].src; bubble.classList.add('show'); return;
   }
   function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+  async function type(text) {
+    for (var i = 0; i < text.length; i++) {
+      typed.textContent += text[i];
+      field.scrollLeft = field.classList.contains('rtl') ? -field.scrollWidth : field.scrollWidth;
+      await wait(text[i] === ' ' ? 140 : 70 + Math.random() * 60);
+    }
+  }
   async function loop() {
-    for (;;) {
-      field.classList.remove('rtl'); typed.textContent = '';
+    for (var n = 0; ; n++) {
+      var s = scenes[n % scenes.length];
+      setScene(s);
       await wait(700);
-      for (var i = 0; i < src.length; i++) { typed.textContent += src[i]; await wait(src[i] === ' ' ? 140 : 70 + Math.random() * 60); }
+      await type(s.src);
       await wait(450); bubble.classList.add('show');
       await wait(1900); fix.classList.add('pressed');
       await wait(220); fix.classList.remove('pressed'); bubble.classList.remove('show');
-      typed.textContent = dst; field.classList.add('rtl');
-      await wait(2800);
+      typed.textContent = s.dst; field.classList.toggle('rtl', !s.term && s.target === 'Hebrew');
+      kbLang.textContent = s.target === 'Hebrew' ? 'HE' : 'EN'; kb.classList.add('flash'); hint.classList.add('show');
+      await wait(700); kb.classList.remove('flash');
+      await type(s.more);
+      await wait(2400); hint.classList.remove('show');
+      await wait(300);
     }
   }
   loop();

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,15 +31,15 @@ a { color: var(--a); }
   var links = '<a href="' + R + 'reverse.ai-mac.dmg">Mac</a> · <a href="' + R + 'reverse.ai-windows.zip">Windows</a>';
   var msg = document.getElementById('msg');
   if (os === 'phone') {
-    msg.innerHTML = '<p><b>reverse.ai</b></p><p>פתחו את הקישור במחשב (מק או ווינדוס)</p><p class="muted">Open this link on your computer (Mac or Windows)</p>';
+    msg.innerHTML = '<p><b>reverse.ai</b></p><p>Open this link on your computer (Mac or Windows)</p><p class="muted">פתחו את הקישור במחשב (מק או ווינדוס)</p>';
     return;
   }
   if (os === 'mac' || os === 'win') {
     var mac = os === 'mac';
     location.href = R + (mac ? 'reverse.ai-mac.dmg' : 'reverse.ai-windows.zip');
-    msg.innerHTML = '<p><b>reverse.ai</b> — ' + (mac ? 'ההורדה למק התחילה' : 'ההורדה לווינדוס התחילה') + '</p>' +
-      '<p class="muted">' + (mac ? 'Downloading for Mac…' : 'Downloading for Windows…') + '</p>' +
-      '<p class="muted">לא התחיל? / Didn’t start? ' + links + '</p>';
+    msg.innerHTML = '<p><b>reverse.ai</b> — ' + (mac ? 'downloading for Mac…' : 'downloading for Windows…') + '</p>' +
+      '<p class="muted" dir="rtl">' + (mac ? 'ההורדה למק התחילה' : 'ההורדה לווינדוס התחילה') + '</p>' +
+      '<p class="muted">Didn’t start? ' + links + '</p>';
     return;
   }
   msg.innerHTML = '<p><b>reverse.ai</b></p><p class="muted">' + links + '</p>';
