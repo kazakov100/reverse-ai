@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy · reverse.ai</title>
+<meta name="description" content="How reverse.ai handles your information: what you type stays on your computer.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234d5cfa'/%3E%3Cstop offset='1' stop-color='%23219efa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='16' fill='url(%23g)'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='17' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+<style>
+:root {
+  --a: #4d5cfa; --b: #219efa; --grad: linear-gradient(135deg, var(--a), var(--b));
+  --bg: #f5f6fb; --card: #fff; --ink: #141a38; --muted: #5d6380; --line: rgba(20,26,56,.10); --chip: rgba(20,26,56,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0d0f1e; --card: #171a2d; --ink: #eef0fb; --muted: #a2a7c4; --line: rgba(255,255,255,.10); --chip: rgba(255,255,255,.06); }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 Rubik, system-ui, -apple-system, "Segoe UI", sans-serif; }
+html[lang=he] article.en, html[lang=en] article.he, html[lang=he] .en, html[lang=en] .he { display: none; }
+a { color: var(--a); }
+.wrap { max-width: 780px; margin: 0 auto; padding: 20px 16px 56px; }
+header { display: flex; align-items: center; gap: 10px; }
+header a.home { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
+.logo { width: 34px; height: 34px; border-radius: 50%; background: var(--grad); display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 15px; flex: none; }
+.name { font-weight: 700; font-size: 20px; letter-spacing: -.01em; direction: ltr; }
+.lang { margin-inline-start: auto; border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 99px; padding: 6px 14px; font: inherit; font-size: 14px; cursor: pointer; }
+h1 { font-size: clamp(28px, 5.6vw, 40px); line-height: 1.15; letter-spacing: -.02em; margin: 36px 0 4px; }
+.date { color: var(--muted); margin: 0 0 24px; font-size: 15px; }
+h2 { font-size: 19px; margin: 32px 0 8px; }
+h3 { font-size: 16px; margin: 18px 0 6px; }
+p, li { max-width: 70ch; }
+ul { padding-inline-start: 22px; }
+li { margin: 4px 0; }
+.summary { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 6px 20px 10px; }
+.summary h2 { margin-top: 14px; }
+.k { direction: ltr; unicode-bidi: isolate; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .88em; background: var(--chip); padding: 1px 6px; border-radius: 5px; }
+mark.todo { background: #ffe58a; color: #141a38; padding: 0 4px; border-radius: 4px; }
+footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="home" href="/"><div class="logo">A</div><div class="name">reverse.ai</div></a>
+    <button class="lang" id="lang" type="button"><span class="he">English</span><span class="en">עברית</span></button>
+  </header>
+
+  <article class="en" lang="en" dir="ltr">
+    <h1>Privacy Policy</h1>
+    <p class="date">Last updated: 9 November 2026</p>
+
+    <div class="summary">
+      <h2>The short version</h2>
+      <ul>
+        <li><strong>What you type stays on your computer.</strong> reverse.ai reads your typing to spot text typed in the wrong keyboard. It keeps only the line you're typing (and, for one minute, the line before it), in memory. It never saves it, and sends it only if you click Report.</li>
+        <li><strong>No account, no ads, no analytics, no tracking.</strong> We don't sell or share personal information.</li>
+        <li><strong>One daily update check.</strong> Once a day the app asks our website whether a newer version exists. The request carries nothing about you or your typing, but like any web request it shows your IP address to the website's host. You can turn it off.</li>
+        <li><strong>Reports only when you click.</strong> If reverse.ai gets something wrong, Report sends us those words and a few technical details, with no name or identifier. Nothing is sent unless you click it.</li>
+      </ul>
+    </div>
+
+    <h2>1. Who we are</h2>
+    <p>reverse.ai is developed and distributed by Assaf Kazakov, a private individual in Israel ("we", "us"). Contact: <a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a>. We are responsible for the small amount of personal information described in this policy, for the purposes of Israel's Protection of Privacy Law, 5741-1981, and similar laws elsewhere.</p>
+
+    <h2>2. How the app handles your typing</h2>
+    <ul>
+      <li>To work, the app needs the Accessibility permission (Mac) or a keyboard hook (Windows), which lets it see the keys you press in other apps.</li>
+      <li>It keeps only the line you're currently typing, in memory. When the line ends (you press Return, click or switch apps), it keeps that line in memory for one more minute, so its menu can offer to report it, and then forgets it. It doesn't keep lines of a single word, very long lines, or anything typed in a password field.</li>
+      <li>It never writes what you type to disk and never sends it over the internet, unless you click Report (section 4d). We never see it otherwise.</li>
+      <li>It ignores password fields, apps on its exclusion list (password managers, by default) and words that contain digits.</li>
+      <li>When you accept a fix, the app deletes the mistyped text and types the correction. It doesn't use your clipboard.</li>
+      <li>All language processing, including Smart mode's small AI model, runs on your computer.</li>
+    </ul>
+
+    <h2>3. What's saved on your computer</h2>
+    <ul>
+      <li>Your settings, such as sensitivity, Smart mode and excluded apps.</li>
+      <li>A diagnostic log, only if you turn it on (the app's menu → "Keep a diagnostic log"), for example to report a problem. It stays on for 24 hours and records events, counts and the name of the app you were typing in (for example, "bubble shown for 3 words in WhatsApp"), never the text. It's saved on your computer only (Mac: <span class="k">~/Library/Logs/reverse.ai</span>; Windows: <span class="k">%LOCALAPPDATA%\reverse.ai\log.txt</span>), reaches us only if you choose to send it, and is deleted 7 days after it was last written.</li>
+      <li>Early test versions could save a short list of words you undid twice, so they wouldn't be fixed again. Current versions don't add to it, and the app's menu can clear it.</li>
+    </ul>
+    <p>Uninstalling the app (and, on Windows, deleting its <span class="k">reverse.ai</span> folders) removes this data.</p>
+
+    <h2>4. What leaves your computer</h2>
+    <h3>a. The daily update check</h3>
+    <p>Once a day, and when you choose "Check for updates now", the app downloads a tiny file from <span class="k">reverseai.vercel.app</span> that holds the latest version number. The request contains no identifier, account or typing data. Our website host, Vercel Inc. (USA), receives your IP address, the time and basic technical data, as with any web request, and handles it under its own privacy policy. We don't use this to identify or track you. To turn it off: the app's menu → "Check for updates automatically".</p>
+    <h3>b. Our website and downloads</h3>
+    <p>When you visit our website or download the app, Vercel and GitHub Inc. (USA, which hosts the download files) receive your IP address and similar request data. The website loads fonts from Google Fonts (Google LLC), which also receives your IP address. The website remembers your language choice in your browser's local storage. It uses no cookies, analytics or advertising.</p>
+    <h3>c. What you send us</h3>
+    <p>If you email us or send us a log file, we use it only to answer you and fix problems, and we delete it once it's no longer needed (within 12 months at most), or sooner if you ask.</p>
+
+    <h3>d. Reports you choose to send</h3>
+    <p>When you click Report (in the suggestion bubble or in the app's menu), the app sends us: the words in question, what reverse.ai changed them to or would have, which keyboard languages were involved, why the change was suggested, the name of the app you were typing in, your reverse.ai and operating-system versions, your reverse.ai settings, and anything you write in the optional note. The first time, the app shows what's included; every report waits 4 seconds so you can undo it. A report contains no name, account, email address or device identifier, so we can't tell who sent it. Please don't report text that contains personal or sensitive information.</p>
+    <p>The report passes through our website host, Vercel, which sees your IP address in transit (we don't record it), and is stored as a row in a Google Sheets spreadsheet in our Google account (Google LLC, USA). Only we can open it. We keep reports to fix and improve reverse.ai. To have your report deleted, write to us with the words and roughly when you sent it.</p>
+
+    <h2>5. What we don't do</h2>
+    <p>No account or sign-up. No analytics or telemetry. No advertising. No selling or "sharing" of personal information, as those terms are defined in California law. No tracking across websites or apps. Because we don't track you, browser "Do Not Track" signals don't change anything.</p>
+
+    <h2>6. Why we process this information</h2>
+    <ul>
+      <li>The update check and the website: our legitimate interest in delivering, maintaining and securing the app. You can turn the update check off.</li>
+      <li>Emails and log files you send: to handle your request.</li>
+      <li>Reports you send: your choice to send them, to fix and improve the app.</li>
+      <li>The permissions on your computer: your consent, which you can withdraw at any time in your system settings.</li>
+    </ul>
+
+    <h2>7. Security</h2>
+    <p>We take reasonable steps to protect what we're responsible for: we build and publish the releases ourselves, the Mac app is code-signed, and the app checks for updates only against our own website. No system is perfectly secure.</p>
+    <p>The most important protection is built into the design: we don't hold your typing, so a breach of our accounts or website could not expose it. The realistic risk is a tampered copy of the app, so download reverse.ai only from <span class="k">reverseai.vercel.app</span> or our official GitHub releases page. If we learn that our distribution has been compromised, we'll post a notice on the website and, where possible, through the app's update notice, and we'll notify affected users and authorities as the law requires.</p>
+
+    <h2>8. Your rights</h2>
+    <ul>
+      <li><strong>Israel:</strong> you may ask to see the information we hold about you and ask us to correct or delete it (Protection of Privacy Law, sections 13–14), and you may complain to the Privacy Protection Authority.</li>
+      <li><strong>United States:</strong> depending on your state (for example, California), you may have rights to know, delete and correct personal information and to opt out of its sale or sharing. We don't sell or share it, and we won't treat you differently for using your rights.</li>
+      <li><strong>EU and UK:</strong> if the GDPR applies, you also have rights of access, rectification, erasure, restriction, objection and portability, and you may complain to your local data protection authority.</li>
+    </ul>
+    <p>In practice we hold almost nothing about you. To use any of these rights, email <a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a>.</p>
+
+    <h2>9. Children</h2>
+    <p>reverse.ai isn't directed to children under 13, and we don't knowingly collect their personal information. If you believe a child has sent us personal information, contact us and we'll delete it.</p>
+
+    <h2>10. International transfers</h2>
+    <p>Our service providers (Vercel, GitHub and Google) are based in the United States and may process request data there, under their own safeguards.</p>
+
+    <h2>11. Changes to this policy</h2>
+    <p>We'll post any change on this page with a new date. For important changes, we'll also say so on the website or in the app.</p>
+
+    <h2>12. Contact</h2>
+    <p>Assaf Kazakov, Israel · <a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a></p>
+  </article>
+
+  <article class="he" lang="he" dir="rtl">
+    <h1>מדיניות פרטיות</h1>
+    <p class="date">עדכון אחרון: 9 בנובמבר 2026</p>
+
+    <div class="summary">
+      <h2>בקצרה</h2>
+      <ul>
+        <li><strong>מה שמקלידים נשאר במחשב.</strong> reverse.ai קורא את ההקלדה כדי לזהות טקסט שנכתב בשפת מקלדת לא נכונה. הוא שומר רק את השורה שמקלידים כרגע (ולמשך דקה גם את השורה שלפניה), בזיכרון. הוא לעולם לא שומר אותה, ושולח אותה רק אם לוחצים Report.</li>
+        <li><strong>בלי חשבון, בלי פרסומות, בלי אנליטיקה, בלי מעקב.</strong> אנחנו לא מוכרים ולא משתפים מידע אישי.</li>
+        <li><strong>בדיקת עדכונים אחת ביום.</strong> פעם ביום האפליקציה שואלת את האתר שלנו אם יש גרסה חדשה. הבקשה לא כוללת שום מידע עליכם או על מה שאתם מקלידים, אבל כמו כל בקשה באינטרנט, היא חושפת את כתובת ה-IP שלכם לחברה שמארחת את האתר. אפשר לכבות אותה.</li>
+        <li><strong>דיווח רק כשלוחצים.</strong> אם reverse.ai טועה, הכפתור Report שולח לנו את המילים האלה וכמה פרטים טכניים, בלי שם ובלי מזהה. שום דבר לא נשלח בלי שלוחצים עליו.</li>
+      </ul>
+    </div>
+
+    <h2>1. מי אנחנו</h2>
+    <p>reverse.ai מפותח ומופץ על ידי אסף קזקוב, אדם פרטי בישראל ("אנחנו"). ליצירת קשר: <a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a>. אנחנו אחראים למעט המידע האישי המתואר במדיניות זו, לעניין חוק הגנת הפרטיות, התשמ"א-1981, וחוקים דומים במדינות אחרות.</p>
+
+    <h2>2. איך האפליקציה מטפלת במה שמקלידים</h2>
+    <ul>
+      <li>כדי לפעול, האפליקציה צריכה הרשאת נגישות (במק) או האזנה למקלדת (בווינדוס), שמאפשרות לה לראות את המקשים שלוחצים באפליקציות אחרות.</li>
+      <li>היא שומרת רק את השורה שמקלידים כרגע, בזיכרון. כשהשורה מסתיימת (לוחצים Enter, לוחצים בעכבר או עוברים לאפליקציה אחרת), היא שומרת אותה בזיכרון עוד דקה אחת, כדי שהתפריט יוכל להציע לדווח עליה, ואז שוכחת אותה. היא לא שומרת שורות של מילה אחת, שורות ארוכות מאוד או כל דבר שהוקלד בשדה סיסמה.</li>
+      <li>היא לעולם לא כותבת את מה שמקלידים לדיסק ולא שולחת אותו באינטרנט, אלא אם לוחצים Report (סעיף 4ד). מעבר לזה אנחנו אף פעם לא רואים אותו.</li>
+      <li>היא מתעלמת משדות סיסמה, מאפליקציות ברשימת ההחרגה (מנהלי סיסמאות, כברירת מחדל) וממילים שיש בהן ספרות.</li>
+      <li>כשמאשרים תיקון, האפליקציה מוחקת את הטקסט השגוי ומקלידה את התיקון. היא לא משתמשת בלוח ההעתקה.</li>
+      <li>כל עיבוד השפה, כולל מודל הבינה המלאכותית הקטן של מצב חכם (Smart mode), רץ על המחשב שלכם.</li>
+    </ul>
+
+    <h2>3. מה נשמר במחשב שלכם</h2>
+    <ul>
+      <li>ההגדרות שלכם, כמו רגישות, מצב חכם ואפליקציות מוחרגות.</li>
+      <li>יומן אבחון, רק אם תפעילו אותו (תפריט האפליקציה ← "Keep a diagnostic log"), למשל כדי לדווח על תקלה. הוא פועל 24 שעות ורושם אירועים, ספירות ואת שם האפליקציה שבה הקלדתם (למשל "בועה הוצגה ל-3 מילים בוואטסאפ"), אף פעם לא את הטקסט. הוא נשמר רק במחשב שלכם (במק: <span class="k">~/Library/Logs/reverse.ai</span>; בווינדוס: <span class="k">%LOCALAPPDATA%\reverse.ai\log.txt</span>), מגיע אלינו רק אם תבחרו לשלוח אותו, ונמחק 7 ימים אחרי הכתיבה האחרונה אליו.</li>
+      <li>גרסאות ניסיון מוקדמות יכלו לשמור רשימה קצרה של מילים שביטלתם את תיקונן פעמיים, כדי שלא יתוקנו שוב. גרסאות נוכחיות לא מוסיפות לה, ואפשר לנקות אותה מתפריט האפליקציה.</li>
+    </ul>
+    <p>הסרת האפליקציה (ובווינדוס גם מחיקת תיקיות ה-<span class="k">reverse.ai</span> שלה) מוחקת את המידע הזה.</p>
+
+    <h2>4. מה יוצא מהמחשב שלכם</h2>
+    <h3>א. בדיקת העדכונים היומית</h3>
+    <p>פעם ביום, וכשבוחרים "Check for updates now", האפליקציה מורידה מ-<span class="k">reverseai.vercel.app</span> קובץ קטנטן שמכיל את מספר הגרסה האחרונה. הבקשה לא כוללת שום מזהה, חשבון או תוכן הקלדה. החברה שמארחת את האתר שלנו, Vercel Inc. (ארה"ב), מקבלת את כתובת ה-IP, את השעה ונתונים טכניים בסיסיים, כמו בכל בקשה באינטרנט, ומטפלת בהם לפי מדיניות הפרטיות שלה. אנחנו לא משתמשים בזה כדי לזהות אתכם או לעקוב אחריכם. לכיבוי: תפריט האפליקציה ← "Check for updates automatically".</p>
+    <h3>ב. האתר וההורדות</h3>
+    <p>כשנכנסים לאתר שלנו או מורידים את האפליקציה, Vercel ו-GitHub Inc. (ארה"ב, שמארחת את קובצי ההורדה) מקבלות את כתובת ה-IP ונתוני בקשה דומים. האתר טוען גופנים מ-Google Fonts (Google LLC), שגם היא מקבלת את כתובת ה-IP. האתר זוכר את בחירת השפה שלכם באחסון המקומי של הדפדפן. הוא לא משתמש בעוגיות, באנליטיקה או בפרסום.</p>
+    <h3>ג. מה ששולחים לנו</h3>
+    <p>אם תשלחו לנו מייל או קובץ יומן, נשתמש בו רק כדי לענות לכם ולתקן תקלות, ונמחק אותו כשלא יהיה בו עוד צורך (תוך 12 חודשים לכל היותר), או מוקדם יותר לבקשתכם.</p>
+
+    <h3>ד. דיווחים ששולחים לנו</h3>
+    <p>כשלוחצים Report (בבועת ההצעה או בתפריט האפליקציה), האפליקציה שולחת לנו: את המילים הרלוונטיות, למה reverse.ai שינה אותן או היה משנה, באילו שפות מקלדת מדובר, למה השינוי הוצע, את שם האפליקציה שבה הקלדתם, את גרסת reverse.ai ומערכת ההפעלה, את ההגדרות שלכם ב-reverse.ai, וכל מה שתכתבו בהערה (אם תבחרו). בפעם הראשונה האפליקציה מציגה מה נכלל בדיווח, וכל דיווח מחכה 4 שניות כדי שאפשר יהיה לבטל אותו. דיווח לא כולל שם, חשבון, כתובת מייל או מזהה מכשיר, כך שאיננו יודעים מי שלח אותו. נא לא לדווח על טקסט שיש בו מידע אישי או רגיש.</p>
+    <p>הדיווח עובר דרך החברה שמארחת את האתר שלנו, Vercel, שרואה את כתובת ה-IP בזמן ההעברה (אנחנו לא שומרים אותה), ונשמר כשורה בגיליון Google Sheets בחשבון Google שלנו (Google LLC, ארה"ב). רק אנחנו יכולים לפתוח אותו. אנחנו שומרים דיווחים כדי לתקן ולשפר את reverse.ai. כדי שנמחק דיווח שלכם, כתבו לנו את המילים ובערך מתי שלחתם אותו.</p>
+
+    <h2>5. מה אנחנו לא עושים</h2>
+    <p>אין חשבון או הרשמה. אין אנליטיקה או טלמטריה. אין פרסום. אין מכירה או "שיתוף" של מידע אישי, כהגדרתם בדין בקליפורניה. אין מעקב בין אתרים או אפליקציות. מכיוון שאיננו עוקבים אחריכם, אותות "Do Not Track" בדפדפן לא משנים דבר.</p>
+
+    <h2>6. למה אנחנו מעבדים את המידע הזה</h2>
+    <ul>
+      <li>בדיקת העדכונים והאתר: האינטרס הלגיטימי שלנו לספק, לתחזק ולאבטח את האפליקציה. אפשר לכבות את בדיקת העדכונים.</li>
+      <li>מיילים וקובצי יומן שאתם שולחים: כדי לטפל בפנייה שלכם.</li>
+      <li>דיווחים שאתם שולחים: הבחירה שלכם לשלוח אותם, כדי לתקן ולשפר את האפליקציה.</li>
+      <li>ההרשאות במחשב: ההסכמה שלכם, שאפשר לבטל בכל עת בהגדרות המערכת.</li>
+    </ul>
+
+    <h2>7. אבטחה</h2>
+    <p>אנחנו נוקטים צעדים סבירים להגן על מה שבאחריותנו: אנחנו בונים ומפרסמים את הגרסאות בעצמנו, אפליקציית המק חתומה דיגיטלית, והאפליקציה בודקת עדכונים רק מול האתר שלנו. אף מערכת אינה מאובטחת לחלוטין.</p>
+    <p>ההגנה החשובה ביותר מובנית בתכנון: אנחנו לא מחזיקים את מה שאתם מקלידים, ולכן פריצה לחשבונות או לאתר שלנו לא יכולה לחשוף אותו. הסיכון המעשי הוא עותק מזויף של האפליקציה, ולכן הורידו את reverse.ai רק מ-<span class="k">reverseai.vercel.app</span> או מדף הגרסאות הרשמי שלנו ב-GitHub. אם נגלה שערוץ ההפצה שלנו נפרץ, נפרסם הודעה באתר וככל האפשר גם בהודעת העדכון של האפליקציה, ונודיע למשתמשים שנפגעו ולרשויות כפי שהדין מחייב.</p>
+
+    <h2>8. הזכויות שלכם</h2>
+    <ul>
+      <li><strong>ישראל:</strong> אתם רשאים לבקש לעיין במידע שאנחנו מחזיקים עליכם ולבקש לתקן או למחוק אותו (חוק הגנת הפרטיות, סעיפים 13–14), ולהגיש תלונה לרשות להגנת הפרטיות.</li>
+      <li><strong>ארצות הברית:</strong> בהתאם למדינה שבה אתם גרים (למשל קליפורניה), ייתכן שיש לכם זכות לדעת, למחוק ולתקן מידע אישי ולבקש שלא יימכר או ישותף. אנחנו לא מוכרים ולא משתפים אותו, ולא נתייחס אליכם אחרת אם תממשו את זכויותיכם.</li>
+      <li><strong>האיחוד האירופי ובריטניה:</strong> אם חל עליכם ה-GDPR, יש לכם גם זכויות עיון, תיקון, מחיקה, הגבלה, התנגדות וניוד, ואתם רשאים להתלונן לרשות להגנת המידע במדינתכם.</li>
+    </ul>
+    <p>בפועל, אנחנו מחזיקים עליכם כמעט כלום. למימוש כל אחת מהזכויות: <a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a>.</p>
+
+    <h2>9. ילדים</h2>
+    <p>reverse.ai לא מיועד לילדים מתחת לגיל 13, ואיננו אוספים ביודעין מידע אישי עליהם. אם אתם סבורים שילד שלח לנו מידע אישי, פנו אלינו ונמחק אותו.</p>
+
+    <h2>10. העברה לחו"ל</h2>
+    <p>נותני השירות שלנו (Vercel,‏ GitHub ו-Google) נמצאים בארצות הברית ועשויים לעבד שם נתוני בקשות, לפי אמצעי ההגנה שלהם.</p>
+
+    <h2>11. שינויים במדיניות</h2>
+    <p>כל שינוי יפורסם בעמוד זה עם תאריך חדש. על שינויים מהותיים נודיע גם באתר או באפליקציה.</p>
+
+    <h2>12. יצירת קשר</h2>
+    <p>אסף קזקוב, ישראל · <a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a></p>
+  </article>
+
+  <footer>
+    <a href="/"><span class="he">דף הבית</span><span class="en">Home</span></a>
+    <a href="/privacy"><span class="he">מדיניות פרטיות</span><span class="en">Privacy Policy</span></a>
+    <a href="/terms"><span class="he">תנאי שימוש</span><span class="en">Terms of Use</span></a>
+  </footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  function setLang(l) { root.lang = l; root.dir = l === 'he' ? 'rtl' : 'ltr'; try { localStorage.setItem('lang', l); } catch (e) {} }
+  var saved = null; try { saved = localStorage.getItem('lang'); } catch (e) {}
+  setLang(saved === 'he' ? 'he' : 'en');
+  document.getElementById('lang').onclick = function () { setLang(root.lang === 'he' ? 'en' : 'he'); };
+})();
+</script>
+</body>
+</html>
