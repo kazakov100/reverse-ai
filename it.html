@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For IT teams · reverse.ai</title>
+<meta name="description" content="reverse.ai for IT and security teams: identity, permissions, data handling, network connections and how to approve it.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234d5cfa'/%3E%3Cstop offset='1' stop-color='%23219efa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='16' fill='url(%23g)'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='17' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+<style>
+:root {
+  --a: #4d5cfa; --b: #219efa; --grad: linear-gradient(135deg, var(--a), var(--b));
+  --bg: #f5f6fb; --card: #fff; --ink: #141a38; --muted: #5d6380; --line: rgba(20,26,56,.10); --chip: rgba(20,26,56,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0d0f1e; --card: #171a2d; --ink: #eef0fb; --muted: #a2a7c4; --line: rgba(255,255,255,.10); --chip: rgba(255,255,255,.06); }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 Rubik, system-ui, -apple-system, "Segoe UI", sans-serif; }
+html[lang=he] article.en, html[lang=en] article.he, html[lang=he] .en, html[lang=en] .he { display: none; }
+a { color: var(--a); }
+.wrap { max-width: 780px; margin: 0 auto; padding: 20px 16px 56px; }
+header { display: flex; align-items: center; gap: 10px; }
+header a.home { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
+.logo { width: 34px; height: 34px; border-radius: 50%; background: var(--grad); display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 15px; flex: none; }
+.name { font-weight: 700; font-size: 20px; letter-spacing: -.01em; direction: ltr; }
+.lang { margin-inline-start: auto; border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 99px; padding: 6px 14px; font: inherit; font-size: 14px; cursor: pointer; }
+h1 { font-size: clamp(28px, 5.6vw, 40px); line-height: 1.15; letter-spacing: -.02em; margin: 36px 0 4px; }
+.date { color: var(--muted); margin: 0 0 24px; font-size: 15px; }
+h2 { font-size: 19px; margin: 32px 0 8px; }
+h3 { font-size: 16px; margin: 18px 0 6px; }
+p, li { max-width: 70ch; }
+ul { padding-inline-start: 22px; }
+li { margin: 4px 0; }
+.summary { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 6px 20px 10px; }
+.summary h2 { margin-top: 14px; }
+.k { direction: ltr; unicode-bidi: isolate; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .88em; background: var(--chip); padding: 1px 6px; border-radius: 5px; }
+pre { direction: ltr; text-align: left; white-space: pre-wrap; word-break: break-all; font: 13px/1.5 ui-monospace, Menlo, Consolas, monospace; background: var(--chip); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { border-bottom: 1px solid var(--line); padding: 8px 6px; text-align: start; vertical-align: top; }
+th { color: var(--muted); font-weight: 600; font-size: 14px; }
+dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; }
+dt { color: var(--muted); }
+dd { margin: 0; }
+footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="home" href="/"><div class="logo">A</div><div class="name">reverse.ai</div></a>
+    <button class="lang" id="lang" type="button"><span class="he">English</span><span class="en">עברית</span></button>
+  </header>
+
+  <article class="en" lang="en" dir="ltr">
+    <h1>For IT and security teams</h1>
+    <p class="date">Last updated: 10 November 2026 · applies to version 0.1.7 and later</p>
+
+    <div class="summary">
+      <h2>At a glance</h2>
+      <ul>
+        <li><strong>What it is:</strong> a small menu-bar (Mac) or tray (Windows) app that notices text typed with the wrong keyboard layout (Hebrew ⇄ English, e.g. <span class="k">akuo</span> instead of שלום) and offers to retype it.</li>
+        <li><strong>Who makes it:</strong> Assaf Kazakov, an individual developer in Israel. The Mac app is signed with Apple Developer ID team <span class="k">29DJ3AH8CK</span> and notarized by Apple.</li>
+        <li><strong>Keystrokes:</strong> read to detect the wrong layout, processed in memory on the device, never written to disk and never sent anywhere. Password fields are ignored.</li>
+        <li><strong>Network:</strong> one daily version check, plus a report only when the user clicks Report. No accounts, analytics, telemetry or third-party SDKs.</li>
+        <li><strong>Permission:</strong> macOS Accessibility (it can be pre-approved with a PPPC profile, below).</li>
+      </ul>
+    </div>
+
+    <h2>1. Identity (macOS)</h2>
+    <dl>
+      <dt>Developer</dt><dd>Developer ID Application: Assaf Kazakov (<span class="k">29DJ3AH8CK</span>)</dd>
+      <dt>Team ID</dt><dd><span class="k">29DJ3AH8CK</span></dd>
+      <dt>Bundle ID</dt><dd><span class="k">com.assafkazakov.reverseai</span></dd>
+      <dt>Distribution</dt><dd>Notarized by Apple, ticket stapled to the app and the .dmg; hardened runtime; no entitlements; not sandboxed (the App Store sandbox doesn't allow the Accessibility permission this kind of app needs)</dd>
+      <dt>Requirements</dt><dd>Apple silicon (M1 or newer), macOS 14 or later</dd>
+      <dt>Official download</dt><dd><a href="https://github.com/kazakov100/reverse-ai/releases">github.com/kazakov100/reverse-ai/releases</a>, which <a href="/get">reverseai.vercel.app/get</a> links to</dd>
+    </dl>
+    <p>Designated code requirement (for allowlists and the PPPC profile):</p>
+    <pre>identifier "com.assafkazakov.reverseai" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "29DJ3AH8CK"</pre>
+    <p>To check a copy: <span class="k">codesign -dr - /Applications/reverse.ai.app</span> and <span class="k">spctl -a -vv /Applications/reverse.ai.app</span> (expect "Notarized Developer ID").</p>
+
+    <h2>2. What it does, and why it needs Accessibility</h2>
+    <ul>
+      <li><strong>Reads key presses</strong> through a Quartz event tap (keyboard and mouse-click events) to follow the line being typed. When its suggestion bubble is showing, it consumes only the Tab and Esc keys that answer it.</li>
+      <li><strong>Types the correction</strong> with synthetic keystrokes: it deletes the mistyped text and types the fix. It never uses the clipboard.</li>
+      <li><strong>Reads the text cursor position</strong> through the Accessibility API, only to place the bubble next to it. In Electron apps (Slack, WhatsApp, VS Code…) it asks the app to expose that position.</li>
+      <li><strong>Switches the keyboard layout</strong> after a fix, if the user wants that.</li>
+      <li><strong>Leaves alone:</strong> password fields (macOS Secure Event Input and secure text fields), apps on its exclusion list (password managers by default), and words containing digits.</li>
+      <li><strong>Starts at login</strong> as a standard login item (<span class="k">SMAppService</span>); macOS shows the usual "added a login item" notice, and the user can turn it off.</li>
+      <li>Only the Accessibility permission is required. It does not need Screen Recording, Full Disk Access, Input Monitoring, Automation or any other permission.</li>
+    </ul>
+
+    <h2>3. Data handling</h2>
+    <ul>
+      <li><strong>In memory only:</strong> the line currently being typed, and the previous line for one minute. Never written to disk.</li>
+      <li><strong>On disk:</strong> the user's settings (<span class="k">~/Library/Preferences/com.assafkazakov.reverseai.plist</span>) and, only if the user turns it on, a diagnostic log for 24 hours (<span class="k">~/Library/Logs/reverse.ai</span>) with states and counts, never typed text. The log is deleted 7 days after it was last written.</li>
+      <li><strong>Language processing</strong>, including the small built-in AI model, runs entirely on the device. Nothing is sent to an AI service.</li>
+      <li>Details: <a href="/privacy">Privacy Policy</a>.</li>
+    </ul>
+
+    <h2>4. Network connections (complete list)</h2>
+    <table>
+      <tr><th>Request</th><th>When</th><th>What it carries</th></tr>
+      <tr><td><span class="k">GET https://reverseai.vercel.app/update.json</span></td><td>Once a day, and on "Check for updates now". The user can turn the daily check off.</td><td>Nothing about the user or device; the reply is the latest version number.</td></tr>
+      <tr><td><span class="k">POST https://reverseai.vercel.app/api/report</span></td><td>Only when the user clicks Report. The first time it shows what's included; every report can be undone for 4 seconds.</td><td>The reported words and what reverse.ai changed them to, the keyboard languages, the app's name, the reverse.ai and OS versions, its settings, and an optional note. No user, account or device identifiers.</td></tr>
+    </table>
+    <p>Both use HTTPS with no cookies. The app never downloads or installs code: "Download version …" opens the website in the user's browser. There are no other connections.</p>
+
+    <h2>5. Approving it with device management (macOS)</h2>
+    <ul>
+      <li><strong>Allow the app:</strong> by Team ID <span class="k">29DJ3AH8CK</span>, or by the code requirement above, in your allowlisting tool.</li>
+      <li><strong>Pre-approve Accessibility</strong> with a Privacy Preferences Policy Control (PPPC) payload, so users need no admin password:
+        <dl>
+          <dt>Service</dt><dd>Accessibility</dd>
+          <dt>Identifier</dt><dd><span class="k">com.assafkazakov.reverseai</span> (type: bundle ID)</dd>
+          <dt>Code requirement</dt><dd>the string in section 1</dd>
+          <dt>Access</dt><dd>Allow</dd>
+        </dl>
+      </li>
+      <li><strong>Endpoint security tools</strong> may flag any app that monitors the keyboard. This page documents exactly what reverse.ai does, so you can allow it by Team ID or code requirement.</li>
+    </ul>
+
+    <h2>6. Windows</h2>
+    <ul>
+      <li><strong>File:</strong> a single <span class="k">reverse.ai.exe</span> from the same GitHub releases. The Windows build isn't code-signed yet, so SmartScreen shows "Windows protected your PC" until it's allowed.</li>
+      <li><strong>Runs per user,</strong> with no installer, administrator rights, services or drivers.</li>
+      <li><strong>Keyboard and mouse:</strong> low-level hooks (<span class="k">WH_KEYBOARD_LL</span>, <span class="k">WH_MOUSE_LL</span>) for the same purpose as on the Mac; it types corrections with synthetic keystrokes.</li>
+      <li><strong>Files:</strong> settings in <span class="k">%APPDATA%\reverse.ai\settings.json</span>; working data and the optional log in <span class="k">%LOCALAPPDATA%\reverse.ai</span>.</li>
+      <li><strong>Startup:</strong> a <span class="k">reverse.ai</span> value under <span class="k">HKCU\Software\Microsoft\Windows\CurrentVersion\Run</span>, which the user can turn off.</li>
+      <li><strong>Network:</strong> the same two requests as on the Mac, and nothing else.</li>
+    </ul>
+
+    <h2>7. Contact</h2>
+    <p>Questions or a security issue: Assaf Kazakov · <a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a></p>
+  </article>
+
+  <article class="he" lang="he" dir="rtl">
+    <h1>לצוותי IT ואבטחת מידע</h1>
+    <p class="date">עדכון אחרון: 10 בנובמבר 2026 · חל על גרסה 0.1.7 ואילך</p>
+
+    <div class="summary">
+      <h2>בקצרה</h2>
+      <ul>
+        <li><strong>מה זה:</strong> אפליקציה קטנה בשורת התפריטים (מק) או במגש המערכת (ווינדוס) שמזהה טקסט שהוקלד בשפת מקלדת לא נכונה (עברית ⇄ אנגלית, למשל <span class="k">akuo</span> במקום שלום) ומציעה להקליד אותו מחדש.</li>
+        <li><strong>מי מפתח:</strong> אסף קזקוב, מפתח עצמאי בישראל. אפליקציית המק חתומה ב-Apple Developer ID של צוות <span class="k">29DJ3AH8CK</span> ומאושרת (notarized) על ידי אפל.</li>
+        <li><strong>הקשות:</strong> נקראות כדי לזהות שפת מקלדת שגויה, מעובדות בזיכרון על המכשיר, אף פעם לא נכתבות לדיסק ואף פעם לא נשלחות. שדות סיסמה לא נקראים.</li>
+        <li><strong>רשת:</strong> בדיקת גרסה אחת ביום, ודיווח רק כשהמשתמש לוחץ Report. בלי חשבונות, אנליטיקה, טלמטריה או ספריות צד שלישי.</li>
+        <li><strong>הרשאה:</strong> נגישות (Accessibility) ב-macOS. אפשר לאשר אותה מראש בפרופיל PPPC (בהמשך).</li>
+      </ul>
+    </div>
+
+    <h2>1. זהות (macOS)</h2>
+    <dl>
+      <dt>מפתח</dt><dd>Developer ID Application: Assaf Kazakov (<span class="k">29DJ3AH8CK</span>)</dd>
+      <dt>Team ID</dt><dd><span class="k">29DJ3AH8CK</span></dd>
+      <dt>Bundle ID</dt><dd><span class="k">com.assafkazakov.reverseai</span></dd>
+      <dt>הפצה</dt><dd>מאושרת (notarized) על ידי אפל, עם האישור מוצמד לאפליקציה ולקובץ ה-dmg; hardened runtime; בלי entitlements; לא ב-sandbox (ה-sandbox של ה-App Store לא מאפשר את הרשאת הנגישות שאפליקציה כזו צריכה)</dd>
+      <dt>דרישות</dt><dd>שבב של אפל (M1 ומעלה), macOS 14 ומעלה</dd>
+      <dt>הורדה רשמית</dt><dd><a href="https://github.com/kazakov100/reverse-ai/releases">github.com/kazakov100/reverse-ai/releases</a>, שאליו מפנה <a href="/get">reverseai.vercel.app/get</a></dd>
+    </dl>
+    <p>דרישת הקוד (designated requirement), לרשימות היתרים ולפרופיל PPPC:</p>
+    <pre>identifier "com.assafkazakov.reverseai" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "29DJ3AH8CK"</pre>
+    <p>לבדיקת עותק: <span class="k">codesign -dr - /Applications/reverse.ai.app</span> ו-<span class="k">spctl -a -vv /Applications/reverse.ai.app</span> (התוצאה הצפויה: "Notarized Developer ID").</p>
+
+    <h2>2. מה היא עושה, ולמה היא צריכה נגישות</h2>
+    <ul>
+      <li><strong>קוראת הקשות</strong> דרך Quartz event tap (אירועי מקלדת ולחיצות עכבר) כדי לעקוב אחרי השורה שמקלידים. כשבועת ההצעה מוצגת, היא בולעת רק את מקשי Tab ו-Esc שעונים לה.</li>
+      <li><strong>מקלידה את התיקון</strong> בהקשות מדומות: מוחקת את הטקסט השגוי ומקלידה את התיקון. היא אף פעם לא משתמשת בלוח ההעתקה.</li>
+      <li><strong>קוראת את מיקום הסמן</strong> דרך Accessibility API, רק כדי להציג את הבועה לידו. באפליקציות Electron (סלאק, וואטסאפ, VS Code…) היא מבקשת מהאפליקציה לחשוף את המיקום.</li>
+      <li><strong>מחליפה שפת מקלדת</strong> אחרי תיקון, אם המשתמש רוצה.</li>
+      <li><strong>לא נוגעת ב:</strong> שדות סיסמה (Secure Event Input ושדות טקסט מאובטחים), אפליקציות ברשימת ההחרגה (מנהלי סיסמאות כברירת מחדל), ומילים שיש בהן ספרות.</li>
+      <li><strong>עולה בכניסה למחשב</strong> כפריט התחברות רגיל (<span class="k">SMAppService</span>). macOS מציג את ההודעה הרגילה על פריט התחברות שנוסף, והמשתמש יכול לכבות אותו.</li>
+      <li>נדרשת רק הרשאת נגישות. לא צריך הקלטת מסך, גישה מלאה לדיסק, ניטור קלט, אוטומציה או כל הרשאה אחרת.</li>
+    </ul>
+
+    <h2>3. טיפול במידע</h2>
+    <ul>
+      <li><strong>רק בזיכרון:</strong> השורה שמקלידים כרגע, והשורה הקודמת למשך דקה. אף פעם לא נכתבות לדיסק.</li>
+      <li><strong>בדיסק:</strong> הגדרות המשתמש (<span class="k">~/Library/Preferences/com.assafkazakov.reverseai.plist</span>), ורק אם המשתמש מפעיל אותו, יומן אבחון ל-24 שעות (<span class="k">~/Library/Logs/reverse.ai</span>) עם מצבים וספירות, אף פעם לא טקסט שהוקלד. היומן נמחק 7 ימים אחרי הכתיבה האחרונה.</li>
+      <li><strong>עיבוד השפה,</strong> כולל מודל הבינה המלאכותית הקטן המובנה, רץ כולו על המכשיר. שום דבר לא נשלח לשירות AI.</li>
+      <li>פרטים: <a href="/privacy">מדיניות הפרטיות</a>.</li>
+    </ul>
+
+    <h2>4. חיבורי רשת (הרשימה המלאה)</h2>
+    <table>
+      <tr><th>בקשה</th><th>מתי</th><th>מה היא כוללת</th></tr>
+      <tr><td><span class="k">GET https://reverseai.vercel.app/update.json</span></td><td>פעם ביום, וכשבוחרים "Check for updates now". אפשר לכבות את הבדיקה היומית.</td><td>שום מידע על המשתמש או המכשיר. התשובה היא מספר הגרסה האחרונה.</td></tr>
+      <tr><td><span class="k">POST https://reverseai.vercel.app/api/report</span></td><td>רק כשהמשתמש לוחץ Report. בפעם הראשונה מוצג מה נכלל, וכל דיווח אפשר לבטל תוך 4 שניות.</td><td>המילים שדווחו ולמה reverse.ai שינה אותן, שפות המקלדת, שם האפליקציה, גרסאות reverse.ai ומערכת ההפעלה, ההגדרות, והערה אופציונלית. בלי מזהי משתמש, חשבון או מכשיר.</td></tr>
+    </table>
+    <p>שתיהן ב-HTTPS ובלי עוגיות. האפליקציה אף פעם לא מורידה או מתקינה קוד: "Download version …" פותח את האתר בדפדפן של המשתמש. אין חיבורים נוספים.</p>
+
+    <h2>5. אישור דרך ניהול מכשירים (macOS)</h2>
+    <ul>
+      <li><strong>אישור האפליקציה:</strong> לפי Team ID <span class="k">29DJ3AH8CK</span>, או לפי דרישת הקוד שבסעיף 1, בכלי רשימת ההיתרים שלכם.</li>
+      <li><strong>אישור מראש של נגישות</strong> ב-payload של Privacy Preferences Policy Control (PPPC), כך שהמשתמש לא יצטרך סיסמת מנהל:
+        <dl>
+          <dt>Service</dt><dd>Accessibility</dd>
+          <dt>Identifier</dt><dd><span class="k">com.assafkazakov.reverseai</span> (סוג: bundle ID)</dd>
+          <dt>Code requirement</dt><dd>המחרוזת שבסעיף 1</dd>
+          <dt>Access</dt><dd>Allow</dd>
+        </dl>
+      </li>
+      <li><strong>כלי אבטחה בקצה (EDR)</strong> עשויים לסמן כל אפליקציה שמנטרת את המקלדת. העמוד הזה מתעד בדיוק מה reverse.ai עושה, כדי שתוכלו לאשר אותה לפי Team ID או דרישת קוד.</li>
+    </ul>
+
+    <h2>6. ווינדוס</h2>
+    <ul>
+      <li><strong>קובץ:</strong> <span class="k">reverse.ai.exe</span> יחיד מאותו דף גרסאות ב-GitHub. גרסת הווינדוס עדיין לא חתומה, ולכן SmartScreen מציג "Windows protected your PC" עד שמאשרים אותה.</li>
+      <li><strong>רצה לכל משתמש בנפרד,</strong> בלי התקנה, הרשאות מנהל, שירותים או דרייברים.</li>
+      <li><strong>מקלדת ועכבר:</strong> hooks ברמה נמוכה (<span class="k">WH_KEYBOARD_LL</span>, <span class="k">WH_MOUSE_LL</span>) לאותה מטרה כמו במק; התיקון מוקלד בהקשות מדומות.</li>
+      <li><strong>קבצים:</strong> הגדרות ב-<span class="k">%APPDATA%\reverse.ai\settings.json</span>; נתוני עבודה והיומן האופציונלי ב-<span class="k">%LOCALAPPDATA%\reverse.ai</span>.</li>
+      <li><strong>הפעלה עם ווינדוס:</strong> ערך <span class="k">reverse.ai</span> תחת <span class="k">HKCU\Software\Microsoft\Windows\CurrentVersion\Run</span>, שהמשתמש יכול לכבות.</li>
+      <li><strong>רשת:</strong> אותן שתי בקשות כמו במק, ותו לא.</li>
+    </ul>
+
+    <h2>7. יצירת קשר</h2>
+    <p>שאלות או בעיית אבטחה: אסף קזקוב · <a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a></p>
+  </article>
+
+  <footer>
+    <a href="/"><span class="he">דף הבית</span><span class="en">Home</span></a>
+    <a href="/privacy"><span class="he">מדיניות פרטיות</span><span class="en">Privacy Policy</span></a>
+    <a href="/terms"><span class="he">תנאי שימוש</span><span class="en">Terms of Use</span></a>
+    <a href="/it"><span class="he">לצוותי IT</span><span class="en">For IT teams</span></a>
+  </footer>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  function setLang(l) { root.lang = l; root.dir = l === 'he' ? 'rtl' : 'ltr'; try { localStorage.setItem('lang', l); } catch (e) {} }
+  var saved = null; try { saved = localStorage.getItem('lang'); } catch (e) {}
+  setLang(saved === 'he' ? 'he' : 'en');
+  document.getElementById('lang').onclick = function () { setLang(root.lang === 'he' ? 'en' : 'he'); };
+})();
+</script>
+</body>
+</html>
