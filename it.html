@@ -54,7 +54,7 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
 
   <article class="en" lang="en" dir="ltr">
     <h1>For IT and security teams</h1>
-    <p class="date">Last updated: 10 November 2026 · applies to version 0.1.7 and later</p>
+    <p class="date">Last updated: 10 November 2026 · applies to version 0.1.7 and later; the .pkg installer and managed settings need 0.1.8</p>
 
     <div class="summary">
       <h2>At a glance</h2>
@@ -62,8 +62,9 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
         <li><strong>What it is:</strong> a small menu-bar (Mac) or tray (Windows) app that notices text typed with the wrong keyboard layout (Hebrew ⇄ English, e.g. <span class="k">akuo</span> instead of שלום) and offers to retype it.</li>
         <li><strong>Who makes it:</strong> Assaf Kazakov, an individual developer in Israel. The Mac app is signed with Apple Developer ID team <span class="k">29DJ3AH8CK</span> and notarized by Apple.</li>
         <li><strong>Keystrokes:</strong> read to detect the wrong layout, processed in memory on the device, never written to disk and never sent anywhere. Password fields are ignored.</li>
-        <li><strong>Network:</strong> one daily version check, plus a report only when the user clicks Report. No accounts, analytics, telemetry or third-party SDKs.</li>
+        <li><strong>Network:</strong> one daily version check, plus a report only when the user clicks Report. You can turn off both centrally (section 5). No accounts, analytics, telemetry or third-party SDKs.</li>
         <li><strong>Permission:</strong> macOS Accessibility (it can be pre-approved with a PPPC profile, below).</li>
+        <li><strong>Deployment:</strong> a signed, notarized <span class="k">.pkg</span> for Jamf, Intune, Kandji or Munki, or the <span class="k">.dmg</span>.</li>
       </ul>
     </div>
 
@@ -72,13 +73,14 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
       <dt>Developer</dt><dd>Developer ID Application: Assaf Kazakov (<span class="k">29DJ3AH8CK</span>)</dd>
       <dt>Team ID</dt><dd><span class="k">29DJ3AH8CK</span></dd>
       <dt>Bundle ID</dt><dd><span class="k">com.assafkazakov.reverseai</span></dd>
-      <dt>Distribution</dt><dd>Notarized by Apple, ticket stapled to the app and the .dmg; hardened runtime; no entitlements; not sandboxed (the App Store sandbox doesn't allow the Accessibility permission this kind of app needs)</dd>
+      <dt>Distribution</dt><dd>Notarized by Apple, ticket stapled to the app, the .dmg and the .pkg; hardened runtime; no entitlements; not sandboxed (the App Store sandbox doesn't allow the Accessibility permission this kind of app needs)</dd>
+      <dt>Installer</dt><dd><a href="https://github.com/kazakov100/reverse-ai/releases/latest/download/reverse.ai-mac.pkg">reverse.ai-mac.pkg</a> (0.1.8 and later): a flat package signed with Developer ID Installer: Assaf Kazakov (<span class="k">29DJ3AH8CK</span>), notarized. It installs only <span class="k">/Applications/reverse.ai.app</span>, has no install scripts, and its package ID is <span class="k">com.assafkazakov.reverseai</span>.</dd>
       <dt>Requirements</dt><dd>Apple silicon (M1 or newer), macOS 14 or later</dd>
       <dt>Official download</dt><dd><a href="https://github.com/kazakov100/reverse-ai/releases">github.com/kazakov100/reverse-ai/releases</a>, which <a href="/get">reverseai.vercel.app/get</a> links to</dd>
     </dl>
     <p>Designated code requirement (for allowlists and the PPPC profile):</p>
     <pre>identifier "com.assafkazakov.reverseai" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "29DJ3AH8CK"</pre>
-    <p>To check a copy: <span class="k">codesign -dr - /Applications/reverse.ai.app</span> and <span class="k">spctl -a -vv /Applications/reverse.ai.app</span> (expect "Notarized Developer ID").</p>
+    <p>To check a copy: <span class="k">codesign -dr - /Applications/reverse.ai.app</span> and <span class="k">spctl -a -vv /Applications/reverse.ai.app</span> (expect "Notarized Developer ID"). For the installer: <span class="k">pkgutil --check-signature reverse.ai-mac.pkg</span> and <span class="k">spctl -a -vv -t install reverse.ai-mac.pkg</span>.</p>
 
     <h2>2. What it does, and why it needs Accessibility</h2>
     <ul>
@@ -88,12 +90,13 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
       <li><strong>Switches the keyboard layout</strong> after a fix, if the user wants that.</li>
       <li><strong>Leaves alone:</strong> password fields (macOS Secure Event Input and secure text fields), apps on its exclusion list (password managers by default), and words containing digits.</li>
       <li><strong>Starts at login</strong> as a standard login item (<span class="k">SMAppService</span>); macOS shows the usual "added a login item" notice, and the user can turn it off.</li>
-      <li>Only the Accessibility permission is required. It does not need Screen Recording, Full Disk Access, Input Monitoring, Automation or any other permission.</li>
+      <li><strong>Permissions:</strong> only Accessibility is required. In rare cases macOS still refuses the keyboard event tap after Accessibility is on; the setup window then also asks the user to allow Input Monitoring. It never needs Screen Recording, Full Disk Access, Automation or any other permission.</li>
+      <li><strong>Other processes:</strong> it starts none in normal use. Only when the user clicks <strong>Reset and add again</strong> in the setup window does it run <span class="k">/usr/bin/tccutil reset Accessibility</span> and <span class="k">tccutil reset ListenEvent</span>, for its own bundle ID only. (Before 0.1.8 it also ran that Accessibility reset by itself at launch while it wasn't approved.) <strong>Restart reverse.ai</strong> reopens the app through Launch Services, without a shell. The setup buttons open System Settings at the right privacy page, closing it first if it's open so that the list refreshes.</li>
     </ul>
 
     <h2>3. Data handling</h2>
     <ul>
-      <li><strong>In memory only:</strong> the line currently being typed, and the previous line for one minute. Never written to disk.</li>
+      <li><strong>In memory only:</strong> the line currently being typed, and the previous line for one minute so the user can report it (not kept when reports are turned off). Never written to disk.</li>
       <li><strong>On disk:</strong> the user's settings (<span class="k">~/Library/Preferences/com.assafkazakov.reverseai.plist</span>) and, only if the user turns it on, a diagnostic log for 24 hours (<span class="k">~/Library/Logs/reverse.ai</span>) with states and counts, never typed text. The log is deleted 7 days after it was last written.</li>
       <li><strong>Language processing</strong>, including the small built-in AI model, runs entirely on the device. Nothing is sent to an AI service.</li>
       <li>Details: <a href="/privacy">Privacy Policy</a>.</li>
@@ -102,14 +105,15 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     <h2>4. Network connections (complete list)</h2>
     <table>
       <tr><th>Request</th><th>When</th><th>What it carries</th></tr>
-      <tr><td><span class="k">GET https://reverseai.vercel.app/update.json</span></td><td>Once a day, and on "Check for updates now". The user can turn the daily check off.</td><td>Nothing about the user or device; the reply is the latest version number.</td></tr>
-      <tr><td><span class="k">POST https://reverseai.vercel.app/api/report</span></td><td>Only when the user clicks Report. The first time it shows what's included; every report can be undone for 4 seconds.</td><td>The reported words and what reverse.ai changed them to, the keyboard languages, the app's name, the reverse.ai and OS versions, its settings, and an optional note. No user, account or device identifiers.</td></tr>
+      <tr><td><span class="k">GET https://reverseai.vercel.app/update.json</span></td><td>Once a day, and on "Check for updates now". The user can turn the daily check off; <span class="k">DisableUpdateCheck</span> turns off both (section 5).</td><td>Nothing about the user or device; the reply is the latest version number.</td></tr>
+      <tr><td><span class="k">POST https://reverseai.vercel.app/api/report</span></td><td>Only when the user clicks Report. The first time it shows what's included; every report can be undone for 4 seconds. <span class="k">DisableReports</span> removes the option (section 5).</td><td>The reported words and what reverse.ai changed them to, the keyboard languages, the app's name, the reverse.ai and OS versions, its settings, and an optional note. No user, account or device identifiers.</td></tr>
     </table>
     <p>Both use HTTPS with no cookies. The app never downloads or installs code: "Download version …" opens the website in the user's browser. There are no other connections.</p>
 
     <h2>5. Approving it with device management (macOS)</h2>
     <ul>
-      <li><strong>Allow the app:</strong> by Team ID <span class="k">29DJ3AH8CK</span>, or by the code requirement above, in your allowlisting tool.</li>
+      <li><strong>Install:</strong> deploy <span class="k">reverse.ai-mac.pkg</span> (section 1) as a package in Jamf, Kandji or Munki, or as a line-of-business macOS app (PKG) in Intune. The <span class="k">.dmg</span> also works with Intune's "macOS app (DMG)" type.</li>
+      <li><strong>Allow the app:</strong> by Team ID <span class="k">29DJ3AH8CK</span>, or by the code requirement above, in your allowlisting tool. In Santa: <span class="k">santactl rule --allow --signingid --identifier 29DJ3AH8CK:com.assafkazakov.reverseai</span> (or <span class="k">--teamid --identifier 29DJ3AH8CK</span>).</li>
       <li><strong>Pre-approve Accessibility</strong> with a Privacy Preferences Policy Control (PPPC) payload, so users need no admin password:
         <dl>
           <dt>Service</dt><dd>Accessibility</dd>
@@ -118,7 +122,19 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
           <dt>Access</dt><dd>Allow</dd>
         </dl>
       </li>
-      <li><strong>Endpoint security tools</strong> may flag any app that monitors the keyboard. This page documents exactly what reverse.ai does, so you can allow it by Team ID or code requirement.</li>
+      <li><strong>Input Monitoring, only if a Mac asks for it</strong> (section 2): device management can't switch it on, but it can let standard users approve it. Add the same identifier and code requirement under the service <span class="k">ListenEvent</span>, with Authorization <span class="k">AllowStandardUserToSetSystemService</span>.</li>
+      <li><strong>Login item:</strong> to approve it ahead of time, add a Managed Login Items payload (<span class="k">com.apple.servicemanagement</span>) with RuleType <span class="k">TeamIdentifier</span> and RuleValue <span class="k">29DJ3AH8CK</span>. Users then can't turn it off in System Settings.</li>
+      <li><strong>Managed settings (0.1.8 and later):</strong> a configuration profile with custom settings for the preference domain <span class="k">com.assafkazakov.reverseai</span> (Jamf: Application &amp; Custom Settings; Intune: Preference file; Kandji: Custom Profile):
+        <table>
+          <tr><th>Key</th><th>Type</th><th>When true</th></tr>
+          <tr><td><span class="k">DisableReports</span></td><td>Boolean</td><td>No Report button or report menu items, nothing is ever sent, and the previous line isn't kept in memory.</td></tr>
+          <tr><td><span class="k">DisableUpdateCheck</span></td><td>Boolean</td><td>Never contacts <span class="k">update.json</span>, automatically or from the menu. The menu says updates are managed by your organization.</td></tr>
+        </table>
+        <pre>&lt;key&gt;DisableReports&lt;/key&gt;&lt;true/&gt;
+&lt;key&gt;DisableUpdateCheck&lt;/key&gt;&lt;true/&gt;</pre>
+        With both set, reverse.ai makes no network connections at all.
+      </li>
+      <li><strong>Endpoint security tools</strong> may flag any app that monitors the keyboard. Some osquery-based checks, for example, report every keyboard event tap from software not made by Apple. This page documents exactly what reverse.ai does, so you can allow it by Team ID, signing ID (<span class="k">29DJ3AH8CK:com.assafkazakov.reverseai</span>) or code requirement.</li>
     </ul>
 
     <h2>6. Windows</h2>
@@ -137,7 +153,7 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
 
   <article class="he" lang="he" dir="rtl">
     <h1>לצוותי IT ואבטחת מידע</h1>
-    <p class="date">עדכון אחרון: 10 בנובמבר 2026 · חל על גרסה 0.1.7 ואילך</p>
+    <p class="date">עדכון אחרון: 10 בנובמבר 2026 · חל על גרסה 0.1.7 ואילך; חבילת ה-pkg וההגדרות המנוהלות דורשות 0.1.8</p>
 
     <div class="summary">
       <h2>בקצרה</h2>
@@ -145,8 +161,9 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
         <li><strong>מה זה:</strong> אפליקציה קטנה בשורת התפריטים (מק) או במגש המערכת (ווינדוס) שמזהה טקסט שהוקלד בשפת מקלדת לא נכונה (עברית ⇄ אנגלית, למשל <span class="k">akuo</span> במקום שלום) ומציעה להקליד אותו מחדש.</li>
         <li><strong>מי מפתח:</strong> אסף קזקוב, מפתח עצמאי בישראל. אפליקציית המק חתומה ב-Apple Developer ID של צוות <span class="k">29DJ3AH8CK</span> ומאושרת (notarized) על ידי אפל.</li>
         <li><strong>הקשות:</strong> נקראות כדי לזהות שפת מקלדת שגויה, מעובדות בזיכרון על המכשיר, אף פעם לא נכתבות לדיסק ואף פעם לא נשלחות. שדות סיסמה לא נקראים.</li>
-        <li><strong>רשת:</strong> בדיקת גרסה אחת ביום, ודיווח רק כשהמשתמש לוחץ Report. בלי חשבונות, אנליטיקה, טלמטריה או ספריות צד שלישי.</li>
+        <li><strong>רשת:</strong> בדיקת גרסה אחת ביום, ודיווח רק כשהמשתמש לוחץ Report. אפשר לכבות את שתיהן באופן מרוכז (סעיף 5). בלי חשבונות, אנליטיקה, טלמטריה או ספריות צד שלישי.</li>
         <li><strong>הרשאה:</strong> נגישות (Accessibility) ב-macOS. אפשר לאשר אותה מראש בפרופיל PPPC (בהמשך).</li>
+        <li><strong>הפצה:</strong> חבילת <span class="k">.pkg</span> חתומה ומאושרת ל-Jamf, Intune, Kandji או Munki, או קובץ ה-<span class="k">.dmg</span>.</li>
       </ul>
     </div>
 
@@ -155,13 +172,14 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
       <dt>מפתח</dt><dd>Developer ID Application: Assaf Kazakov (<span class="k">29DJ3AH8CK</span>)</dd>
       <dt>Team ID</dt><dd><span class="k">29DJ3AH8CK</span></dd>
       <dt>Bundle ID</dt><dd><span class="k">com.assafkazakov.reverseai</span></dd>
-      <dt>הפצה</dt><dd>מאושרת (notarized) על ידי אפל, עם האישור מוצמד לאפליקציה ולקובץ ה-dmg; hardened runtime; בלי entitlements; לא ב-sandbox (ה-sandbox של ה-App Store לא מאפשר את הרשאת הנגישות שאפליקציה כזו צריכה)</dd>
+      <dt>הפצה</dt><dd>מאושרת (notarized) על ידי אפל, עם האישור מוצמד לאפליקציה ולקבצי ה-dmg וה-pkg; hardened runtime; בלי entitlements; לא ב-sandbox (ה-sandbox של ה-App Store לא מאפשר את הרשאת הנגישות שאפליקציה כזו צריכה)</dd>
+      <dt>חבילת התקנה</dt><dd><a href="https://github.com/kazakov100/reverse-ai/releases/latest/download/reverse.ai-mac.pkg">reverse.ai-mac.pkg</a> (מגרסה 0.1.8): חבילה שטוחה (flat) חתומה ב-Developer ID Installer: Assaf Kazakov (<span class="k">29DJ3AH8CK</span>) ומאושרת על ידי אפל. היא מתקינה רק את <span class="k">/Applications/reverse.ai.app</span>, בלי סקריפטים, ומזהה החבילה הוא <span class="k">com.assafkazakov.reverseai</span>.</dd>
       <dt>דרישות</dt><dd>שבב של אפל (M1 ומעלה), macOS 14 ומעלה</dd>
       <dt>הורדה רשמית</dt><dd><a href="https://github.com/kazakov100/reverse-ai/releases">github.com/kazakov100/reverse-ai/releases</a>, שאליו מפנה <a href="/get">reverseai.vercel.app/get</a></dd>
     </dl>
     <p>דרישת הקוד (designated requirement), לרשימות היתרים ולפרופיל PPPC:</p>
     <pre>identifier "com.assafkazakov.reverseai" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "29DJ3AH8CK"</pre>
-    <p>לבדיקת עותק: <span class="k">codesign -dr - /Applications/reverse.ai.app</span> ו-<span class="k">spctl -a -vv /Applications/reverse.ai.app</span> (התוצאה הצפויה: "Notarized Developer ID").</p>
+    <p>לבדיקת עותק: <span class="k">codesign -dr - /Applications/reverse.ai.app</span> ו-<span class="k">spctl -a -vv /Applications/reverse.ai.app</span> (התוצאה הצפויה: "Notarized Developer ID"). לחבילת ההתקנה: <span class="k">pkgutil --check-signature reverse.ai-mac.pkg</span> ו-<span class="k">spctl -a -vv -t install reverse.ai-mac.pkg</span>.</p>
 
     <h2>2. מה היא עושה, ולמה היא צריכה נגישות</h2>
     <ul>
@@ -171,12 +189,13 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
       <li><strong>מחליפה שפת מקלדת</strong> אחרי תיקון, אם המשתמש רוצה.</li>
       <li><strong>לא נוגעת ב:</strong> שדות סיסמה (Secure Event Input ושדות טקסט מאובטחים), אפליקציות ברשימת ההחרגה (מנהלי סיסמאות כברירת מחדל), ומילים שיש בהן ספרות.</li>
       <li><strong>עולה בכניסה למחשב</strong> כפריט התחברות רגיל (<span class="k">SMAppService</span>). macOS מציג את ההודעה הרגילה על פריט התחברות שנוסף, והמשתמש יכול לכבות אותו.</li>
-      <li>נדרשת רק הרשאת נגישות. לא צריך הקלטת מסך, גישה מלאה לדיסק, ניטור קלט, אוטומציה או כל הרשאה אחרת.</li>
+      <li><strong>הרשאות:</strong> נדרשת רק הרשאת נגישות. במקרים נדירים macOS עדיין לא מאפשר את ה-event tap של המקלדת גם אחרי שהנגישות הופעלה; אז חלון ההגדרה מבקש מהמשתמש לאשר גם ניטור קלט (Input Monitoring). היא אף פעם לא צריכה הקלטת מסך, גישה מלאה לדיסק, אוטומציה או כל הרשאה אחרת.</li>
+      <li><strong>תהליכים אחרים:</strong> בשימוש רגיל היא לא מפעילה אף תהליך. רק כשהמשתמש לוחץ <strong>Reset and add again</strong> בחלון ההגדרה, היא מריצה <span class="k">/usr/bin/tccutil reset Accessibility</span> ו-<span class="k">tccutil reset ListenEvent</span>, ורק עבור מזהה האפליקציה שלה. (לפני גרסה 0.1.8 היא הריצה את איפוס הנגישות הזה גם לבד בהפעלה, כל עוד לא אושרה.) <strong>Restart reverse.ai</strong> פותח את האפליקציה מחדש דרך Launch Services, בלי shell. כפתורי ההגדרה פותחים את הגדרות המערכת בעמוד הפרטיות הנכון, וסוגרים אותן קודם אם הן פתוחות, כדי שהרשימה תתעדכן.</li>
     </ul>
 
     <h2>3. טיפול במידע</h2>
     <ul>
-      <li><strong>רק בזיכרון:</strong> השורה שמקלידים כרגע, והשורה הקודמת למשך דקה. אף פעם לא נכתבות לדיסק.</li>
+      <li><strong>רק בזיכרון:</strong> השורה שמקלידים כרגע, והשורה הקודמת למשך דקה כדי שאפשר יהיה לדווח עליה (לא נשמרת כשהדיווחים כבויים). אף פעם לא נכתבות לדיסק.</li>
       <li><strong>בדיסק:</strong> הגדרות המשתמש (<span class="k">~/Library/Preferences/com.assafkazakov.reverseai.plist</span>), ורק אם המשתמש מפעיל אותו, יומן אבחון ל-24 שעות (<span class="k">~/Library/Logs/reverse.ai</span>) עם מצבים וספירות, אף פעם לא טקסט שהוקלד. היומן נמחק 7 ימים אחרי הכתיבה האחרונה.</li>
       <li><strong>עיבוד השפה,</strong> כולל מודל הבינה המלאכותית הקטן המובנה, רץ כולו על המכשיר. שום דבר לא נשלח לשירות AI.</li>
       <li>פרטים: <a href="/privacy">מדיניות הפרטיות</a>.</li>
@@ -185,14 +204,15 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     <h2>4. חיבורי רשת (הרשימה המלאה)</h2>
     <table>
       <tr><th>בקשה</th><th>מתי</th><th>מה היא כוללת</th></tr>
-      <tr><td><span class="k">GET https://reverseai.vercel.app/update.json</span></td><td>פעם ביום, וכשבוחרים "Check for updates now". אפשר לכבות את הבדיקה היומית.</td><td>שום מידע על המשתמש או המכשיר. התשובה היא מספר הגרסה האחרונה.</td></tr>
-      <tr><td><span class="k">POST https://reverseai.vercel.app/api/report</span></td><td>רק כשהמשתמש לוחץ Report. בפעם הראשונה מוצג מה נכלל, וכל דיווח אפשר לבטל תוך 4 שניות.</td><td>המילים שדווחו ולמה reverse.ai שינה אותן, שפות המקלדת, שם האפליקציה, גרסאות reverse.ai ומערכת ההפעלה, ההגדרות, והערה אופציונלית. בלי מזהי משתמש, חשבון או מכשיר.</td></tr>
+      <tr><td><span class="k">GET https://reverseai.vercel.app/update.json</span></td><td>פעם ביום, וכשבוחרים "Check for updates now". המשתמש יכול לכבות את הבדיקה היומית; <span class="k">DisableUpdateCheck</span> מכבה את שתיהן (סעיף 5).</td><td>שום מידע על המשתמש או המכשיר. התשובה היא מספר הגרסה האחרונה.</td></tr>
+      <tr><td><span class="k">POST https://reverseai.vercel.app/api/report</span></td><td>רק כשהמשתמש לוחץ Report. בפעם הראשונה מוצג מה נכלל, וכל דיווח אפשר לבטל תוך 4 שניות. <span class="k">DisableReports</span> מסיר את האפשרות (סעיף 5).</td><td>המילים שדווחו ולמה reverse.ai שינה אותן, שפות המקלדת, שם האפליקציה, גרסאות reverse.ai ומערכת ההפעלה, ההגדרות, והערה אופציונלית. בלי מזהי משתמש, חשבון או מכשיר.</td></tr>
     </table>
     <p>שתיהן ב-HTTPS ובלי עוגיות. האפליקציה אף פעם לא מורידה או מתקינה קוד: "Download version …" פותח את האתר בדפדפן של המשתמש. אין חיבורים נוספים.</p>
 
     <h2>5. אישור דרך ניהול מכשירים (macOS)</h2>
     <ul>
-      <li><strong>אישור האפליקציה:</strong> לפי Team ID <span class="k">29DJ3AH8CK</span>, או לפי דרישת הקוד שבסעיף 1, בכלי רשימת ההיתרים שלכם.</li>
+      <li><strong>התקנה:</strong> הפיצו את <span class="k">reverse.ai-mac.pkg</span> (סעיף 1) כחבילה ב-Jamf, Kandji או Munki, או כ-line-of-business macOS app (PKG) ב-Intune. גם ה-<span class="k">.dmg</span> עובד, עם הסוג "macOS app (DMG)" של Intune.</li>
+      <li><strong>אישור האפליקציה:</strong> לפי Team ID <span class="k">29DJ3AH8CK</span>, או לפי דרישת הקוד שבסעיף 1, בכלי רשימת ההיתרים שלכם. ב-Santa: <span class="k">santactl rule --allow --signingid --identifier 29DJ3AH8CK:com.assafkazakov.reverseai</span> (או <span class="k">--teamid --identifier 29DJ3AH8CK</span>).</li>
       <li><strong>אישור מראש של נגישות</strong> ב-payload של Privacy Preferences Policy Control (PPPC), כך שהמשתמש לא יצטרך סיסמת מנהל:
         <dl>
           <dt>Service</dt><dd>Accessibility</dd>
@@ -201,7 +221,19 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
           <dt>Access</dt><dd>Allow</dd>
         </dl>
       </li>
-      <li><strong>כלי אבטחה בקצה (EDR)</strong> עשויים לסמן כל אפליקציה שמנטרת את המקלדת. העמוד הזה מתעד בדיוק מה reverse.ai עושה, כדי שתוכלו לאשר אותה לפי Team ID או דרישת קוד.</li>
+      <li><strong>ניטור קלט, רק אם מק מבקש אותו</strong> (סעיף 2): ניהול מכשירים לא יכול להפעיל אותו, אבל יכול לאפשר למשתמשים רגילים לאשר אותו. הוסיפו את אותו מזהה ואותה דרישת קוד תחת השירות <span class="k">ListenEvent</span>, עם Authorization <span class="k">AllowStandardUserToSetSystemService</span>.</li>
+      <li><strong>פריט התחברות:</strong> כדי לאשר אותו מראש, הוסיפו payload של Managed Login Items (<span class="k">com.apple.servicemanagement</span>) עם RuleType <span class="k">TeamIdentifier</span> ו-RuleValue <span class="k">29DJ3AH8CK</span>. אז המשתמשים לא יכולים לכבות אותו בהגדרות המערכת.</li>
+      <li><strong>הגדרות מנוהלות (מגרסה 0.1.8):</strong> פרופיל תצורה עם הגדרות מותאמות לדומיין ההעדפות <span class="k">com.assafkazakov.reverseai</span> (ב-Jamf: Application &amp; Custom Settings; ב-Intune: Preference file; ב-Kandji: Custom Profile):
+        <table>
+          <tr><th>מפתח</th><th>סוג</th><th>כשהערך true</th></tr>
+          <tr><td><span class="k">DisableReports</span></td><td>Boolean</td><td>אין כפתור Report ואין פריטי דיווח בתפריט, שום דבר לא נשלח, והשורה הקודמת לא נשמרת בזיכרון.</td></tr>
+          <tr><td><span class="k">DisableUpdateCheck</span></td><td>Boolean</td><td>לא פונה ל-<span class="k">update.json</span>, לא אוטומטית ולא מהתפריט. בתפריט כתוב שהעדכונים מנוהלים על ידי הארגון.</td></tr>
+        </table>
+        <pre>&lt;key&gt;DisableReports&lt;/key&gt;&lt;true/&gt;
+&lt;key&gt;DisableUpdateCheck&lt;/key&gt;&lt;true/&gt;</pre>
+        כששני המפתחות מוגדרים, reverse.ai לא יוצרת שום חיבור רשת.
+      </li>
+      <li><strong>כלי אבטחה בקצה (EDR)</strong> עשויים לסמן כל אפליקציה שמנטרת את המקלדת. למשל, חלק מהבדיקות שמבוססות על osquery מדווחות על כל event tap של מקלדת מתוכנה שלא של אפל. העמוד הזה מתעד בדיוק מה reverse.ai עושה, כדי שתוכלו לאשר אותה לפי Team ID, לפי signing ID (<span class="k">29DJ3AH8CK:com.assafkazakov.reverseai</span>) או לפי דרישת קוד.</li>
     </ul>
 
     <h2>6. ווינדוס</h2>
