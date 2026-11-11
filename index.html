@@ -6,12 +6,14 @@
 <title>reverse.ai</title>
 <meta name="description" content="For people who work in Hebrew and English: reverse.ai catches text typed in the wrong keyboard, in Claude Code, WhatsApp Web, Slack and anywhere else. Free beta for Mac and Windows.">
 <meta property="og:title" content="reverse.ai — think in Hebrew, work in English">
-<meta property="og:description" content="Typed a line in the wrong keyboard? Press Tab. Works in Claude Code, WhatsApp Web, Slack — Mac and Windows, free beta.">
+<meta property="og:description" content="Typed a line in the wrong keyboard? It fixes it for you. Works in Claude Code, WhatsApp Web, Slack — Mac and Windows, free beta.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234d5cfa'/%3E%3Cstop offset='1' stop-color='%23219efa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='16' fill='url(%23g)'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='17' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/rubik-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+/* Rubik (SIL Open Font License, fonts/OFL.txt), served from this site: no request goes to Google */
+@font-face { font-family: Rubik; font-style: normal; font-weight: 400 700; font-display: swap; src: url(/fonts/rubik-hebrew.woff2) format('woff2'); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: Rubik; font-style: normal; font-weight: 400 700; font-display: swap; src: url(/fonts/rubik-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: Rubik; font-style: normal; font-weight: 400 700; font-display: swap; src: url(/fonts/rubik-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 :root {
   --a: #4d5cfa; --b: #219efa; --grad: linear-gradient(135deg, var(--a), var(--b));
   --bg: #f5f6fb; --card: #fff; --ink: #141a38; --muted: #5d6380; --line: rgba(20,26,56,.10); --chip: rgba(20,26,56,.05);
@@ -125,7 +127,7 @@ h2 { font-size: 24px; letter-spacing: -.01em; margin: 48px 0 6px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
 .grid.three { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
-.card b { display: block; margin-bottom: 4px; font-size: 17px; }
+.card > b, .how > div > b { display: block; margin-bottom: 4px; font-size: 17px; }
 .card p { color: var(--muted); font-size: 15px; margin: 0; }
 
 /* install steps */
@@ -140,8 +142,55 @@ code { direction: ltr; unicode-bidi: isolate; font-family: ui-monospace, Menlo, 
 
 footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 6px 16px; }
 
+/* the bubble's Report button (main demo and the report pictures) */
+b[dir], a[dir] { unicode-bidi: isolate; white-space: nowrap; }   /* English menu names inside Hebrew sentences */
+.act.rep { background: var(--chip); color: var(--muted); padding: 7px 14px 7px 11px; }
+.act.rep svg { width: 13px; height: 13px; }
+.act.rep.hl { box-shadow: 0 0 0 2px var(--a); color: var(--ink); }
+
+/* report: two small pictures, each over its explanation */
+.how { display: flex; flex-direction: column; gap: 14px; }
+.mock { direction: ltr; position: relative; height: 236px; border-radius: 12px; background: var(--chip); overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 12px; }
+.mock .bubble { margin: 0; max-width: 100%; padding: 12px; }
+.mock .sug { font-size: 17px; margin: 8px 0 10px; padding: 8px 12px; }
+.mock .act { font-size: 12.5px; padding: 6px 11px 6px 7px; }
+.mock .act.rep { padding: 6px 11px 6px 9px; }
+.toast { position: absolute; left: 50%; bottom: 16px; transform: translate(-50%, 8px); opacity: 0; display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; box-shadow: var(--shadow); font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; transition: opacity .25s, transform .25s; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast svg { width: 15px; height: 15px; color: var(--muted); flex: none; }
+.toast .undo { color: var(--a); font-weight: 700; }
+.toast .bar { position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: var(--grad); }
+.toast.run .bar { animation: bar 4s linear forwards; }
+@keyframes bar { from { width: 100%; } to { width: 0; } }
+.mbar { position: absolute; top: 0; left: 0; right: 0; height: 26px; display: flex; justify-content: flex-end; align-items: center; gap: 14px; padding: 0 12px; font-size: 12px; font-weight: 500; background: var(--card); border-bottom: 1px solid var(--line); }
+.mbar .mi { width: 24px; height: 20px; display: grid; place-items: center; border-radius: 5px; transition: background .2s; }
+.mbar .mi svg { width: 16px; height: 16px; }
+.mbar .mi.on { background: var(--chip); box-shadow: inset 0 0 0 1px var(--line); }
+.menu { position: absolute; top: 30px; right: 30px; width: min(262px, calc(100% - 40px)); background: var(--card); border: 1px solid var(--line); border-radius: 9px; box-shadow: var(--shadow); padding: 5px; font-size: 13px; opacity: 0; transform: translateY(-4px); transition: opacity .2s, transform .2s; }
+.menu.show { opacity: 1; transform: none; }
+.menu div { position: relative; padding: 3px 8px 3px 22px; border-radius: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background .15s, color .15s; }
+.menu .ck::before { content: "✓"; position: absolute; left: 7px; }
+.menu .gt::after { content: "›"; position: absolute; right: 9px; color: var(--muted); }
+.menu hr { border: 0; border-top: 1px solid var(--line); margin: 4px 6px; }
+.menu .hi { background: var(--grad); color: #fff; }
+.dlg { position: absolute; left: 50%; top: 50%; width: min(272px, calc(100% - 24px)); transform: translate(-50%, -46%); opacity: 0; transition: opacity .2s, transform .2s; background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 12px 14px; font-size: 12.5px; }
+.dlg.show { opacity: 1; transform: translate(-50%, -50%); }
+.dlg .logo { width: 22px; height: 22px; font-size: 11px; }
+.dlg b { display: block; font-size: 13.5px; margin: 6px 0 2px; }
+.dlg p { margin: 0 0 8px; color: var(--muted); font-size: 12px; line-height: 1.35; }
+.dlg .in { border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; margin-bottom: 6px; min-height: 25px; font-size: 13px; }
+.dlg .in.ph { color: var(--muted); }
+.dlg .bt { display: flex; justify-content: flex-end; gap: 6px; margin-top: 8px; }
+.dlg .bt span { padding: 3px 12px; border-radius: 6px; background: var(--chip); font-size: 12.5px; font-weight: 500; transition: transform .12s, filter .12s; }
+.dlg .bt .go { background: var(--grad); color: #fff; }
+.dlg .bt .go.pressed { transform: scale(.94); filter: brightness(1.15); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+.chips span { font-size: 13.5px; padding: 4px 11px; border-radius: 99px; background: var(--chip); }
+.card ol { color: var(--muted); font-size: 15px; margin: 6px 0 8px; padding-inline-start: 20px; }
+.card ol li { margin: 4px 0; }
+
 @media (max-width: 480px) { .btn { width: 100%; justify-content: center; } .btns { width: 100%; } .seg { width: 100%; } .seg button { flex: 1; } .eyebrow { margin-top: 32px; } .grid { grid-template-columns: 1fr; } }
-@media (prefers-reduced-motion: reduce) { .bubble { transition: none; } .caret { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .bubble, .toast, .menu { transition: none; } .caret { animation: none; } }
 </style>
 </head>
 <body>
@@ -159,8 +208,8 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     <span class="en">Think in Hebrew. Work in English.<br><span class="grad">Never retype a line again.</span></span>
   </h1>
   <p class="lead">
-    <span class="he">שרשור בסלאק באנגלית, וואטסאפ בעברית, פרומפט ל-Claude בשתיהן. כשמחליפים שפה כל היום, יוצא <span class="k">akuo</span> במקום שלום — מוחקים, מחליפים מקלדת, מקלידים שוב. reverse.ai תופס את זה תוך כדי הקלדה, מתקן בלחיצה על Tab ומחליף את שפת המקלדת בשבילך.</span>
-    <span class="en">A Slack thread in English, WhatsApp in Hebrew, a prompt to Claude in both. When you switch languages all day, you end up with <span class="k">akuo</span> instead of שלום — delete, switch keyboards, retype. reverse.ai catches it as you type, fixes it with one press of Tab and switches the keyboard for you.</span>
+    <span class="he">שרשור בסלאק באנגלית, וואטסאפ בעברית, פרומפט ל-Claude בשתיהן. כשמחליפים שפה כל היום, יוצא <span class="k">akuo</span> במקום שלום — מוחקים, מחליפים מקלדת, מקלידים שוב. reverse.ai תופס את זה תוך כדי הקלדה, מתקן ומחליף את שפת המקלדת בשבילך: לבד כשהוא בטוח, ובלחיצה על Tab כשהוא שואל.</span>
+    <span class="en">A Slack thread in English, WhatsApp in Hebrew, a prompt to Claude in both. When you switch languages all day, you end up with <span class="k">akuo</span> instead of שלום — delete, switch keyboards, retype. reverse.ai catches it as you type, fixes it and switches the keyboard for you: by itself when it's sure, with one press of Tab when it asks.</span>
   </p>
 
   <div class="demo" aria-hidden="true">
@@ -177,6 +226,7 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
       <div class="acts">
         <span class="act fix" id="fix"><span class="kc">Tab</span><span id="fixLabel"></span></span>
         <span class="act no"><span class="kc">Esc</span>Not now</span>
+        <span class="act rep"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>Report</span>
       </div>
     </div>
     </div>
@@ -187,13 +237,13 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
   <h2><span class="he">בנוי לאפליקציות שאתם חיים בהן</span><span class="en">Made for the apps you live in</span></h2>
   <p class="sub"><span class="he">במק ובווינדוס, בכל מקום שאפשר להקליד.</span><span class="en">On Mac and Windows, anywhere you can type.</span></p>
   <div class="grid">
-    <div class="card"><b>Claude &amp; Claude Code</b>
+    <div class="card"><b dir="ltr">Claude &amp; Claude Code</b>
       <p class="he">פרומפטים בעברית או באנגלית, באפליקציה או בטרמינל. התיקון מוקלד כהקשות, אז הוא עובד גם בתוך Claude Code ולא נוגע בלוח ההעתקה.</p>
       <p class="en">Prompts in Hebrew or English, in the desktop app or the terminal. Fixes are typed as keystrokes, so it works inside Claude Code and never touches your clipboard.</p></div>
-    <div class="card"><b>WhatsApp Web</b>
+    <div class="card"><b dir="ltr">WhatsApp Web</b>
       <p class="he">תופס את הג׳יבריש לפני שלוחצים Enter ושולחים אותו לקבוצה.</p>
       <p class="en">Catches the gibberish before you hit Enter and send it to the group.</p></div>
-    <div class="card"><b>Slack, Gmail, Jira, Notion</b>
+    <div class="card"><b dir="ltr">Slack, Gmail, Jira, Notion</b>
       <p class="he">עובד בכל המערכת, לא כתוסף לאפליקציה אחת — בכל תיבת טקסט, במק ובווינדוס.</p>
       <p class="en">Works system-wide, not as a plugin for one app — any text box, on Mac and Windows.</p></div>
     <div class="card"><b><span class="he">טרמינל ו-IDE</span><span class="en">Terminal &amp; IDE</span></b>
@@ -205,9 +255,9 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     <div class="card"><b><span class="he">פרטי לגמרי</span><span class="en">Fully private</span></b>
       <p class="he">הכל רץ על המחשב שלך. שום דבר שמקלידים לא נשמר ולא נשלח, אלא אם לוחצים Report. רק בדיקה יומית אם יש גרסה חדשה.</p>
       <p class="en">Runs on your computer. Nothing you type is stored or sent, unless you click Report. It only checks daily for a new version.</p></div>
-    <div class="card"><b><span class="he">מקש אחד</span><span class="en">One key</span></b>
-      <p class="he">Tab מתקן ומחליף מקלדת. Esc מתעלם.</p>
-      <p class="en">Tab fixes it and switches the keyboard. Esc ignores it.</p></div>
+    <div class="card"><b><span class="he">מתקן לבד, או שואל</span><span class="en">Fixes it, or asks</span></b>
+      <p class="he">כשהוא בטוח, הוא מתקן לבד, ו-Backspace מיד אחרי מבטל. אחרת מופיעה בועה: Tab מתקן, Esc מתעלם. (בינתיים במק; בווינדוס הבועה שואלת תמיד.)</p>
+      <p class="en">When it's sure, it fixes the text by itself, and Backspace right after undoes it. Otherwise a bubble asks: Tab fixes, Esc ignores. (On Mac for now; on Windows the bubble always asks.)</p></div>
     <div class="card"><b><span class="he">לא מציק</span><span class="en">Not annoying</span></b>
       <p class="he">נבדק על מאות אלפי מילים: בערך מילה אחת מכל 10,000 משתנה בטעות.</p>
       <p class="en">Tested on hundreds of thousands of words: about 1 word in 10,000 is changed by mistake.</p></div>
@@ -227,31 +277,126 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     </ol>
     <ol class="en">
       <li>Open the downloaded <code>reverse.ai-mac.dmg</code> and drag reverse.ai into Applications.</li>
-      <li>Open it. macOS asks once whether to open an app downloaded from the internet: click <b>Open</b>.</li>
+      <li>Open it. macOS asks once whether to open an app downloaded from the internet: click <b dir="ltr">Open</b>.</li>
       <li>A setup window asks for one permission (Accessibility). Click the button and turn on reverse.ai.</li>
       <li>That's it. It lives in the menu bar and starts by itself when you log in.</li>
     </ol>
-    <p class="he">מק של העבודה? אם אי אפשר להפעיל את הרשאת הנגישות, שלחו ל-IT את <a href="/it">reverseai.vercel.app/it</a>.</p>
-    <p class="en">Company Mac? If you can't turn on Accessibility, send your IT team <a href="/it">reverseai.vercel.app/it</a>.</p>
+    <p class="he">מק של העבודה? אם אי אפשר להפעיל את הרשאת הנגישות, שלחו ל-IT את <a href="/it">reverseai.vercel.app/it</a>. הם יכולים גם להתקין לכם את האפליקציה.</p>
+    <p class="en">Company Mac? If you can't turn on Accessibility, send your IT team <a href="/it">reverseai.vercel.app/it</a>. They can also install it for you.</p>
   </div>
   <div class="panel" id="p-win" role="tabpanel" aria-labelledby="t-win" hidden>
     <ol class="he">
       <li>מחלצים את <code>reverse.ai-windows.zip</code> שירד ומריצים את reverse.ai.exe.</li>
-      <li>אם מופיע "Windows protected your PC" (הבטא עוד לא חתומה): <b>More info</b> ← <b>Run anyway</b>.</li>
+      <li>אם מופיע "Windows protected your PC" (הבטא עוד לא חתומה): <b dir="ltr">More info</b> ← <b dir="ltr">Run anyway</b>.</li>
       <li>זהו. האפליקציה נמצאת במגש המערכת (^ ליד השעון) ועולה עם ווינדוס.</li>
-      <li>גרסת ווינדוס ראשונה — אם משהו לא עובד: אייקון במגש ← <b>Open log folder</b> ושולחים את log.txt (יש בו רק מצבים וספירות, אף פעם לא מה שהקלדתם).</li>
+      <li>גרסת ווינדוס ראשונה: אם משהו לא עובד, ראו <a href="#help">משהו לא עבד?</a> למטה.</li>
     </ol>
     <ol class="en">
       <li>Unzip the downloaded <code>reverse.ai-windows.zip</code> and run reverse.ai.exe.</li>
-      <li>If Windows shows "Windows protected your PC" (this beta isn't signed yet): <b>More info</b> → <b>Run anyway</b>.</li>
+      <li>If Windows shows "Windows protected your PC" (this beta isn't signed yet): <b dir="ltr">More info</b> → <b dir="ltr">Run anyway</b>.</li>
       <li>That's it. It lives in the tray (^ near the clock) and starts with Windows.</li>
-      <li>First Windows build — if something misbehaves: tray icon → <b>Open log folder</b> and send log.txt (only states and counts, never what you typed).</li>
+      <li>First Windows build: if something misbehaves, see <a href="#help">Something off?</a> below.</li>
     </ol>
   </div>
   <p class="small" style="margin-top:12px">
     <span class="he">צריך שיהיו מותקנות מקלדת עברית ומקלדת אנגלית.</span>
     <span class="en">You need both a Hebrew and an English keyboard installed.</span>
   </p>
+
+  <h2><span class="he">כדאי לדעת</span><span class="en">Good to know</span></h2>
+  <div class="grid">
+    <div class="card"><b><span class="he">גם מילה אחת</span><span class="en">Single words too</span></b>
+      <p class="he">מילה שהוקלדה לבד במקלדת הלא נכונה, כמו <span class="k">,usv</span> במקום תודה, מקבלת בועה כשעוצרים רגע לפני ששולחים.</p>
+      <p class="en">A word typed alone on the wrong keyboard, like <span class="k">,usv</span> for תודה, gets the bubble when you pause before sending.</p></div>
+    <div class="card"><b><span class="he">לא באפליקציה הזו</span><span class="en">Not in this app</span></b>
+      <p class="he">בתפריט ← <b dir="ltr">Disable in …</b> מכבה את reverse.ai באפליקציה שבה אתם נמצאים. מנהלי סיסמאות כבויים מראש, ושדות סיסמה אף פעם לא נקראים.</p>
+      <p class="en">Menu → <b dir="ltr">Disable in …</b> turns reverse.ai off for the app you're in. Password managers are off from the start, and password fields are never read.</p></div>
+    <div class="card"><b><span class="he">איך שנוח לכם</span><span class="en">Your way</span></b>
+      <p class="he">רגישות <b dir="ltr">Strict</b> או <b dir="ltr">Balanced</b>, <b dir="ltr">Smart mode</b> (בדיקת AI על המחשב שלכם כשעוצרים להקליד), ותיקון אוטומטי כשהוא בטוח (דולק מראש): הכל בתפריט.</p>
+      <p class="en"><b dir="ltr">Strict</b> or <b dir="ltr">Balanced</b> sensitivity, <b dir="ltr">Smart mode</b> (an AI check on your computer when you pause), and automatic fixes when it's sure (on from the start): all in the menu.</p></div>
+    <div class="card"><b><span class="he">גרסאות חדשות</span><span class="en">New versions</span></b>
+      <p class="he">כשיוצאת גרסה חדשה, reverse.ai מודיע פעם אחת. בתפריט ← <b dir="ltr">Download version…</b>, ומתקינים כמו בפעם הראשונה.</p>
+      <p class="en">When a new version is out, reverse.ai tells you once. Menu → <b dir="ltr">Download version…</b>, then install it like the first time.</p></div>
+  </div>
+  <p class="small" style="margin-top:12px">
+    <span class="he">התפריט: האייקון של reverse.ai בשורת התפריטים למעלה (מק), או במגש המערכת ליד השעון (ווינדוס).</span>
+    <span class="en">The menu: the reverse.ai icon in the menu bar at the top (Mac), or in the tray near the clock (Windows).</span>
+  </p>
+
+  <h2 id="help"><span class="he">משהו לא עבד? מדווחים לי</span><span class="en">Something off? Report it</span></h2>
+  <p class="sub"><span class="he">כל דיווח מגיע ישר אליי ועוזר לתקן את זה לכולם. רואים מה נשלח, ואפשר לבטל.</span><span class="en">Every report comes straight to me and helps fix it for everyone. You see what's sent, and you can undo it.</span></p>
+  <div class="grid">
+    <div class="card how">
+      <div class="mock" aria-hidden="true">
+        <div class="bubble" id="rb">
+          <div class="bh"><div class="logo">A</div>Did you mean</div>
+          <div class="sug" dir="rtl">אני רוצה שלום</div>
+          <div class="acts">
+            <span class="act fix"><span class="kc">Tab</span>Fix + switch to Hebrew</span>
+            <span class="act no"><span class="kc">Esc</span>Not now</span>
+            <span class="act rep" id="rbReport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>Report</span>
+          </div>
+        </div>
+        <div class="toast" id="rt1"></div>
+      </div>
+      <div>
+        <b><span class="he">הצעה שגויה</span><span class="en">A wrong suggestion</span></b>
+        <p class="he">לוחצים <b dir="ltr">Report</b> בבועה. מופיעה הודעה קטנה, <b dir="ltr">Sending to the developer…</b>, ולחיצה על <b dir="ltr">Undo</b> תוך 4 שניות מבטלת.</p>
+        <p class="en">Click <b dir="ltr">Report</b> in the bubble. A small note says <b dir="ltr">Sending to the developer…</b>, and clicking <b dir="ltr">Undo</b> within 4 seconds cancels it.</p>
+      </div>
+    </div>
+    <div class="card how">
+      <div class="mock" aria-hidden="true">
+        <div class="mbar"><span class="mi" id="rmIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v9a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4h0A2.5 2.5 0 0 1 4 14.5z"/><path d="M9.2 13.5 12 6.5l2.8 7M10.2 11h3.6" stroke-linecap="round"/></svg></span><span>Tue 10:42</span></div>
+        <div class="menu" id="rm">
+          <div class="ck">reverse.ai enabled</div>
+          <div class="gt">Sensitivity</div>
+          <div class="ck">Smart mode</div>
+          <div>Disable in WhatsApp</div>
+          <hr>
+          <div id="rmItem">Report a missed fix…</div>
+          <hr>
+          <div>Setup &amp; help…</div>
+          <div>Keep a diagnostic log (24 hours)</div>
+        </div>
+        <div class="dlg" id="rd">
+          <div class="bh"><div class="logo">A</div></div>
+          <b>Report a missed fix</b>
+          <p>Type the words reverse.ai should have fixed, the way they came out.</p>
+          <div class="in" id="rdIn"></div>
+          <div class="in ph">Anything to add? (optional)</div>
+          <div class="bt"><span>Cancel</span><span class="go" id="rdSend">Send</span></div>
+        </div>
+        <div class="toast" id="rt2"></div>
+      </div>
+      <div>
+        <b><span class="he">תיקון שפוספס</span><span class="en">A missed fix</span></b>
+        <p class="he">בתפריט ← <b dir="ltr">Report a missed fix…</b>, מקלידים את המילים כמו שהן יצאו (למשל <span class="k">akuo ugkn</span>), ולוחצים <b dir="ltr">Send</b>. גם כאן אפשר לבטל תוך 4 שניות.</p>
+        <p class="en">Menu → <b dir="ltr">Report a missed fix…</b>, type the words the way they came out (for example <span class="k">akuo ugkn</span>), and click <b dir="ltr">Send</b>. Here too, you have 4 seconds to undo.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-top:12px">
+    <div class="card"><b><span class="he">מה יש בדיווח</span><span class="en">What a report holds</span></b>
+      <div class="chips he"><span>המילים</span><span>למה reverse.ai שינה אותן (או היה משנה)</span><span>שפות המקלדת</span><span>האפליקציה שבה הקלדתם</span><span>הגרסה של reverse.ai ושל המערכת</span><span>ההגדרות שלכם</span></div>
+      <div class="chips en"><span>The words</span><span>What reverse.ai changed them to (or would have)</span><span>The keyboard languages</span><span>The app you typed in</span><span>reverse.ai and system versions</span><span>Your settings</span></div>
+      <p class="he">אף פעם לא השם שלכם, המייל או משהו שמזהה אתכם או את המחשב. בפעם הראשונה reverse.ai מראה את זה לפני שמשהו נשלח. <a href="/privacy">מדיניות פרטיות</a></p>
+      <p class="en">Never your name, your email, or anything that identifies you or your computer. The first time, reverse.ai shows you this before anything is sent. <a href="/privacy">Privacy Policy</a></p></div>
+    <div class="card"><b><span class="he">משהו אחר לא עובד?</span><span class="en">Something else not working?</span></b>
+      <ol class="he">
+        <li>בתפריט ← <b dir="ltr">Keep a diagnostic log (24 hours)</b>.</li>
+        <li>עושים שוב את מה שלא עבד.</li>
+        <li>בתפריט ← <b dir="ltr">Open log folder</b>, ושולחים את הקובץ <code>log.txt</code> במייל לכתובת <a href="mailto:kazakov100+reverseai@gmail.com" dir="ltr">kazakov100+reverseai@gmail.com</a></li>
+      </ol>
+      <ol class="en">
+        <li>Menu → <b dir="ltr">Keep a diagnostic log (24 hours)</b>.</li>
+        <li>Do what went wrong again.</li>
+        <li>Menu → <b dir="ltr">Open log folder</b>, and email <code>log.txt</code> to <a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a>.</li>
+      </ol>
+      <p class="he">ביומן יש רק מצבים וספירות, אף פעם לא מה שמקלידים, והוא נמחק לבד אחרי שבוע.</p>
+      <p class="en">The log holds only states and counts, never what you type, and it deletes itself after a week.</p></div>
+  </div>
 
   <footer>
     <span><span class="he">גרסת בטא</span><span class="en">Beta</span> · Mac (Apple M1+, macOS 14+) · Windows 10/11 64-bit</span>
@@ -312,7 +457,7 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     { app: 'WhatsApp Web', kind: 'wa', ctx: '<div class="msg">מה התוכניות לסופ״ש?</div>',
       send: '<svg viewBox="0 0 24 24"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg>',
       icon: '<svg viewBox="0 0 24 24"><path fill="#25D366" d="M12 2a10 10 0 0 0-8.7 14.9L2 22l5.3-1.3A10 10 0 1 0 12 2z"/><path fill="#fff" d="M9 7.3c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .6.4l.8 1.9c.1.2.1.4-.1.6l-.5.6c-.1.2-.2.3 0 .6.4.7.9 1.3 1.5 1.8.7.6 1.3.9 1.6 1 .2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.7.8c.2.1.4.2.4.4 0 .3 0 1-.4 1.5-.5.5-1.3.9-2.1.8-.9-.1-2.4-.5-4-1.9-1.7-1.5-2.6-3.3-2.8-4-.2-.7-.1-1.5.3-2.1z"/></svg>', src: 'tbh rumv kgau, navu fti', dst: 'אני רוצה לעשות משהו כאן', more: ', מי בא?', from: 'EN', target: 'Hebrew' },
-    { app: 'Slack', kind: 'slack', ctx: '<div class="sl-ch"># product</div><div class="sl-msg"><span class="av">N</span><span><b>Noa</b>the new build is ready for review</span></div>',
+    { app: 'Slack', kind: 'slack', ctx: '<div class="sl-ch"># product</div><div class="sl-msg"><span class="av">N</span><span><b dir="ltr">Noa</b>the new build is ready for review</span></div>',
       send: '<svg viewBox="0 0 24 24"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg>',
       icon: '<svg viewBox="0 0 24 24"><rect x="6" y="2" width="3.6" height="12" rx="1.8" fill="#36C5F0"/><rect x="10" y="6" width="12" height="3.6" rx="1.8" fill="#2EB67D"/><rect x="14.4" y="10" width="3.6" height="12" rx="1.8" fill="#ECB22E"/><rect x="2" y="14.4" width="12" height="3.6" rx="1.8" fill="#E01E5A"/></svg>', src: "בשמ 'ק דטמב שכאקר ךומבי", dst: 'can we sync after lunch', more: ' tomorrow?', from: 'HE', target: 'English' },
     { app: 'Gmail', kind: 'gmail', ctx: '<div class="gm-head">New message</div><div class="gm-line">To<span>team@company.com</span></div>',
@@ -364,6 +509,46 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     }
   }
   loop();
+})();
+
+// report pictures: Report in the bubble; "Report a missed fix…" in the menu, then its window. Each sends with 4 seconds to undo
+(function () {
+  var b = document.getElementById('rb'), rep = document.getElementById('rbReport'), t1 = document.getElementById('rt1'),
+      m = document.getElementById('rm'), item = document.getElementById('rmItem'), mi = document.getElementById('rmIcon'),
+      t2 = document.getElementById('rt2'), d = document.getElementById('rd'), dIn = document.getElementById('rdIn'),
+      dSend = document.getElementById('rdSend');
+  var plane = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/></svg>';
+  var sending = plane + '<span>Sending to the developer…</span><span class="undo">Undo</span><span class="bar"></span>';
+  var sent = '<span>✓ Report sent, thank you</span>';
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    b.classList.add('show'); rep.classList.add('hl'); dIn.textContent = 'akuo ugkn'; d.classList.add('show'); return;
+  }
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+  async function send(t) {
+    t.innerHTML = sending; t.classList.add('show'); void t.offsetWidth; t.classList.add('run');
+    await wait(4000); t.classList.remove('run'); t.innerHTML = sent;
+    await wait(1300); t.classList.remove('show'); await wait(400);
+  }
+  (async function () {
+    for (;;) {
+      b.classList.add('show'); await wait(2200);
+      rep.classList.add('hl'); await wait(1000);
+      rep.classList.add('pressed'); await wait(200); rep.classList.remove('pressed', 'hl'); b.classList.remove('show');
+      await wait(250); await send(t1); await wait(300);
+    }
+  })();
+  (async function () {
+    await wait(1200);
+    for (;;) {
+      mi.classList.add('on'); m.classList.add('show'); await wait(1600);
+      item.classList.add('hi'); await wait(1100);
+      m.classList.remove('show'); mi.classList.remove('on'); await wait(200); item.classList.remove('hi');
+      dIn.textContent = ''; d.classList.add('show'); await wait(700);
+      for (var c of 'akuo ugkn') { dIn.textContent += c; await wait(c === ' ' ? 150 : 90 + Math.random() * 50); }
+      await wait(800); dSend.classList.add('pressed'); await wait(200); dSend.classList.remove('pressed');
+      d.classList.remove('show'); await wait(250); await send(t2); await wait(500);
+    }
+  })();
 })();
 </script>
 </body>

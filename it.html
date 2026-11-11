@@ -84,8 +84,8 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
 
     <h2>2. What it does, and why it needs Accessibility</h2>
     <ul>
-      <li><strong>Reads key presses</strong> through a Quartz event tap (keyboard and mouse-click events) to follow the line being typed. When its suggestion bubble is showing, it consumes only the Tab and Esc keys that answer it.</li>
-      <li><strong>Types the correction</strong> with synthetic keystrokes: it deletes the mistyped text and types the fix. It never uses the clipboard.</li>
+      <li><strong>Reads key presses</strong> through a Quartz event tap (keyboard and mouse-click events) to follow the line being typed. It consumes only the Tab and Esc keys that answer its suggestion bubble, and, right after an automatic fix, the one Backspace that undoes it.</li>
+      <li><strong>Types the correction</strong> with synthetic keystrokes: it deletes the mistyped text and types the fix. It never uses the clipboard. Fixes it is sure about are typed automatically (users can turn this off in the menu; it never happens in terminals); the rest wait in the bubble for the user.</li>
       <li><strong>Reads the text cursor position</strong> through the Accessibility API, only to place the bubble next to it. In Electron apps (Slack, WhatsApp, VS Code…) it asks the app to expose that position.</li>
       <li><strong>Switches the keyboard layout</strong> after a fix, if the user wants that.</li>
       <li><strong>Leaves alone:</strong> password fields (macOS Secure Event Input and secure text fields), apps on its exclusion list (password managers by default), and words containing digits.</li>
@@ -183,8 +183,8 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
 
     <h2>2. מה היא עושה, ולמה היא צריכה נגישות</h2>
     <ul>
-      <li><strong>קוראת הקשות</strong> דרך Quartz event tap (אירועי מקלדת ולחיצות עכבר) כדי לעקוב אחרי השורה שמקלידים. כשבועת ההצעה מוצגת, היא בולעת רק את מקשי Tab ו-Esc שעונים לה.</li>
-      <li><strong>מקלידה את התיקון</strong> בהקשות מדומות: מוחקת את הטקסט השגוי ומקלידה את התיקון. היא אף פעם לא משתמשת בלוח ההעתקה.</li>
+      <li><strong>קוראת הקשות</strong> דרך Quartz event tap (אירועי מקלדת ולחיצות עכבר) כדי לעקוב אחרי השורה שמקלידים. היא בולעת רק את מקשי Tab ו-Esc שעונים לבועת ההצעה, ומיד אחרי תיקון אוטומטי את ה-Backspace האחד שמבטל אותו.</li>
+      <li><strong>מקלידה את התיקון</strong> בהקשות מדומות: מוחקת את הטקסט השגוי ומקלידה את התיקון. היא אף פעם לא משתמשת בלוח ההעתקה. תיקונים שהיא בטוחה בהם מוקלדים אוטומטית (המשתמש יכול לכבות את זה בתפריט, וזה אף פעם לא קורה בטרמינלים); השאר מחכים בבועה למשתמש.</li>
       <li><strong>קוראת את מיקום הסמן</strong> דרך Accessibility API, רק כדי להציג את הבועה לידו. באפליקציות Electron (סלאק, וואטסאפ, VS Code…) היא מבקשת מהאפליקציה לחשוף את המיקום.</li>
       <li><strong>מחליפה שפת מקלדת</strong> אחרי תיקון, אם המשתמש רוצה.</li>
       <li><strong>לא נוגעת ב:</strong> שדות סיסמה (Secure Event Input ושדות טקסט מאובטחים), אפליקציות ברשימת ההחרגה (מנהלי סיסמאות כברירת מחדל), ומילים שיש בהן ספרות.</li>
