@@ -5,50 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Terms of Use · reverse.ai</title>
 <meta name="description" content="The terms for using reverse.ai, a free beta for Mac and Windows.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234d5cfa'/%3E%3Cstop offset='1' stop-color='%23219efa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='16' fill='url(%23g)'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='17' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
-<style>
-:root {
-  --a: #4d5cfa; --b: #219efa; --grad: linear-gradient(135deg, var(--a), var(--b));
-  --bg: #f5f6fb; --card: #fff; --ink: #141a38; --muted: #5d6380; --line: rgba(20,26,56,.10); --chip: rgba(20,26,56,.05);
-}
-@media (prefers-color-scheme: dark) {
-  :root { --bg: #0d0f1e; --card: #171a2d; --ink: #eef0fb; --muted: #a2a7c4; --line: rgba(255,255,255,.10); --chip: rgba(255,255,255,.06); }
-}
-* { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 Rubik, system-ui, -apple-system, "Segoe UI", sans-serif; }
-html[lang=he] article.en, html[lang=en] article.he, html[lang=he] .en, html[lang=en] .he { display: none; }
-a { color: var(--a); }
-.wrap { max-width: 780px; margin: 0 auto; padding: 20px 16px 56px; }
-header { display: flex; align-items: center; gap: 10px; }
-header a.home { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
-.logo { width: 34px; height: 34px; border-radius: 50%; background: var(--grad); display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 15px; flex: none; }
-.name { font-weight: 700; font-size: 20px; letter-spacing: -.01em; direction: ltr; }
-.lang { margin-inline-start: auto; border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 99px; padding: 6px 14px; font: inherit; font-size: 14px; cursor: pointer; }
-h1 { font-size: clamp(28px, 5.6vw, 40px); line-height: 1.15; letter-spacing: -.02em; margin: 36px 0 4px; }
-.date { color: var(--muted); margin: 0 0 24px; font-size: 15px; }
-h2 { font-size: 19px; margin: 32px 0 8px; }
-h3 { font-size: 16px; margin: 18px 0 6px; }
-p, li { max-width: 70ch; }
-ul { padding-inline-start: 22px; }
-li { margin: 4px 0; }
-.summary { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 6px 20px 10px; }
-.summary h2 { margin-top: 14px; }
-.k { direction: ltr; unicode-bidi: isolate; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .88em; background: var(--chip); padding: 1px 6px; border-radius: 5px; }
-mark.todo { background: #ffe58a; color: #141a38; padding: 0 4px; border-radius: 4px; }
-footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 6px 16px; }
-</style>
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0c0f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect width='28' height='28' rx='7.5' fill='%232b59ff'/%3E%3Cpath d='M8 11h11.5m0 0-3-3m3 3-3 3M20 17.5H8.5m0 0 3-3m-3 3 3 3' fill='none' stroke='%23fff' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <a class="home" href="/"><div class="logo">A</div><div class="name">reverse.ai</div></a>
-    <button class="lang" id="lang" type="button"><span class="he">English</span><span class="en">עברית</span></button>
-  </header>
 
+<div class="nav">
+  <div class="wrap">
+    <a class="brand" href="/"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7.5" fill="var(--accent)"/><path d="M8 11h11.5m0 0-3-3m3 3-3 3M20 17.5H8.5m0 0 3-3m-3 3 3 3" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>reverse.ai</span><span class="tag">Beta</span></a>
+    <nav aria-label="Sections">
+      <a href="/#how"><span class="en">How it works</span><span class="he">איך זה עובד</span></a>
+      <a href="/#accuracy"><span class="en">Accuracy</span><span class="he">דיוק</span></a>
+      <a href="/#privacy"><span class="en">Privacy</span><span class="he">פרטיות</span></a>
+      <a href="/#help"><span class="en">Help</span><span class="he">עזרה</span></a>
+    </nav>
+    <button class="langbtn" id="lang" type="button"><span class="en">עברית</span><span class="he">English</span></button>
+    <a class="btn sm" href="/#install"><span class="en">Download</span><span class="he">הורדה</span></a>
+  </div>
+</div>
+
+<main class="doc">
   <article class="en" lang="en" dir="ltr">
     <h1>Terms of Use</h1>
-    <p class="date">Last updated: 11 November 2026</p>
+    <p class="updated">Last updated: 14 November 2026</p>
     <p>Please read these terms. By downloading, installing or using reverse.ai, you agree to them. If you don't agree, don't install or use the app.</p>
 
     <h2>1. About these terms</h2>
@@ -70,7 +51,7 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     <p>The app checks once a day whether a new version exists and may tell you about it; you decide whether to install it. You can turn the check off in the app's menu. We may change, stop distributing or stop supporting the app at any time.</p>
 
     <h2>7. Third parties</h2>
-    <p>The app works with your operating system, keyboards and other apps, which have their own terms. The app and website rely on third-party services (Vercel, GitHub and Google Fonts) and include third-party data used under its licenses: FrequencyWords (OpenSubtitles 2018, CC BY-SA 4.0), wordfreq by Robyn Speer (CC BY-SA 4.0) and the Leipzig Corpora Collection (CC BY). We're not responsible for third-party services or products.</p>
+    <p>The app works with your operating system, keyboards and other apps, which have their own terms. The app and website rely on third-party services (Vercel and GitHub) and include third-party data used under its licenses: FrequencyWords (OpenSubtitles 2018, CC BY-SA 4.0), wordfreq by Robyn Speer (CC BY-SA 4.0) and Tatoeba (CC BY 2.0 FR). We're not responsible for third-party services or products.</p>
 
     <h2>8. Security and unauthorized access</h2>
     <p>We take reasonable measures to protect the app and the way we distribute it, but no software or service is perfectly secure. To the maximum extent permitted by law, we're not responsible for: (a) unauthorized access to, or malicious software on, your device, accounts or data by third parties; (b) copies of the app obtained anywhere other than our website or our official GitHub releases; or (c) acts of third parties, including attacks on our service providers, unless caused by our gross negligence or willful misconduct. If you suspect a security problem, please tell us at <a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a>.</p>
@@ -103,7 +84,7 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
 
   <article class="he" lang="he" dir="rtl">
     <h1>תנאי שימוש</h1>
-    <p class="date">עדכון אחרון: 11 בנובמבר 2026</p>
+    <p class="updated">עדכון אחרון: 14 בנובמבר 2026</p>
     <p>אנא קראו את התנאים האלה. הורדה, התקנה או שימוש ב-reverse.ai מהווים הסכמה להם. אם אינכם מסכימים, אל תתקינו ואל תשתמשו באפליקציה.</p>
 
     <h2>1. על התנאים</h2>
@@ -125,7 +106,7 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     <p>האפליקציה בודקת פעם ביום אם יש גרסה חדשה ועשויה להודיע לכם עליה; אתם מחליטים אם להתקין אותה. אפשר לכבות את הבדיקה בתפריט האפליקציה. אנחנו רשאים לשנות את האפליקציה, להפסיק להפיץ אותה או להפסיק לתמוך בה בכל עת.</p>
 
     <h2>7. צדדים שלישיים</h2>
-    <p>האפליקציה פועלת עם מערכת ההפעלה, המקלדות והאפליקציות האחרות שלכם, שיש להן תנאים משלהן. האפליקציה והאתר נשענים על שירותי צד שלישי (Vercel,‏ GitHub ו-Google Fonts) וכוללים נתונים של צד שלישי לפי הרישיונות שלהם: FrequencyWords‏ (OpenSubtitles 2018,‏ CC BY-SA 4.0), ‏wordfreq מאת Robyn Speer‏ (CC BY-SA 4.0) ו-Leipzig Corpora Collection‏ (CC BY). איננו אחראים לשירותים או מוצרים של צד שלישי.</p>
+    <p>האפליקציה פועלת עם מערכת ההפעלה, המקלדות והאפליקציות האחרות שלכם, שיש להן תנאים משלהן. האפליקציה והאתר נשענים על שירותי צד שלישי (Vercel ו-GitHub) וכוללים נתונים של צד שלישי לפי הרישיונות שלהם: FrequencyWords‏ (OpenSubtitles 2018,‏ CC BY-SA 4.0), ‏wordfreq מאת Robyn Speer‏ (CC BY-SA 4.0) ו-Tatoeba‏ (CC BY 2.0 FR). איננו אחראים לשירותים או מוצרים של צד שלישי.</p>
 
     <h2>8. אבטחה וגישה בלתי מורשית</h2>
     <p>אנחנו נוקטים אמצעים סבירים כדי להגן על האפליקציה ועל אופן הפצתה, אבל אף תוכנה או שירות אינם מאובטחים לחלוטין. ככל שהדין מתיר, איננו אחראים ל: (א) גישה בלתי מורשית של צד שלישי למכשיר, לחשבונות או למידע שלכם, או לתוכנה זדונית בהם; (ב) עותקים של האפליקציה שהושגו ממקום אחר מלבד האתר שלנו או דף הגרסאות הרשמי שלנו ב-GitHub; או (ג) מעשים של צדדים שלישיים, לרבות התקפות על נותני השירות שלנו, אלא אם נגרמו ברשלנות רבתי או בזדון מצדנו. אם אתם חושדים בבעיית אבטחה, ספרו לנו ב-<a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a>.</p>
@@ -155,14 +136,36 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     <h2>16. יצירת קשר</h2>
     <p>אסף קזקוב, ישראל · <a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a></p>
   </article>
+</main>
 
-  <footer>
-    <a href="/"><span class="he">דף הבית</span><span class="en">Home</span></a>
-    <a href="/privacy"><span class="he">מדיניות פרטיות</span><span class="en">Privacy Policy</span></a>
-    <a href="/terms"><span class="he">תנאי שימוש</span><span class="en">Terms of Use</span></a>
-    <a href="/it"><span class="he">לצוותי IT</span><span class="en">For IT teams</span></a>
-  </footer>
-</div>
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="brand" href="/"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7.5" fill="var(--accent)"/><path d="M8 11h11.5m0 0-3-3m3 3-3 3M20 17.5H8.5m0 0 3-3m-3 3 3 3" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>reverse.ai</span></a>
+        <p class="small" style="max-width:300px;margin-top:14px"><span class="en">Fixes text typed on the wrong keyboard, as you type. Made in Israel.</span><span class="he">מתקן טקסט שהוקלד במקלדת הלא נכונה, תוך כדי הקלדה. נוצר בישראל.</span></p>
+      </div>
+      <div><h4><span class="en">Product</span><span class="he">המוצר</span></h4><ul>
+        <li><a href="/#how"><span class="en">How it works</span><span class="he">איך זה עובד</span></a></li>
+        <li><a href="/#accuracy"><span class="en">Accuracy</span><span class="he">דיוק</span></a></li>
+        <li><a href="/#languages"><span class="en">Languages</span><span class="he">שפות</span></a></li>
+        <li><a href="/#install"><span class="en">Install</span><span class="he">התקנה</span></a></li>
+      </ul></div>
+      <div><h4><span class="en">Trust</span><span class="he">אמון</span></h4><ul>
+        <li><a href="/privacy"><span class="en">Privacy Policy</span><span class="he">מדיניות פרטיות</span></a></li>
+        <li><a href="/terms"><span class="en">Terms of Use</span><span class="he">תנאי שימוש</span></a></li>
+        <li><a href="/it"><span class="en">For IT teams</span><span class="he">לצוותי IT</span></a></li>
+      </ul></div>
+      <div><h4><span class="en">Help</span><span class="he">עזרה</span></h4><ul>
+        <li><a href="/#help"><span class="en">Report a problem</span><span class="he">דיווח על בעיה</span></a></li>
+        <li><a href="/#questions"><span class="en">Questions</span><span class="he">שאלות</span></a></li>
+        <li><a href="mailto:kazakov100+reverseai@gmail.com"><span class="en">Contact</span><span class="he">יצירת קשר</span></a></li>
+      </ul></div>
+    </div>
+    <div class="fnote"><span>© 2026 Assaf Kazakov</span><span dir="ltr">Beta · Mac (Apple M1+, macOS 14+) · Windows 10/11 64-bit</span></div>
+  </div>
+</footer>
+
 <script>
 (function () {
   var root = document.documentElement;

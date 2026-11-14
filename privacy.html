@@ -5,52 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy Policy · reverse.ai</title>
 <meta name="description" content="How reverse.ai handles your information: what you type stays on your computer.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234d5cfa'/%3E%3Cstop offset='1' stop-color='%23219efa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='16' fill='url(%23g)'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='17' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
-<style>
-:root {
-  --a: #4d5cfa; --b: #219efa; --grad: linear-gradient(135deg, var(--a), var(--b));
-  --bg: #f5f6fb; --card: #fff; --ink: #141a38; --muted: #5d6380; --line: rgba(20,26,56,.10); --chip: rgba(20,26,56,.05);
-}
-@media (prefers-color-scheme: dark) {
-  :root { --bg: #0d0f1e; --card: #171a2d; --ink: #eef0fb; --muted: #a2a7c4; --line: rgba(255,255,255,.10); --chip: rgba(255,255,255,.06); }
-}
-* { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 Rubik, system-ui, -apple-system, "Segoe UI", sans-serif; }
-html[lang=he] article.en, html[lang=en] article.he, html[lang=he] .en, html[lang=en] .he { display: none; }
-a { color: var(--a); }
-.wrap { max-width: 780px; margin: 0 auto; padding: 20px 16px 56px; }
-header { display: flex; align-items: center; gap: 10px; }
-header a.home { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
-.logo { width: 34px; height: 34px; border-radius: 50%; background: var(--grad); display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 15px; flex: none; }
-.name { font-weight: 700; font-size: 20px; letter-spacing: -.01em; direction: ltr; }
-.lang { margin-inline-start: auto; border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 99px; padding: 6px 14px; font: inherit; font-size: 14px; cursor: pointer; }
-h1 { font-size: clamp(28px, 5.6vw, 40px); line-height: 1.15; letter-spacing: -.02em; margin: 36px 0 4px; }
-.date { color: var(--muted); margin: 0 0 24px; font-size: 15px; }
-h2 { font-size: 19px; margin: 32px 0 8px; }
-h3 { font-size: 16px; margin: 18px 0 6px; }
-p, li { max-width: 70ch; }
-ul { padding-inline-start: 22px; }
-li { margin: 4px 0; }
-.summary { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 6px 20px 10px; }
-.summary h2 { margin-top: 14px; }
-.k { direction: ltr; unicode-bidi: isolate; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .88em; background: var(--chip); padding: 1px 6px; border-radius: 5px; }
-mark.todo { background: #ffe58a; color: #141a38; padding: 0 4px; border-radius: 4px; }
-footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 6px 16px; }
-</style>
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0c0f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect width='28' height='28' rx='7.5' fill='%232b59ff'/%3E%3Cpath d='M8 11h11.5m0 0-3-3m3 3-3 3M20 17.5H8.5m0 0 3-3m-3 3 3 3' fill='none' stroke='%23fff' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <a class="home" href="/"><div class="logo">A</div><div class="name">reverse.ai</div></a>
-    <button class="lang" id="lang" type="button"><span class="he">English</span><span class="en">עברית</span></button>
-  </header>
 
+<div class="nav">
+  <div class="wrap">
+    <a class="brand" href="/"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7.5" fill="var(--accent)"/><path d="M8 11h11.5m0 0-3-3m3 3-3 3M20 17.5H8.5m0 0 3-3m-3 3 3 3" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>reverse.ai</span><span class="tag">Beta</span></a>
+    <nav aria-label="Sections">
+      <a href="/#how"><span class="en">How it works</span><span class="he">איך זה עובד</span></a>
+      <a href="/#accuracy"><span class="en">Accuracy</span><span class="he">דיוק</span></a>
+      <a href="/#privacy"><span class="en">Privacy</span><span class="he">פרטיות</span></a>
+      <a href="/#help"><span class="en">Help</span><span class="he">עזרה</span></a>
+    </nav>
+    <button class="langbtn" id="lang" type="button"><span class="en">עברית</span><span class="he">English</span></button>
+    <a class="btn sm" href="/#install"><span class="en">Download</span><span class="he">הורדה</span></a>
+  </div>
+</div>
+
+<main class="doc">
   <article class="en" lang="en" dir="ltr">
     <h1>Privacy Policy</h1>
-    <p class="date">Last updated: 11 November 2026</p>
+    <p class="updated">Last updated: 14 November 2026</p>
 
-    <div class="summary">
+    <div class="box">
       <h2>The short version</h2>
       <ul>
         <li><strong>What you type stays on your computer.</strong> reverse.ai reads your typing to spot text typed in the wrong keyboard. It keeps only the line you're typing (and, for one minute, the line before it), in memory. It never saves it, and sends it only if you click Report.</li>
@@ -76,16 +57,16 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     <h2>3. What's saved on your computer</h2>
     <ul>
       <li>Your settings, such as sensitivity, Smart mode and excluded apps.</li>
-      <li>A diagnostic log, only if you turn it on (the app's menu → "Keep a diagnostic log"), for example to report a problem. It stays on for 24 hours and records events, counts and the name of the app you were typing in (for example, "bubble shown for 3 words in WhatsApp"), never the text. It's saved on your computer only (Mac: <span class="k">~/Library/Logs/reverse.ai</span>; Windows: <span class="k">%LOCALAPPDATA%\reverse.ai\log.txt</span>), reaches us only if you choose to send it, and is deleted 7 days after it was last written.</li>
+      <li>A diagnostic log, only if you turn it on (the app's menu → "Keep a diagnostic log"), for example to report a problem. It stays on for 24 hours and records events, counts and the name of the app you were typing in (for example, "bubble shown for 3 words in WhatsApp"), never the text. It's saved on your computer only (Mac: <code>~/Library/Logs/reverse.ai</code>; Windows: <code>%LOCALAPPDATA%\reverse.ai\log.txt</code>), reaches us only if you choose to send it, and is deleted 7 days after it was last written.</li>
       <li>Early test versions could save a short list of words you undid twice, so they wouldn't be fixed again. Current versions don't add to it, and the app's menu can clear it.</li>
     </ul>
-    <p>Uninstalling the app (and, on Windows, deleting its <span class="k">reverse.ai</span> folders) removes this data.</p>
+    <p>Uninstalling the app (and, on Windows, deleting its <code>reverse.ai</code> folders) removes this data.</p>
 
     <h2>4. What leaves your computer</h2>
     <h3>a. The daily update check</h3>
-    <p>Once a day, and when you choose "Check for updates now", the app downloads a tiny file from <span class="k">reverseai.vercel.app</span> that holds the latest version number. The request contains no identifier, account or typing data. Our website host, Vercel Inc. (USA), receives your IP address, the time and basic technical data, as with any web request, and handles it under its own privacy policy. We don't use this to identify or track you. To turn it off: the app's menu → "Check for updates automatically".</p>
+    <p>Once a day, and when you choose "Check for updates now", the app downloads a tiny file from <code>reverseai.vercel.app</code> that holds the latest version number. The request contains no identifier, account or typing data. Our website host, Vercel Inc. (USA), receives your IP address, the time and basic technical data, as with any web request, and handles it under its own privacy policy. We don't use this to identify or track you. To turn it off: the app's menu → "Check for updates automatically".</p>
     <h3>b. Our website and downloads</h3>
-    <p>When you visit our website or download the app, Vercel and GitHub Inc. (USA, which hosts the download files) receive your IP address and similar request data. The request logs we can see in Vercel are kept for one hour; Vercel's own handling of request data follows its privacy policy. The website serves its own fonts, so no request goes to Google. The website remembers your language choice in your browser's local storage. It uses no cookies, analytics or advertising.</p>
+    <p>When you visit our website or download the app, Vercel and GitHub Inc. (USA, which hosts the download files) receive your IP address and similar request data. The request logs we can see in Vercel are kept for one hour; Vercel's own handling of request data follows its privacy policy. The website uses the fonts already on your device, so no request goes to Google. The website remembers your language choice in your browser's local storage. It uses no cookies, analytics or advertising.</p>
     <h3>c. What you send us</h3>
     <p>If you email us or send us a log file, we use it only to answer you and fix problems, and we delete it once it's no longer needed (within 12 months at most), or sooner if you ask.</p>
 
@@ -106,7 +87,7 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
 
     <h2>7. Security</h2>
     <p>We take reasonable steps to protect what we're responsible for: we build and publish the releases ourselves, the Mac app is code-signed, and the app checks for updates only against our own website. No system is perfectly secure.</p>
-    <p>The most important protection is built into the design: we don't hold your typing, so a breach of our accounts or website could not expose it. The realistic risk is a tampered copy of the app, so download reverse.ai only from <span class="k">reverseai.vercel.app</span> or our official GitHub releases page. If we learn that our distribution has been compromised, we'll post a notice on the website and, where possible, through the app's update notice, and we'll notify affected users and authorities as the law requires.</p>
+    <p>The most important protection is built into the design: we don't hold your typing, so a breach of our accounts or website could not expose it. The realistic risk is a tampered copy of the app, so download reverse.ai only from <code>reverseai.vercel.app</code> or our official GitHub releases page. If we learn that our distribution has been compromised, we'll post a notice on the website and, where possible, through the app's update notice, and we'll notify affected users and authorities as the law requires.</p>
 
     <h2>8. Your rights</h2>
     <ul>
@@ -131,9 +112,9 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
 
   <article class="he" lang="he" dir="rtl">
     <h1>מדיניות פרטיות</h1>
-    <p class="date">עדכון אחרון: 11 בנובמבר 2026</p>
+    <p class="updated">עדכון אחרון: 14 בנובמבר 2026</p>
 
-    <div class="summary">
+    <div class="box">
       <h2>בקצרה</h2>
       <ul>
         <li><strong>מה שמקלידים נשאר במחשב.</strong> reverse.ai קורא את ההקלדה כדי לזהות טקסט שנכתב בשפת מקלדת לא נכונה. הוא שומר רק את השורה שמקלידים כרגע (ולמשך דקה גם את השורה שלפניה), בזיכרון. הוא לעולם לא שומר אותה, ושולח אותה רק אם לוחצים Report.</li>
@@ -159,16 +140,16 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     <h2>3. מה נשמר במחשב שלכם</h2>
     <ul>
       <li>ההגדרות שלכם, כמו רגישות, מצב חכם ואפליקציות מוחרגות.</li>
-      <li>יומן אבחון, רק אם תפעילו אותו (תפריט האפליקציה ← "Keep a diagnostic log"), למשל כדי לדווח על תקלה. הוא פועל 24 שעות ורושם אירועים, ספירות ואת שם האפליקציה שבה הקלדתם (למשל "בועה הוצגה ל-3 מילים בוואטסאפ"), אף פעם לא את הטקסט. הוא נשמר רק במחשב שלכם (במק: <span class="k">~/Library/Logs/reverse.ai</span>; בווינדוס: <span class="k">%LOCALAPPDATA%\reverse.ai\log.txt</span>), מגיע אלינו רק אם תבחרו לשלוח אותו, ונמחק 7 ימים אחרי הכתיבה האחרונה אליו.</li>
+      <li>יומן אבחון, רק אם תפעילו אותו (תפריט האפליקציה ← "Keep a diagnostic log"), למשל כדי לדווח על תקלה. הוא פועל 24 שעות ורושם אירועים, ספירות ואת שם האפליקציה שבה הקלדתם (למשל "בועה הוצגה ל-3 מילים בוואטסאפ"), אף פעם לא את הטקסט. הוא נשמר רק במחשב שלכם (במק: <code>~/Library/Logs/reverse.ai</code>; בווינדוס: <code>%LOCALAPPDATA%\reverse.ai\log.txt</code>), מגיע אלינו רק אם תבחרו לשלוח אותו, ונמחק 7 ימים אחרי הכתיבה האחרונה אליו.</li>
       <li>גרסאות ניסיון מוקדמות יכלו לשמור רשימה קצרה של מילים שביטלתם את תיקונן פעמיים, כדי שלא יתוקנו שוב. גרסאות נוכחיות לא מוסיפות לה, ואפשר לנקות אותה מתפריט האפליקציה.</li>
     </ul>
-    <p>הסרת האפליקציה (ובווינדוס גם מחיקת תיקיות ה-<span class="k">reverse.ai</span> שלה) מוחקת את המידע הזה.</p>
+    <p>הסרת האפליקציה (ובווינדוס גם מחיקת תיקיות ה-<code>reverse.ai</code> שלה) מוחקת את המידע הזה.</p>
 
     <h2>4. מה יוצא מהמחשב שלכם</h2>
     <h3>א. בדיקת העדכונים היומית</h3>
-    <p>פעם ביום, וכשבוחרים "Check for updates now", האפליקציה מורידה מ-<span class="k">reverseai.vercel.app</span> קובץ קטנטן שמכיל את מספר הגרסה האחרונה. הבקשה לא כוללת שום מזהה, חשבון או תוכן הקלדה. החברה שמארחת את האתר שלנו, Vercel Inc. (ארה"ב), מקבלת את כתובת ה-IP, את השעה ונתונים טכניים בסיסיים, כמו בכל בקשה באינטרנט, ומטפלת בהם לפי מדיניות הפרטיות שלה. אנחנו לא משתמשים בזה כדי לזהות אתכם או לעקוב אחריכם. לכיבוי: תפריט האפליקציה ← "Check for updates automatically".</p>
+    <p>פעם ביום, וכשבוחרים "Check for updates now", האפליקציה מורידה מ-<code>reverseai.vercel.app</code> קובץ קטנטן שמכיל את מספר הגרסה האחרונה. הבקשה לא כוללת שום מזהה, חשבון או תוכן הקלדה. החברה שמארחת את האתר שלנו, Vercel Inc. (ארה"ב), מקבלת את כתובת ה-IP, את השעה ונתונים טכניים בסיסיים, כמו בכל בקשה באינטרנט, ומטפלת בהם לפי מדיניות הפרטיות שלה. אנחנו לא משתמשים בזה כדי לזהות אתכם או לעקוב אחריכם. לכיבוי: תפריט האפליקציה ← "Check for updates automatically".</p>
     <h3>ב. האתר וההורדות</h3>
-    <p>כשנכנסים לאתר שלנו או מורידים את האפליקציה, Vercel ו-GitHub Inc. (ארה"ב, שמארחת את קובצי ההורדה) מקבלות את כתובת ה-IP ונתוני בקשה דומים. יומני הבקשות שאנחנו רואים ב-Vercel נשמרים שעה אחת; הטיפול של Vercel עצמה בנתוני בקשות כפוף למדיניות הפרטיות שלה. האתר מגיש את הגופנים שלו בעצמו, כך ששום בקשה לא נשלחת לגוגל. האתר זוכר את בחירת השפה שלכם באחסון המקומי של הדפדפן. הוא לא משתמש בעוגיות, באנליטיקה או בפרסום.</p>
+    <p>כשנכנסים לאתר שלנו או מורידים את האפליקציה, Vercel ו-GitHub Inc. (ארה"ב, שמארחת את קובצי ההורדה) מקבלות את כתובת ה-IP ונתוני בקשה דומים. יומני הבקשות שאנחנו רואים ב-Vercel נשמרים שעה אחת; הטיפול של Vercel עצמה בנתוני בקשות כפוף למדיניות הפרטיות שלה. האתר משתמש בגופנים שכבר נמצאים במכשיר שלכם, כך ששום בקשה לא נשלחת לגוגל. האתר זוכר את בחירת השפה שלכם באחסון המקומי של הדפדפן. הוא לא משתמש בעוגיות, באנליטיקה או בפרסום.</p>
     <h3>ג. מה ששולחים לנו</h3>
     <p>אם תשלחו לנו מייל או קובץ יומן, נשתמש בו רק כדי לענות לכם ולתקן תקלות, ונמחק אותו כשלא יהיה בו עוד צורך (תוך 12 חודשים לכל היותר), או מוקדם יותר לבקשתכם.</p>
 
@@ -189,7 +170,7 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
 
     <h2>7. אבטחה</h2>
     <p>אנחנו נוקטים צעדים סבירים להגן על מה שבאחריותנו: אנחנו בונים ומפרסמים את הגרסאות בעצמנו, אפליקציית המק חתומה דיגיטלית, והאפליקציה בודקת עדכונים רק מול האתר שלנו. אף מערכת אינה מאובטחת לחלוטין.</p>
-    <p>ההגנה החשובה ביותר מובנית בתכנון: אנחנו לא מחזיקים את מה שאתם מקלידים, ולכן פריצה לחשבונות או לאתר שלנו לא יכולה לחשוף אותו. הסיכון המעשי הוא עותק מזויף של האפליקציה, ולכן הורידו את reverse.ai רק מ-<span class="k">reverseai.vercel.app</span> או מדף הגרסאות הרשמי שלנו ב-GitHub. אם נגלה שערוץ ההפצה שלנו נפרץ, נפרסם הודעה באתר וככל האפשר גם בהודעת העדכון של האפליקציה, ונודיע למשתמשים שנפגעו ולרשויות כפי שהדין מחייב.</p>
+    <p>ההגנה החשובה ביותר מובנית בתכנון: אנחנו לא מחזיקים את מה שאתם מקלידים, ולכן פריצה לחשבונות או לאתר שלנו לא יכולה לחשוף אותו. הסיכון המעשי הוא עותק מזויף של האפליקציה, ולכן הורידו את reverse.ai רק מ-<code>reverseai.vercel.app</code> או מדף הגרסאות הרשמי שלנו ב-GitHub. אם נגלה שערוץ ההפצה שלנו נפרץ, נפרסם הודעה באתר וככל האפשר גם בהודעת העדכון של האפליקציה, ונודיע למשתמשים שנפגעו ולרשויות כפי שהדין מחייב.</p>
 
     <h2>8. הזכויות שלכם</h2>
     <ul>
@@ -211,14 +192,36 @@ footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
     <h2>12. יצירת קשר</h2>
     <p>אסף קזקוב, ישראל · <a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a></p>
   </article>
+</main>
 
-  <footer>
-    <a href="/"><span class="he">דף הבית</span><span class="en">Home</span></a>
-    <a href="/privacy"><span class="he">מדיניות פרטיות</span><span class="en">Privacy Policy</span></a>
-    <a href="/terms"><span class="he">תנאי שימוש</span><span class="en">Terms of Use</span></a>
-    <a href="/it"><span class="he">לצוותי IT</span><span class="en">For IT teams</span></a>
-  </footer>
-</div>
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="brand" href="/"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7.5" fill="var(--accent)"/><path d="M8 11h11.5m0 0-3-3m3 3-3 3M20 17.5H8.5m0 0 3-3m-3 3 3 3" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>reverse.ai</span></a>
+        <p class="small" style="max-width:300px;margin-top:14px"><span class="en">Fixes text typed on the wrong keyboard, as you type. Made in Israel.</span><span class="he">מתקן טקסט שהוקלד במקלדת הלא נכונה, תוך כדי הקלדה. נוצר בישראל.</span></p>
+      </div>
+      <div><h4><span class="en">Product</span><span class="he">המוצר</span></h4><ul>
+        <li><a href="/#how"><span class="en">How it works</span><span class="he">איך זה עובד</span></a></li>
+        <li><a href="/#accuracy"><span class="en">Accuracy</span><span class="he">דיוק</span></a></li>
+        <li><a href="/#languages"><span class="en">Languages</span><span class="he">שפות</span></a></li>
+        <li><a href="/#install"><span class="en">Install</span><span class="he">התקנה</span></a></li>
+      </ul></div>
+      <div><h4><span class="en">Trust</span><span class="he">אמון</span></h4><ul>
+        <li><a href="/privacy"><span class="en">Privacy Policy</span><span class="he">מדיניות פרטיות</span></a></li>
+        <li><a href="/terms"><span class="en">Terms of Use</span><span class="he">תנאי שימוש</span></a></li>
+        <li><a href="/it"><span class="en">For IT teams</span><span class="he">לצוותי IT</span></a></li>
+      </ul></div>
+      <div><h4><span class="en">Help</span><span class="he">עזרה</span></h4><ul>
+        <li><a href="/#help"><span class="en">Report a problem</span><span class="he">דיווח על בעיה</span></a></li>
+        <li><a href="/#questions"><span class="en">Questions</span><span class="he">שאלות</span></a></li>
+        <li><a href="mailto:kazakov100+reverseai@gmail.com"><span class="en">Contact</span><span class="he">יצירת קשר</span></a></li>
+      </ul></div>
+    </div>
+    <div class="fnote"><span>© 2026 Assaf Kazakov</span><span dir="ltr">Beta · Mac (Apple M1+, macOS 14+) · Windows 10/11 64-bit</span></div>
+  </div>
+</footer>
+
 <script>
 (function () {
   var root = document.documentElement;

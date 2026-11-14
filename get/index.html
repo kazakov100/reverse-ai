@@ -6,21 +6,32 @@
 <title>reverse.ai — download</title>
 <meta property="og:title" content="reverse.ai — download (Mac / Windows)">
 <meta property="og:description" content="Fixes Hebrew ⇄ English typed in the wrong keyboard. Free beta.">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0c0f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect width='28' height='28' rx='7.5' fill='%232b59ff'/%3E%3Cpath d='M8 11h11.5m0 0-3-3m3 3-3 3M20 17.5H8.5m0 0 3-3m-3 3 3 3' fill='none' stroke='%23fff' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
-:root { --bg: #f5f6fb; --ink: #141a38; --muted: #5d6380; --a: #4d5cfa; }
-@media (prefers-color-scheme: dark) { :root { --bg: #0d0f1e; --ink: #eef0fb; --muted: #a2a7c4; --a: #7f8bff; } }
+/* self-contained so the redirect starts at once; colours and fonts are the values in /assets/site.css */
+:root { --bg: #ffffff; --ink: #0c0e12; --muted: #6a707c; --line2: #d3d3ce; --accent: #2b59ff;
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans Hebrew", sans-serif; }
+@media (prefers-color-scheme: dark) { :root { --bg: #0b0c0f; --ink: #f2f3f5; --muted: #8a8f9a; --line2: #30343c; --accent: #6f8cff; } }
 body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--bg); color: var(--ink);
-  font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; text-align: center; padding: 16px; box-sizing: border-box; }
+  font: 17px/1.6 var(--sans); -webkit-font-smoothing: antialiased; text-align: center; padding: 24px; box-sizing: border-box; }
+.mark { display: block; width: 44px; height: 44px; margin: 0 auto 14px; }
 p { margin: 6px 0; }
+b { font-weight: 600; font-size: 18px; letter-spacing: -.02em; }
 .muted { color: var(--muted); font-size: 15px; }
-a { color: var(--a); }
+a { color: var(--ink); text-decoration-color: var(--line2); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-color: currentColor; }
 </style>
 </head>
 <body>
-<div id="msg">
-  <p><b>reverse.ai</b></p>
-  <p class="muted"><a href="https://github.com/kazakov100/reverse-ai/releases/latest/download/reverse.ai-mac.dmg">Mac</a> · <a href="https://github.com/kazakov100/reverse-ai/releases/latest/download/reverse.ai-windows.zip">Windows</a></p>
-</div>
+<main>
+  <svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7.5" fill="var(--accent)"/><path d="M8 11h11.5m0 0-3-3m3 3-3 3M20 17.5H8.5m0 0 3-3m-3 3 3 3" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div id="msg">
+    <p><b>reverse.ai</b></p>
+    <p class="muted"><a href="https://github.com/kazakov100/reverse-ai/releases/latest/download/reverse.ai-mac.dmg">Mac</a> · <a href="https://github.com/kazakov100/reverse-ai/releases/latest/download/reverse.ai-windows.zip">Windows</a></p>
+  </div>
+</main>
 <script>
 (function () {
   var R = 'https://github.com/kazakov100/reverse-ai/releases/latest/download/';

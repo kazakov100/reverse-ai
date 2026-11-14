@@ -3,272 +3,199 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>reverse.ai</title>
-<meta name="description" content="For people who work in Hebrew and English: reverse.ai catches text typed in the wrong keyboard, in Claude Code, WhatsApp Web, Slack and anywhere else. Free beta for Mac and Windows.">
-<meta property="og:title" content="reverse.ai — think in Hebrew, work in English">
-<meta property="og:description" content="Typed a line in the wrong keyboard? It fixes it for you. Works in Claude Code, WhatsApp Web, Slack — Mac and Windows, free beta.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234d5cfa'/%3E%3Cstop offset='1' stop-color='%23219efa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='16' fill='url(%23g)'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='17' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
-<link rel="preload" href="/fonts/rubik-latin.woff2" as="font" type="font/woff2" crossorigin>
-<style>
-/* Rubik (SIL Open Font License, fonts/OFL.txt), served from this site: no request goes to Google */
-@font-face { font-family: Rubik; font-style: normal; font-weight: 400 700; font-display: swap; src: url(/fonts/rubik-hebrew.woff2) format('woff2'); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
-@font-face { font-family: Rubik; font-style: normal; font-weight: 400 700; font-display: swap; src: url(/fonts/rubik-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
-@font-face { font-family: Rubik; font-style: normal; font-weight: 400 700; font-display: swap; src: url(/fonts/rubik-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-:root {
-  --a: #4d5cfa; --b: #219efa; --grad: linear-gradient(135deg, var(--a), var(--b));
-  --bg: #f5f6fb; --card: #fff; --ink: #141a38; --muted: #5d6380; --line: rgba(20,26,56,.10); --chip: rgba(20,26,56,.05);
-  --shadow: 0 12px 32px rgba(20,26,56,.08); --term: #12152a; --termInk: #e6e9f8;
-}
-@media (prefers-color-scheme: dark) {
-  :root { --bg: #0d0f1e; --card: #171a2d; --ink: #eef0fb; --muted: #a2a7c4; --line: rgba(255,255,255,.10); --chip: rgba(255,255,255,.06); --shadow: 0 12px 32px rgba(0,0,0,.35); --term: #0a0c18; }
-}
-* { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 Rubik, system-ui, -apple-system, "Segoe UI", sans-serif; }
-[lang=he] .en, [lang=en] .he { display: none; }
-a { color: var(--a); }
-.wrap { max-width: 780px; margin: 0 auto; padding: 20px 16px 56px; }
-
-header { display: flex; align-items: center; gap: 10px; }
-.logo { width: 34px; height: 34px; border-radius: 50%; background: var(--grad); display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 15px; flex: none; }
-.name { font-weight: 700; font-size: 20px; letter-spacing: -.01em; direction: ltr; }
-.pill { font-size: 12px; font-weight: 500; padding: 2px 9px; border-radius: 99px; background: var(--chip); color: var(--muted); }
-.lang { margin-inline-start: auto; border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 99px; padding: 6px 14px; font: inherit; font-size: 14px; cursor: pointer; }
-
-.eyebrow { margin: 44px 0 0; color: var(--a); font-weight: 500; font-size: 15px; }
-h1 { font-size: clamp(30px, 6.4vw, 48px); line-height: 1.1; letter-spacing: -.02em; margin: 8px 0 14px; }
-.grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.lead { color: var(--muted); font-size: 18px; margin: 0 0 28px; max-width: 620px; }
-.k { direction: ltr; unicode-bidi: isolate; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .9em; background: var(--chip); padding: 1px 6px; border-radius: 5px; color: var(--ink); }
-
-/* demo: an app's text field and the suggestion bubble */
-.demo { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px 20px 20px; box-shadow: var(--shadow); }
-.top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; direction: ltr; }
-.kb { font-size: 12px; font-weight: 700; letter-spacing: .04em; padding: 3px 9px; border-radius: 7px; border: 1px solid var(--line); color: var(--muted); transition: background .2s, color .2s; }
-.kb { display: inline-flex; align-items: center; gap: 6px; }
-.kb svg { width: 16px; height: 16px; }
-.kb.flash { background: var(--grad); color: #fff; border-color: transparent; }
-.stage { position: relative; margin-top: 14px; }
-.hint { position: absolute; top: 4px; left: 0; right: 0; margin: 0; color: var(--a); font-weight: 500; font-size: 15px; opacity: 0; transition: opacity .25s; }
-.hint.show { opacity: 1; }
-.app { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; color: var(--muted); direction: ltr; }
-.app #appIcon { display: inline-flex; }
-.app svg { width: 18px; height: 18px; }
-/* each app's screen: context on top, the input row at the bottom */
-.screen { direction: ltr; height: 184px; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--line); background: var(--card); }
-.ctx { flex: 1; min-height: 0; overflow: hidden; }
-.row { display: flex; align-items: center; gap: 8px; padding: 10px; }
-.row .field { flex: 1; min-width: 0; }
-.send:empty { display: none; }
-.screen.wa { background: #efeae2; border-color: transparent; }
-.wa .ctx { padding: 12px 12px 0; }
-.wa .msg { display: inline-block; direction: rtl; background: #fff; color: #111b21; padding: 6px 10px; border-radius: 0 8px 8px 8px; font-size: 15px; box-shadow: 0 1px .5px rgba(0,0,0,.13); }
-.wa .field { background: #fff; color: #111b21; border-radius: 22px; }
-.send.wa { width: 44px; height: 44px; border-radius: 50%; background: #00a884; display: grid; place-items: center; flex: none; }
-.send svg { width: 18px; height: 18px; fill: #fff; }
-.sl-ch { padding: 9px 12px; font-weight: 700; font-size: 15px; border-bottom: 1px solid var(--line); }
-.sl-msg { padding: 9px 12px 0; font-size: 15px; display: flex; gap: 8px; align-items: flex-start; }
-.sl-msg .av { width: 26px; height: 26px; border-radius: 6px; background: #e8912d; color: #fff; display: grid; place-items: center; font-size: 13px; font-weight: 700; flex: none; }
-.sl-msg b { display: block; font-size: 14px; }
-.slack .row { margin: 0 10px 10px; padding: 4px 6px 4px 0; border: 1px solid var(--line); border-radius: 8px; }
-.slack .field { background: none; }
-.send.slack { width: 32px; height: 28px; border-radius: 6px; background: #007a5a; display: grid; place-items: center; flex: none; }
-.gm-head { background: #f2f6fc; padding: 8px 14px; font-size: 14px; font-weight: 500; }
-.gm-line { padding: 6px 14px; font-size: 14px; color: var(--muted); border-bottom: 1px solid var(--line); }
-.gm-line span { color: var(--ink); margin-left: 8px; }
-.gmail .row { flex-direction: column; align-items: flex-start; gap: 6px; }
-.gmail .field { background: none; width: 100%; font-size: 18px; padding: 4px 4px; min-height: 40px; }
-.send.gmail { background: #0b57d0; color: #fff; padding: 8px 18px; border-radius: 18px; font-size: 14px; font-weight: 500; flex: none; }
-.screen.term { background: var(--term); border-color: transparent; }
-.tm-head { display: flex; gap: 6px; padding: 10px 12px 6px; }
-.tm-head i { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
-.tm-head i + i { background: #febc2e; } .tm-head i + i + i { background: #28c840; }
-.tm-line { padding: 2px 14px; font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace; color: #d97757; }
-.tm-line.dim { color: #8a8fb0; }
-@media (prefers-color-scheme: dark) {
-  .screen.wa { background: #0b141a; } .wa .msg { background: #202c33; color: #e9edef; } .wa .field { background: #2a3942; color: #e9edef; }
-  .gm-head { background: #283142; }
-}
-.field { direction: ltr; font-size: 20px; min-height: 48px; padding: 8px 14px; border-radius: 10px; background: var(--chip); display: flex; align-items: center; white-space: nowrap; overflow: hidden; }
-.field.rtl { direction: rtl; }
-.field.term { background: var(--term); color: var(--termInk); font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 17px; }
-.field.term::before { content: ">"; color: #d97757; margin-right: 10px; }
-.caret { display: inline-block; width: 2px; height: 24px; background: var(--a); margin-inline-start: 2px; animation: blink 1s steps(1) infinite; }
-.field.term .caret { background: var(--termInk); width: 9px; opacity: .8; }
-@keyframes blink { 50% { opacity: 0; } }
-.bubble { direction: ltr; margin: 0 auto 0 0; max-width: 430px; border-radius: 16px; padding: 14px; border: 1.2px solid transparent;
-  background: linear-gradient(var(--card), var(--card)) padding-box, var(--grad) border-box;
-  box-shadow: 0 10px 26px rgba(20,26,56,.16); opacity: 0; transform: translateY(6px); transition: opacity .25s, transform .25s; }
-.bubble.show { opacity: 1; transform: none; }
-.bh { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; }
-.bh .logo { width: 20px; height: 20px; font-size: 10px; }
-.sug { margin: 10px 0 12px; padding: 10px 14px; border-radius: 10px; background: rgba(77,92,250,.08); font-size: 20px; font-weight: 700; }
-.acts { display: flex; gap: 8px; flex-wrap: wrap; }
-.act { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px 7px 8px; border-radius: 99px; font-size: 14px; font-weight: 500; transition: transform .12s, filter .12s; }
-.act.fix { background: var(--grad); color: #fff; box-shadow: 0 4px 12px rgba(77,92,250,.35); }
-.act.no { background: var(--chip); color: var(--muted); }
-.act.pressed { transform: scale(.95); filter: brightness(1.15); }
-.kc { font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 5px; border: .6px solid currentColor; opacity: .85; }
-
-/* download */
-.get { margin: 30px 0 8px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
-.btns { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-.seg { display: inline-flex; background: var(--chip); border-radius: 12px; padding: 4px; }
-.seg button { border: 0; background: none; color: var(--muted); font: inherit; font-size: 15px; font-weight: 500; padding: 10px 16px; border-radius: 9px; cursor: pointer; }
-.seg button[aria-pressed=true] { background: var(--card); color: var(--ink); box-shadow: 0 1px 4px rgba(20,26,56,.12); }
-.btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border-radius: 14px; background: var(--grad); color: #fff; text-decoration: none; font-size: 18px; font-weight: 500; box-shadow: 0 8px 20px rgba(77,92,250,.35); }
-.btn:hover { filter: brightness(1.06); }
-.btn svg { width: 20px; height: 20px; flex: none; }
-.small { color: var(--muted); font-size: 14px; margin: 0; }
-.note { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin: 0; }
-
-h2 { font-size: 24px; letter-spacing: -.01em; margin: 48px 0 6px; }
-.sub { color: var(--muted); margin: 0 0 16px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
-.grid.three { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
-.card > b, .how > div > b { display: block; margin-bottom: 4px; font-size: 17px; }
-.card p { color: var(--muted); font-size: 15px; margin: 0; }
-
-/* install steps */
-.tabs { display: inline-flex; background: var(--chip); border-radius: 99px; padding: 3px; margin-bottom: 14px; }
-.tab { border: 0; background: none; color: var(--muted); font: inherit; font-size: 15px; padding: 6px 16px; border-radius: 99px; cursor: pointer; }
-.tab[aria-selected=true] { background: var(--card); color: var(--ink); box-shadow: 0 1px 4px rgba(20,26,56,.12); }
-.panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 6px 20px; }
-.panel[hidden] { display: none; }
-.panel ol { padding-inline-start: 20px; }
-.panel li { margin: 8px 0; }
-code { direction: ltr; unicode-bidi: isolate; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .92em; background: var(--chip); padding: 1px 6px; border-radius: 5px; }
-
-footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 6px 16px; }
-
-/* the bubble's Report button (main demo and the report pictures) */
-b[dir], a[dir] { unicode-bidi: isolate; white-space: nowrap; }   /* English menu names inside Hebrew sentences */
-.act.rep { background: var(--chip); color: var(--muted); padding: 7px 14px 7px 11px; }
-.act.rep svg { width: 13px; height: 13px; }
-.act.rep.hl { box-shadow: 0 0 0 2px var(--a); color: var(--ink); }
-
-/* report: two small pictures, each over its explanation */
-.how { display: flex; flex-direction: column; gap: 14px; }
-.mock { direction: ltr; position: relative; height: 236px; border-radius: 12px; background: var(--chip); overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 12px; }
-.mock .bubble { margin: 0; max-width: 100%; padding: 12px; }
-.mock .sug { font-size: 17px; margin: 8px 0 10px; padding: 8px 12px; }
-.mock .act { font-size: 12.5px; padding: 6px 11px 6px 7px; }
-.mock .act.rep { padding: 6px 11px 6px 9px; }
-.toast { position: absolute; left: 50%; bottom: 16px; transform: translate(-50%, 8px); opacity: 0; display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; box-shadow: var(--shadow); font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; transition: opacity .25s, transform .25s; }
-.toast.show { opacity: 1; transform: translate(-50%, 0); }
-.toast svg { width: 15px; height: 15px; color: var(--muted); flex: none; }
-.toast .undo { color: var(--a); font-weight: 700; }
-.toast .bar { position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: var(--grad); }
-.toast.run .bar { animation: bar 4s linear forwards; }
-@keyframes bar { from { width: 100%; } to { width: 0; } }
-.mbar { position: absolute; top: 0; left: 0; right: 0; height: 26px; display: flex; justify-content: flex-end; align-items: center; gap: 14px; padding: 0 12px; font-size: 12px; font-weight: 500; background: var(--card); border-bottom: 1px solid var(--line); }
-.mbar .mi { width: 24px; height: 20px; display: grid; place-items: center; border-radius: 5px; transition: background .2s; }
-.mbar .mi svg { width: 16px; height: 16px; }
-.mbar .mi.on { background: var(--chip); box-shadow: inset 0 0 0 1px var(--line); }
-.menu { position: absolute; top: 30px; right: 30px; width: min(262px, calc(100% - 40px)); background: var(--card); border: 1px solid var(--line); border-radius: 9px; box-shadow: var(--shadow); padding: 5px; font-size: 13px; opacity: 0; transform: translateY(-4px); transition: opacity .2s, transform .2s; }
-.menu.show { opacity: 1; transform: none; }
-.menu div { position: relative; padding: 3px 8px 3px 22px; border-radius: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background .15s, color .15s; }
-.menu .ck::before { content: "✓"; position: absolute; left: 7px; }
-.menu .gt::after { content: "›"; position: absolute; right: 9px; color: var(--muted); }
-.menu hr { border: 0; border-top: 1px solid var(--line); margin: 4px 6px; }
-.menu .hi { background: var(--grad); color: #fff; }
-.dlg { position: absolute; left: 50%; top: 50%; width: min(272px, calc(100% - 24px)); transform: translate(-50%, -46%); opacity: 0; transition: opacity .2s, transform .2s; background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 12px 14px; font-size: 12.5px; }
-.dlg.show { opacity: 1; transform: translate(-50%, -50%); }
-.dlg .logo { width: 22px; height: 22px; font-size: 11px; }
-.dlg b { display: block; font-size: 13.5px; margin: 6px 0 2px; }
-.dlg p { margin: 0 0 8px; color: var(--muted); font-size: 12px; line-height: 1.35; }
-.dlg .in { border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; margin-bottom: 6px; min-height: 25px; font-size: 13px; }
-.dlg .in.ph { color: var(--muted); }
-.dlg .bt { display: flex; justify-content: flex-end; gap: 6px; margin-top: 8px; }
-.dlg .bt span { padding: 3px 12px; border-radius: 6px; background: var(--chip); font-size: 12.5px; font-weight: 500; transition: transform .12s, filter .12s; }
-.dlg .bt .go { background: var(--grad); color: #fff; }
-.dlg .bt .go.pressed { transform: scale(.94); filter: brightness(1.15); }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
-.chips span { font-size: 13.5px; padding: 4px 11px; border-radius: 99px; background: var(--chip); }
-.card ol { color: var(--muted); font-size: 15px; margin: 6px 0 8px; padding-inline-start: 20px; }
-.card ol li { margin: 4px 0; }
-
-@media (max-width: 480px) { .btn { width: 100%; justify-content: center; } .btns { width: 100%; } .seg { width: 100%; } .seg button { flex: 1; } .eyebrow { margin-top: 32px; } .grid { grid-template-columns: 1fr; } }
-@media (prefers-reduced-motion: reduce) { .bubble, .toast, .menu { transition: none; } .caret { animation: none; } }
-</style>
+<title>reverse.ai — the wrong keyboard, fixed as you type</title>
+<meta name="description" content="reverse.ai notices when you type Hebrew on the English keyboard, or the other way round, rewrites the line and switches the keyboard. Runs on your computer. Free beta for Mac and Windows.">
+<meta property="og:title" content="reverse.ai — the wrong keyboard, fixed as you type">
+<meta property="og:description" content="Typed a line on the wrong keyboard? It's already fixed. Runs on your computer, in every app. Free beta for Mac and Windows.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0c0f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect width='28' height='28' rx='7.5' fill='%232b59ff'/%3E%3Cpath d='M8 11h11.5m0 0-3-3m3 3-3 3M20 17.5H8.5m0 0 3-3m-3 3 3 3' fill='none' stroke='%23fff' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="logo">A</div>
-    <div class="name">reverse.ai</div>
-    <span class="pill"><span class="he">בטא</span><span class="en">beta</span></span>
-    <button class="lang" id="lang" type="button"><span class="he">English</span><span class="en">עברית</span></button>
-  </header>
 
-  <p class="eyebrow"><span class="he">לכל מי שעובד בעברית ובאנגלית</span><span class="en">For people who work in Hebrew and English</span></p>
-  <h1>
-    <span class="he">חושבים בעברית. עובדים באנגלית.<br><span class="grad">ולא מקלידים שוב אף שורה.</span></span>
-    <span class="en">Think in Hebrew. Work in English.<br><span class="grad">Never retype a line again.</span></span>
-  </h1>
-  <p class="lead">
-    <span class="he">שרשור בסלאק באנגלית, וואטסאפ בעברית, פרומפט ל-Claude בשתיהן. כשמחליפים שפה כל היום, יוצא <span class="k">akuo</span> במקום שלום — מוחקים, מחליפים מקלדת, מקלידים שוב. reverse.ai תופס את זה תוך כדי הקלדה, מתקן ומחליף את שפת המקלדת בשבילך: לבד כשהוא בטוח, ובלחיצה על Tab כשהוא שואל.</span>
-    <span class="en">A Slack thread in English, WhatsApp in Hebrew, a prompt to Claude in both. When you switch languages all day, you end up with <span class="k">akuo</span> instead of שלום — delete, switch keyboards, retype. reverse.ai catches it as you type, fixes it and switches the keyboard for you: by itself when it's sure, with one press of Tab when it asks.</span>
-  </p>
+<div class="nav">
+  <div class="wrap">
+    <a class="brand" href="/"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7.5" fill="var(--accent)"/><path d="M8 11h11.5m0 0-3-3m3 3-3 3M20 17.5H8.5m0 0 3-3m-3 3 3 3" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>reverse.ai</span><span class="tag">Beta</span></a>
+    <nav aria-label="Sections">
+      <a href="#how"><span class="en">How it works</span><span class="he">איך זה עובד</span></a>
+      <a href="#accuracy"><span class="en">Accuracy</span><span class="he">דיוק</span></a>
+      <a href="#privacy"><span class="en">Privacy</span><span class="he">פרטיות</span></a>
+      <a href="#help"><span class="en">Help</span><span class="he">עזרה</span></a>
+    </nav>
+    <button class="langbtn" id="lang" type="button"><span class="en">עברית</span><span class="he">English</span></button>
+    <a class="btn sm" href="#install"><span class="en">Download</span><span class="he">הורדה</span></a>
+  </div>
+</div>
 
-  <div class="demo" aria-hidden="true">
-    <div class="top"><div class="app" id="app"><span id="appIcon"></span><span id="appName">WhatsApp Web</span></div><span class="kb" id="kb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6.5 10h.01M10.5 10h.01M14.5 10h.01M17.5 10h.01M7.5 14h9"/></svg><b id="kbLang">EN</b></span></div>
-    <div class="screen" id="screen">
-      <div class="ctx" id="ctx"></div>
-      <div class="row"><div class="field" id="field"><span id="typed"></span><span class="caret"></span></div><span class="send" id="send"></span></div>
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow"><span class="en">For people who type in Hebrew and English</span><span class="he">למי שמקליד בעברית ובאנגלית</span></p>
+      <h1><span class="en">Typed it on the wrong keyboard? It’s already fixed.</span><span class="he">הקלדתם במקלדת הלא נכונה? זה כבר תוקן.</span></h1>
+      <p class="lead">
+        <span class="en">reverse.ai notices when a line comes out as <span class="k">akuo</span> instead of שלום. It rewrites the text and switches the keyboard for you: by itself when it’s sure, with one press of Tab when it asks.</span>
+        <span class="he">reverse.ai שם לב כשיוצא <span class="k">akuo</span> במקום שלום. הוא משכתב את הטקסט ומחליף את שפת המקלדת בשבילכם: לבד כשהוא בטוח, ובלחיצה אחת על Tab כשהוא שואל.</span>
+      </p>
+      <div data-get></div>
     </div>
-    <div class="stage">
-    <p class="hint" id="hint"></p>
-    <div class="bubble" id="bubble">
-      <div class="bh"><div class="logo">A</div>Did you mean</div>
-      <div class="sug" id="sug"></div>
-      <div class="acts">
-        <span class="act fix" id="fix"><span class="kc">Tab</span><span id="fixLabel"></span></span>
-        <span class="act no"><span class="kc">Esc</span>Not now</span>
-        <span class="act rep"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>Report</span>
+
+    <div class="demo" aria-hidden="true">
+      <div class="window">
+        <div class="bar">
+          <span class="lights"><i></i><i></i><i></i></span>
+          <span class="app" id="app"><span id="appIcon"></span><span id="appName">WhatsApp Web</span></span>
+          <span class="kb" id="kb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6.5 10h.01M10.5 10h.01M14.5 10h.01M17.5 10h.01M7.5 14h9"/></svg><b id="kbLang">EN</b></span>
+        </div>
+        <div class="screen" id="screen">
+          <div class="ctx" id="ctx"></div>
+          <div class="row"><div class="field" id="field"><span id="typed"></span><span class="caret"></span></div><span class="send" id="send"></span></div>
+        </div>
+      </div>
+      <div class="under">
+        <p class="hint" id="hint"></p>
+        <div class="bubble" id="bubble">
+          <div class="bh"><svg viewBox="0 0 28 28" ><rect width="28" height="28" rx="7.5" fill="var(--accent)"/><path d="M8 11h11.5m0 0-3-3m3 3-3 3M20 17.5H8.5m0 0 3-3m-3 3 3 3" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Did you mean</div>
+          <div class="sug" id="sug"></div>
+          <div class="acts">
+            <span class="act fix" id="fix"><span class="kc">Tab</span><span id="fixLabel"></span></span>
+            <span class="act no"><span class="kc">Esc</span>Not now</span>
+            <span class="act rep"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>Report</span>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+</section>
+
+<div class="facts">
+  <div class="wrap">
+    <div class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/><path d="M10 3.5v3M14 3.5v3M10 17.5v3M14 17.5v3M3.5 10h3M3.5 14h3M17.5 10h3M17.5 14h3"/></svg><div><b><span class="en">Runs on your computer</span><span class="he">רץ על המחשב שלכם</span></b><span><span class="en">Nothing you type is stored. Nothing is sent unless you report it.</span><span class="he">שום דבר שמקלידים לא נשמר, ושום דבר לא נשלח אלא אם דיווחתם.</span></span></div></div>
+    <div class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 5.5 6v5.2c0 4.2 2.7 7.6 6.5 9.3 3.8-1.7 6.5-5.1 6.5-9.3V6z"/><path d="m9.2 12 2 2 3.8-4.2"/></svg><div><b><span class="en">Signed and notarized</span><span class="he">חתום ומאומת</span></b><span><span class="en">Every Mac release is signed and scanned by Apple.</span><span class="he">כל גרסת מק נחתמת ונסרקת על ידי אפל.</span></span></div></div>
+    <div class="fact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6.5" width="18" height="11" rx="2.2"/><path d="M7 10.5h.01M11 10.5h.01M15 10.5h.01M17.5 10.5h.01M8 14h8"/></svg><div><b><span class="en">Works in every app</span><span class="he">עובד בכל אפליקציה</span></b><span><span class="en">Fixes are typed as keystrokes. Your clipboard is never touched.</span><span class="he">התיקון מוקלד כהקשות. לוח ההעתקה לא משתנה.</span></span></div></div>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow"><span class="en">How it works</span><span class="he">איך זה עובד</span></p>
+      <h2><span class="en">The same keys, read in the other language.</span><span class="he">אותם מקשים, בשפה השנייה.</span></h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="keys"><span class="key ">a</span><span class="key ">k</span><span class="key ">u</span><span class="key ">o</span></div>
+        <h3><span class="en">You type on the wrong keyboard</span><span class="he">מקלידים במקלדת הלא נכונה</span></h3>
+        <p><span class="en">The keys for שלום, pressed while the keyboard was on English.</span><span class="he">המקשים של שלום, כשהמקלדת על אנגלית.</span></p>
+      </div>
+      <div class="step">
+        <div class="keys rtl"><span class="key on">ש</span><span class="key on">ל</span><span class="key on">ו</span><span class="key on">ם</span></div>
+        <h3><span class="en">reverse.ai reads the keys both ways</span><span class="he">reverse.ai קורא את המקשים בשתי השפות</span></h3>
+        <p><span class="en">When they spell real words in the other language and nothing in this one, it knows what you meant.</span><span class="he">כשבשפה השנייה יוצאות מילים אמיתיות ובשפה הזו לא, הוא יודע למה התכוונתם.</span></p>
+      </div>
+      <div class="step">
+        <div class="keys"><span class="key wide">EN</span><span class="arrow">→</span><span class="key wide on">עב</span></div>
+        <h3><span class="en">It rewrites the line and switches the keyboard</span><span class="he">הוא משכתב את השורה ומחליף מקלדת</span></h3>
+        <p><span class="en">By itself when it’s sure, and Backspace right after undoes it. When it isn’t sure, a small bubble asks first.</span><span class="he">לבד כשהוא בטוח, ו-Backspace מיד אחרי מבטל. כשהוא לא בטוח, בועה קטנה שואלת קודם.</span></p>
+      </div>
+    </div>
+    <p class="small" style="margin-top:28px"><span class="en">Automatic fixes are on the Mac for now. On Windows the bubble always asks.</span><span class="he">תיקון אוטומטי קיים בינתיים במק. בווינדוס הבועה שואלת תמיד.</span></p>
+  </div>
+</section>
+
+<section class="soft" id="apps">
+  <div class="wrap split">
+    <div class="head">
+      <p class="eyebrow"><span class="en">Where it works</span><span class="he">איפה זה עובד</span></p>
+      <h2><span class="en">In the apps you already type in.</span><span class="he">באפליקציות שאתם כבר מקלידים בהן.</span></h2>
+      <p><span class="en">It runs across the whole system, on Mac and Windows, not as a plugin for one app.</span><span class="he">הוא עובד בכל המערכת, במק ובווינדוס, ולא כתוסף לאפליקציה אחת.</span></p>
+    </div>
+    <ul class="rows">
+      <li><h3 dir="ltr">Claude &amp; Claude Code</h3><p><span class="en">Prompts in Hebrew or English, in the desktop app or the terminal. Fixes are typed as keystrokes, so they work inside Claude Code too.</span><span class="he">פרומפטים בעברית או באנגלית, באפליקציה או בטרמינל. התיקון מוקלד כהקשות, אז הוא עובד גם בתוך Claude Code.</span></p></li>
+      <li><h3 dir="ltr">WhatsApp Web</h3><p><span class="en">Catches the gibberish before you press Enter and send it to the group.</span><span class="he">תופס את הג׳יבריש לפני שלוחצים Enter ושולחים אותו לקבוצה.</span></p></li>
+      <li><h3 dir="ltr">Slack, Gmail, Jira, Notion</h3><p><span class="en">Any text box, in the browser or in a desktop app.</span><span class="he">כל תיבת טקסט, בדפדפן או באפליקציה.</span></p></li>
+      <li><h3><span class="en">Terminal and IDE</span><span class="he">טרמינל ו-IDE</span></h3><p><span class="en">Commands like <code>git status</code> and <code>npm i</code> are left alone. In a terminal it only suggests and never changes text by itself.</span><span class="he">פקודות כמו <code>git status</code> ו-<code>npm i</code> נשארות כמו שהן. בטרמינל הוא רק מציע, ואף פעם לא משנה טקסט לבד.</span></p></li>
+      <li><h3><span class="en">Password fields</span><span class="he">שדות סיסמה</span></h3><p><span class="en">Never read. Password managers are turned off from the start.</span><span class="he">אף פעם לא נקראים. מנהלי סיסמאות כבויים מראש.</span></p></li>
+    </ul>
+  </div>
+</section>
+
+<section id="accuracy">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow"><span class="en">Accuracy</span><span class="he">דיוק</span></p>
+      <h2><span class="en">Measured, not promised.</span><span class="he">נמדד, לא מובטח.</span></h2>
+      <p><span class="en">Every rule is checked on text it was never tuned on: about 425,000 words of real messages, comments and sentences in both languages.</span><span class="he">כל כלל נבדק על טקסט שהוא לא כוונן עליו: כ-425,000 מילים של הודעות, תגובות ומשפטים אמיתיים בשתי השפות.</span></p>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="n">0</span><b><span class="en">correct words changed by itself</span><span class="he">מילים נכונות ששונו לבד</span></b><p><span class="en">Of 213,582 correctly typed words, none was changed automatically.</span><span class="he">מתוך 213,582 מילים שהוקלדו נכון, אף אחת לא שונתה אוטומטית.</span></p></div>
+      <div class="stat"><span class="n">99.4%</span><b><span class="en">caught by the third word</span><span class="he">נתפס עד המילה השלישית</span></b><p><span class="en">Lines typed on the wrong keyboard: 97.7% are flagged by the second word, 99.4% by the third.</span><span class="he">שורות שהוקלדו במקלדת הלא נכונה: 97.7% מסומנות עד המילה השנייה, 99.4% עד השלישית.</span></p></div>
+      <div class="stat"><span class="n">0.005%</span><b><span class="en">unneeded suggestions</span><span class="he">הצעות מיותרות</span></b><p><span class="en">On correct text, about one word in 20,000 gets a bubble you can ignore.</span><span class="he">בטקסט נכון, בערך מילה אחת מכל 20,000 מקבלת בועה שאפשר להתעלם ממנה.</span></p></div>
+    </div>
+    <p class="small method"><span class="en">Held-out test set, default settings. Wrong-keyboard typing is simulated from real text, so real use can differ. When it gets something wrong for you, a report helps fix it for everyone.</span><span class="he">סט בדיקה נפרד, בהגדרות ברירת המחדל. הקלדה במקלדת הלא נכונה מדומה מתוך טקסט אמיתי, ולכן בשימוש אמיתי התוצאות יכולות להיות שונות. כשמשהו משתבש אצלכם, דיווח עוזר לתקן את זה לכולם.</span></p>
+  </div>
+</section>
+
+<section class="soft" id="languages">
+  <div class="wrap split">
+    <div class="head">
+      <p class="eyebrow"><span class="en">Languages</span><span class="he">שפות</span></p>
+      <h2><span class="en">Hebrew with English, and six more languages.</span><span class="he">עברית עם אנגלית, ועוד שש שפות.</span></h2>
+      <p><span class="en">A language ships only after it passes the same tests, in both directions.</span><span class="he">שפה יוצאת רק אחרי שהיא עוברת את אותן בדיקות, בשני הכיוונים.</span></p>
+      <p class="small"><span class="en">Each language works next to Hebrew. Turn on the ones you write in from the menu, under <b dir="ltr">Languages I write in</b>. On Mac, French, German, Spanish, Portuguese and Italian keyboards are read as they are. On Windows, for now, these languages need a US or UK keyboard.</span><span class="he">כל שפה עובדת לצד עברית. את השפות שכותבים בהן מפעילים בתפריט, תחת <b dir="ltr">Languages I write in</b>. במק, מקלדות צרפתית, גרמנית, ספרדית, פורטוגזית ואיטלקית נקראות כמו שהן. בווינדוס, בינתיים, השפות האלה צריכות מקלדת US או UK.</span></p>
+    </div>
+    <div class="langs">
+      <div class="live"><b><span class="en">Hebrew</span><span class="he">עברית</span></b><span><span class="en">Available</span><span class="he">זמין</span></span></div>
+      <div class="live"><b><span class="en">English</span><span class="he">אנגלית</span></b><span><span class="en">Available</span><span class="he">זמין</span></span></div>
+      <div class="live"><b><span class="en">Spanish</span><span class="he">ספרדית</span></b><span><span class="en">Available</span><span class="he">זמין</span></span></div>
+      <div class="live"><b><span class="en">French</span><span class="he">צרפתית</span></b><span><span class="en">Available</span><span class="he">זמין</span></span></div>
+      <div class="live"><b><span class="en">Portuguese</span><span class="he">פורטוגזית</span></b><span><span class="en">Available</span><span class="he">זמין</span></span></div>
+      <div class="live"><b><span class="en">German</span><span class="he">גרמנית</span></b><span><span class="en">Available</span><span class="he">זמין</span></span></div>
+      <div class="live"><b><span class="en">Italian</span><span class="he">איטלקית</span></b><span><span class="en">Available</span><span class="he">זמין</span></span></div>
+      <div class="live"><b><span class="en">Indonesian</span><span class="he">אינדונזית</span></b><span><span class="en">Available</span><span class="he">זמין</span></span></div>
     </div>
   </div>
+</section>
 
-  <section class="get" id="get"></section>
-
-  <h2><span class="he">בנוי לאפליקציות שאתם חיים בהן</span><span class="en">Made for the apps you live in</span></h2>
-  <p class="sub"><span class="he">במק ובווינדוס, בכל מקום שאפשר להקליד.</span><span class="en">On Mac and Windows, anywhere you can type.</span></p>
-  <div class="grid">
-    <div class="card"><b dir="ltr">Claude &amp; Claude Code</b>
-      <p class="he">פרומפטים בעברית או באנגלית, באפליקציה או בטרמינל. התיקון מוקלד כהקשות, אז הוא עובד גם בתוך Claude Code ולא נוגע בלוח ההעתקה.</p>
-      <p class="en">Prompts in Hebrew or English, in the desktop app or the terminal. Fixes are typed as keystrokes, so it works inside Claude Code and never touches your clipboard.</p></div>
-    <div class="card"><b dir="ltr">WhatsApp Web</b>
-      <p class="he">תופס את הג׳יבריש לפני שלוחצים Enter ושולחים אותו לקבוצה.</p>
-      <p class="en">Catches the gibberish before you hit Enter and send it to the group.</p></div>
-    <div class="card"><b dir="ltr">Slack, Gmail, Jira, Notion</b>
-      <p class="he">עובד בכל המערכת, לא כתוסף לאפליקציה אחת — בכל תיבת טקסט, במק ובווינדוס.</p>
-      <p class="en">Works system-wide, not as a plugin for one app — any text box, on Mac and Windows.</p></div>
-    <div class="card"><b><span class="he">טרמינל ו-IDE</span><span class="en">Terminal &amp; IDE</span></b>
-      <p class="he">פקודות כמו <code>git status</code> ו-<code>npm i</code> נשארות כמו שהן. הוא מתערב רק כשבשפה השנייה יוצא משפט אמיתי.</p>
-      <p class="en">Commands like <code>git status</code> and <code>npm i</code> are left alone. It only steps in when the other language makes a real phrase.</p></div>
+<section class="dark" id="privacy">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow"><span class="en">Privacy</span><span class="he">פרטיות</span></p>
+      <h2><span class="en">It reads your keyboard. Here is exactly what it does with it.</span><span class="he">הוא קורא את המקלדת שלכם. הנה בדיוק מה שהוא עושה עם זה.</span></h2>
+      <p><span class="en">A tool like this has to see what you type in order to fix it. That is a lot to ask, so the rules are strict, and you can check them.</span><span class="he">כלי כזה חייב לראות מה מקלידים כדי לתקן. זו בקשה גדולה, ולכן הכללים נוקשים, ואפשר לבדוק אותם.</span></p>
+    </div>
+    <div class="checks">
+      <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m8.6 12.2 2.3 2.3 4.6-5"/></svg><div><h3><span class="en">Nothing you type is stored</span><span class="he">שום דבר שמקלידים לא נשמר</span></h3><p><span class="en">Only the line you are typing is kept, in memory, for up to a minute after you finish it. Nothing is written to disk.</span><span class="he">נשמרת רק השורה שמקלידים, בזיכרון, עד דקה אחרי שסיימתם אותה. שום דבר לא נכתב לדיסק.</span></p></div></div>
+      <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m8.6 12.2 2.3 2.3 4.6-5"/></svg><div><h3><span class="en">Nothing is sent unless you send it</span><span class="he">שום דבר לא נשלח אלא אם שלחתם</span></h3><p><span class="en">The app goes online for two things: a daily check for a new version, and a report when you click Report. You see what a report holds before it goes.</span><span class="he">האפליקציה מתחברת לרשת לשני דברים: בדיקה יומית אם יש גרסה חדשה, ודיווח כשלוחצים Report. רואים מה יש בדיווח לפני שהוא נשלח.</span></p></div></div>
+      <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m8.6 12.2 2.3 2.3 4.6-5"/></svg><div><h3><span class="en">Passwords are out of reach</span><span class="he">סיסמאות מחוץ לתחום</span></h3><p><span class="en">Password fields are never read, and password managers are excluded from the start.</span><span class="he">שדות סיסמה אף פעם לא נקראים, ומנהלי סיסמאות מוחרגים מראש.</span></p></div></div>
+      <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m8.6 12.2 2.3 2.3 4.6-5"/></svg><div><h3><span class="en">No cloud, no clipboard</span><span class="he">בלי ענן, בלי לוח העתקה</span></h3><p><span class="en">Detection and fixes run on your computer and work offline. Fixes are typed as keystrokes, so your clipboard is never touched.</span><span class="he">הזיהוי והתיקון רצים על המחשב שלכם ועובדים גם בלי רשת. התיקון מוקלד כהקשות, ולוח ההעתקה לא משתנה.</span></p></div></div>
+      <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m8.6 12.2 2.3 2.3 4.6-5"/></svg><div><h3><span class="en">Signed and notarized</span><span class="he">חתום ומאומת</span></h3><p><span class="en">The Mac app is signed with an Apple Developer ID and notarized by Apple for every release.</span><span class="he">אפליקציית המק חתומה ב-Apple Developer ID ועוברת אימות של אפל בכל גרסה.</span></p></div></div>
+      <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m8.6 12.2 2.3 2.3 4.6-5"/></svg><div><h3><span class="en">Ready for IT review</span><span class="he">מוכן לבדיקת IT</span></h3><p><span class="en">One page lists every permission, process and network address, with the settings a company can lock.</span><span class="he">עמוד אחד מפרט כל הרשאה, תהליך וכתובת רשת, עם ההגדרות שארגון יכול לנעול.</span></p></div></div>
+    </div>
+    <div class="links">
+      <a href="/privacy"><span class="en">Privacy Policy</span><span class="he">מדיניות פרטיות</span></a>
+      <a href="/it"><span class="en">For IT teams</span><span class="he">לצוותי IT</span></a>
+      <a href="/terms"><span class="en">Terms of Use</span><span class="he">תנאי שימוש</span></a>
+    </div>
   </div>
+</section>
 
-  <div class="grid three" style="margin-top:12px">
-    <div class="card"><b><span class="he">פרטי לגמרי</span><span class="en">Fully private</span></b>
-      <p class="he">הכל רץ על המחשב שלך. שום דבר שמקלידים לא נשמר ולא נשלח, אלא אם לוחצים Report. רק בדיקה יומית אם יש גרסה חדשה.</p>
-      <p class="en">Runs on your computer. Nothing you type is stored or sent, unless you click Report. It only checks daily for a new version.</p></div>
-    <div class="card"><b><span class="he">מתקן לבד, או שואל</span><span class="en">Fixes it, or asks</span></b>
-      <p class="he">כשהוא בטוח, הוא מתקן לבד, ו-Backspace מיד אחרי מבטל. אחרת מופיעה בועה: Tab מתקן, Esc מתעלם. (בינתיים במק; בווינדוס הבועה שואלת תמיד.)</p>
-      <p class="en">When it's sure, it fixes the text by itself, and Backspace right after undoes it. Otherwise a bubble asks: Tab fixes, Esc ignores. (On Mac for now; on Windows the bubble always asks.)</p></div>
-    <div class="card"><b><span class="he">לא מציק</span><span class="en">Not annoying</span></b>
-      <p class="he">נבדק על מאות אלפי מילים: בערך מילה אחת מכל 10,000 משתנה בטעות.</p>
-      <p class="en">Tested on hundreds of thousands of words: about 1 word in 10,000 is changed by mistake.</p></div>
-  </div>
-
-  <h2><span class="he">התקנה</span><span class="en">Install</span></h2>
-  <div class="tabs" role="tablist">
-    <button class="tab" role="tab" id="t-mac" aria-controls="p-mac" type="button">Mac</button>
-    <button class="tab" role="tab" id="t-win" aria-controls="p-win" type="button">Windows</button>
-  </div>
-  <div class="panel" id="p-mac" role="tabpanel" aria-labelledby="t-mac">
+<section id="install">
+  <div class="wrap split">
+    <div class="head">
+      <p class="eyebrow"><span class="en">Install</span><span class="he">התקנה</span></p>
+      <h2><span class="en">Set up in about a minute.</span><span class="he">התקנה בדקה בערך.</span></h2>
+      <p><span class="en">Free while in beta. You need a Hebrew keyboard and an English keyboard installed.</span><span class="he">חינם בתקופת הבטא. צריך שיהיו מותקנות מקלדת עברית ומקלדת אנגלית.</span></p>
+      <div data-get></div>
+    </div>
+    <div>
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" id="t-mac" aria-controls="p-mac" type="button">Mac</button>
+        <button class="tab" role="tab" id="t-win" aria-controls="p-win" type="button">Windows</button>
+      </div>
+      <div class="panel" id="p-mac" role="tabpanel" aria-labelledby="t-mac">
     <ol class="he">
       <li>פותחים את <code>reverse.ai-mac.dmg</code> שירד וגוררים את reverse.ai לתיקיית Applications.</li>
       <li>פותחים את האפליקציה. macOS שואל פעם אחת אם לפתוח אפליקציה שהורדה מהאינטרנט: לוחצים <b>פתח</b>.</li>
@@ -284,7 +211,7 @@ b[dir], a[dir] { unicode-bidi: isolate; white-space: nowrap; }   /* English menu
     <p class="he">מק של העבודה? אם אי אפשר להפעיל את הרשאת הנגישות, שלחו ל-IT את <a href="/it">reverseai.vercel.app/it</a>. הם יכולים גם להתקין לכם את האפליקציה.</p>
     <p class="en">Company Mac? If you can't turn on Accessibility, send your IT team <a href="/it">reverseai.vercel.app/it</a>. They can also install it for you.</p>
   </div>
-  <div class="panel" id="p-win" role="tabpanel" aria-labelledby="t-win" hidden>
+      <div class="panel" id="p-win" role="tabpanel" aria-labelledby="t-win" hidden>
     <ol class="he">
       <li>מחלצים את <code>reverse.ai-windows.zip</code> שירד ומריצים את reverse.ai.exe.</li>
       <li>אם מופיע "Windows protected your PC" (הבטא עוד לא חתומה): <b dir="ltr">More info</b> ← <b dir="ltr">Run anyway</b>.</li>
@@ -298,113 +225,141 @@ b[dir], a[dir] { unicode-bidi: isolate; white-space: nowrap; }   /* English menu
       <li>First Windows build: if something misbehaves, see <a href="#help">Something off?</a> below.</li>
     </ol>
   </div>
-  <p class="small" style="margin-top:12px">
-    <span class="he">צריך שיהיו מותקנות מקלדת עברית ומקלדת אנגלית.</span>
-    <span class="en">You need both a Hebrew and an English keyboard installed.</span>
-  </p>
-
-  <h2><span class="he">כדאי לדעת</span><span class="en">Good to know</span></h2>
-  <div class="grid">
-    <div class="card"><b><span class="he">גם מילה אחת</span><span class="en">Single words too</span></b>
-      <p class="he">מילה שהוקלדה לבד במקלדת הלא נכונה, כמו <span class="k">,usv</span> במקום תודה, מקבלת בועה כשעוצרים רגע לפני ששולחים.</p>
-      <p class="en">A word typed alone on the wrong keyboard, like <span class="k">,usv</span> for תודה, gets the bubble when you pause before sending.</p></div>
-    <div class="card"><b><span class="he">לא באפליקציה הזו</span><span class="en">Not in this app</span></b>
-      <p class="he">בתפריט ← <b dir="ltr">Disable in …</b> מכבה את reverse.ai באפליקציה שבה אתם נמצאים. מנהלי סיסמאות כבויים מראש, ושדות סיסמה אף פעם לא נקראים.</p>
-      <p class="en">Menu → <b dir="ltr">Disable in …</b> turns reverse.ai off for the app you're in. Password managers are off from the start, and password fields are never read.</p></div>
-    <div class="card"><b><span class="he">איך שנוח לכם</span><span class="en">Your way</span></b>
-      <p class="he">רגישות <b dir="ltr">Strict</b> או <b dir="ltr">Balanced</b>, <b dir="ltr">Smart mode</b> (בדיקת AI על המחשב שלכם כשעוצרים להקליד), ותיקון אוטומטי כשהוא בטוח (דולק מראש): הכל בתפריט.</p>
-      <p class="en"><b dir="ltr">Strict</b> or <b dir="ltr">Balanced</b> sensitivity, <b dir="ltr">Smart mode</b> (an AI check on your computer when you pause), and automatic fixes when it's sure (on from the start): all in the menu.</p></div>
-    <div class="card"><b><span class="he">גרסאות חדשות</span><span class="en">New versions</span></b>
-      <p class="he">כשיוצאת גרסה חדשה, reverse.ai מודיע פעם אחת. בתפריט ← <b dir="ltr">Download version…</b>, ומתקינים כמו בפעם הראשונה.</p>
-      <p class="en">When a new version is out, reverse.ai tells you once. Menu → <b dir="ltr">Download version…</b>, then install it like the first time.</p></div>
+    </div>
   </div>
-  <p class="small" style="margin-top:12px">
-    <span class="he">התפריט: האייקון של reverse.ai בשורת התפריטים למעלה (מק), או במגש המערכת ליד השעון (ווינדוס).</span>
-    <span class="en">The menu: the reverse.ai icon in the menu bar at the top (Mac), or in the tray near the clock (Windows).</span>
-  </p>
+</section>
 
-  <h2 id="help"><span class="he">משהו לא עבד? מדווחים לי</span><span class="en">Something off? Report it</span></h2>
-  <p class="sub"><span class="he">כל דיווח מגיע ישר אליי ועוזר לתקן את זה לכולם. רואים מה נשלח, ואפשר לבטל.</span><span class="en">Every report comes straight to me and helps fix it for everyone. You see what's sent, and you can undo it.</span></p>
-  <div class="grid">
-    <div class="card how">
-      <div class="mock" aria-hidden="true">
-        <div class="bubble" id="rb">
-          <div class="bh"><div class="logo">A</div>Did you mean</div>
-          <div class="sug" dir="rtl">אני רוצה שלום</div>
-          <div class="acts">
-            <span class="act fix"><span class="kc">Tab</span>Fix + switch to Hebrew</span>
-            <span class="act no"><span class="kc">Esc</span>Not now</span>
-            <span class="act rep" id="rbReport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>Report</span>
+<section class="soft" id="questions">
+  <div class="wrap split">
+    <div class="head">
+      <p class="eyebrow"><span class="en">Good to know</span><span class="he">כדאי לדעת</span></p>
+      <h2><span class="en">Questions people ask.</span><span class="he">שאלות ששואלים.</span></h2>
+      <p><span class="en">The menu is the reverse.ai icon in the menu bar (Mac) or in the tray near the clock (Windows).</span><span class="he">התפריט הוא האייקון של reverse.ai בשורת התפריטים (מק) או במגש המערכת ליד השעון (ווינדוס).</span></p>
+    </div>
+    <div class="faq">
+      <details open><summary><span class="en">Does it catch a single word?</span><span class="he">הוא תופס גם מילה אחת?</span></summary><div class="a">
+        <p class="en">Yes. A word typed alone on the wrong keyboard, like <span class="k">,usv</span> for תודה, gets the bubble when you pause before sending.</p>
+        <p class="he">כן. מילה שהוקלדה לבד במקלדת הלא נכונה, כמו <span class="k">,usv</span> במקום תודה, מקבלת בועה כשעוצרים רגע לפני ששולחים.</p></div></details>
+      <details><summary><span class="en">What if it changes something it shouldn’t?</span><span class="he">ומה אם הוא משנה משהו שלא היה צריך?</span></summary><div class="a">
+        <p><span class="en">Press Backspace right after an automatic fix and the line goes back to what you typed. reverse.ai then leaves that line alone.</span><span class="he">לוחצים Backspace מיד אחרי תיקון אוטומטי, והשורה חוזרת למה שהקלדתם. reverse.ai לא נוגע יותר בשורה הזו.</span></p></div></details>
+      <details><summary><span class="en">Can I turn it off in one app?</span><span class="he">אפשר לכבות אותו באפליקציה אחת?</span></summary><div class="a">
+        <p class="en">Menu → <b dir="ltr">Disable in …</b> turns reverse.ai off for the app you’re in.</p>
+        <p class="he">בתפריט ← <b dir="ltr">Disable in …</b> מכבה את reverse.ai באפליקציה שבה אתם נמצאים.</p></div></details>
+      <details><summary><span class="en">What can I change?</span><span class="he">מה אפשר לשנות?</span></summary><div class="a">
+        <p class="en"><b dir="ltr">Strict</b> or <b dir="ltr">Balanced</b> sensitivity, <b dir="ltr">Smart mode</b> (an AI check that runs on your computer when you pause), and automatic fixes when it’s sure. All in the menu.</p>
+        <p class="he">רגישות <b dir="ltr">Strict</b> או <b dir="ltr">Balanced</b>, <b dir="ltr">Smart mode</b> (בדיקת AI שרצה על המחשב שלכם כשעוצרים להקליד), ותיקון אוטומטי כשהוא בטוח. הכל בתפריט.</p></div></details>
+      <details><summary><span class="en">How do I get new versions?</span><span class="he">איך מקבלים גרסאות חדשות?</span></summary><div class="a">
+        <p class="en">When a new version is out, reverse.ai tells you once. Menu → <b dir="ltr">Download version…</b>, then install it like the first time. It never installs anything by itself.</p>
+        <p class="he">כשיוצאת גרסה חדשה, reverse.ai מודיע פעם אחת. בתפריט ← <b dir="ltr">Download version…</b>, ומתקינים כמו בפעם הראשונה. הוא אף פעם לא מתקין משהו לבד.</p></div></details>
+      <details><summary><span class="en">I’m on a company Mac. Will IT allow it?</span><span class="he">יש לי מק של העבודה. ה-IT יאשר?</span></summary><div class="a">
+        <p class="en">Send your IT team <a href="/it">reverseai.vercel.app/it</a>. It lists what the app does and needs, and they can install it for you.</p>
+        <p class="he">שלחו לצוות ה-IT את <a href="/it">reverseai.vercel.app/it</a>. העמוד מפרט מה האפליקציה עושה וצריכה, והם יכולים גם להתקין אותה בשבילכם.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<section id="help">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow"><span class="en">Help</span><span class="he">עזרה</span></p>
+      <h2><span class="en">Something off? Report it in two clicks.</span><span class="he">משהו לא עבד? מדווחים בשתי לחיצות.</span></h2>
+      <p><span class="en">Every report goes straight to the developer and helps fix it for everyone. You see what is sent, and you can undo it.</span><span class="he">כל דיווח מגיע ישר למפתח ועוזר לתקן את זה לכולם. רואים מה נשלח, ואפשר לבטל.</span></p>
+    </div>
+    <div class="pics">
+      <div class="pic">
+        <div class="mock" aria-hidden="true">
+          <div class="bubble" id="rb">
+            <div class="bh"><svg viewBox="0 0 28 28" ><rect width="28" height="28" rx="7.5" fill="var(--accent)"/><path d="M8 11h11.5m0 0-3-3m3 3-3 3M20 17.5H8.5m0 0 3-3m-3 3 3 3" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Did you mean</div>
+            <div class="sug" dir="rtl">אני רוצה שלום</div>
+            <div class="acts">
+              <span class="act fix"><span class="kc">Tab</span>Fix + switch to Hebrew</span>
+              <span class="act no"><span class="kc">Esc</span>Not now</span>
+              <span class="act rep" id="rbReport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>Report</span>
+            </div>
           </div>
+          <div class="toast" id="rt1"></div>
         </div>
-        <div class="toast" id="rt1"></div>
-      </div>
-      <div>
-        <b><span class="he">הצעה שגויה</span><span class="en">A wrong suggestion</span></b>
+        <h3><span class="en">A wrong suggestion</span><span class="he">הצעה שגויה</span></h3>
+        <p class="en">Click <b dir="ltr">Report</b> in the bubble. A small note says <b dir="ltr">Sending to the developer…</b>, and <b dir="ltr">Undo</b> within 4 seconds cancels it.</p>
         <p class="he">לוחצים <b dir="ltr">Report</b> בבועה. מופיעה הודעה קטנה, <b dir="ltr">Sending to the developer…</b>, ולחיצה על <b dir="ltr">Undo</b> תוך 4 שניות מבטלת.</p>
-        <p class="en">Click <b dir="ltr">Report</b> in the bubble. A small note says <b dir="ltr">Sending to the developer…</b>, and clicking <b dir="ltr">Undo</b> within 4 seconds cancels it.</p>
       </div>
-    </div>
-    <div class="card how">
-      <div class="mock" aria-hidden="true">
-        <div class="mbar"><span class="mi" id="rmIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v9a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4h0A2.5 2.5 0 0 1 4 14.5z"/><path d="M9.2 13.5 12 6.5l2.8 7M10.2 11h3.6" stroke-linecap="round"/></svg></span><span>Tue 10:42</span></div>
-        <div class="menu" id="rm">
-          <div class="ck">reverse.ai enabled</div>
-          <div class="gt">Sensitivity</div>
-          <div class="ck">Smart mode</div>
-          <div>Disable in WhatsApp</div>
-          <hr>
-          <div id="rmItem">Report a missed fix…</div>
-          <hr>
-          <div>Setup &amp; help…</div>
-          <div>Keep a diagnostic log (24 hours)</div>
+      <div class="pic">
+        <div class="mock" aria-hidden="true">
+          <div class="mbar"><span class="mi" id="rmIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v9a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4h0A2.5 2.5 0 0 1 4 14.5z"/><path d="M9.2 13.5 12 6.5l2.8 7M10.2 11h3.6" stroke-linecap="round"/></svg></span><span>Tue 10:42</span></div>
+          <div class="menu" id="rm">
+            <div class="ck">reverse.ai enabled</div>
+            <div class="gt">Sensitivity</div>
+            <div class="ck">Smart mode</div>
+            <div>Disable in WhatsApp</div>
+            <hr>
+            <div id="rmItem">Report a missed fix…</div>
+            <hr>
+            <div>Setup &amp; help…</div>
+            <div>Keep a diagnostic log (24 hours)</div>
+          </div>
+          <div class="dlg" id="rd">
+            <b>Report a missed fix</b>
+            <p>Type the words reverse.ai should have fixed, the way they came out.</p>
+            <div class="in" id="rdIn"></div>
+            <div class="in ph">Anything to add? (optional)</div>
+            <div class="bt"><span>Cancel</span><span class="go" id="rdSend">Send</span></div>
+          </div>
+          <div class="toast" id="rt2"></div>
         </div>
-        <div class="dlg" id="rd">
-          <div class="bh"><div class="logo">A</div></div>
-          <b>Report a missed fix</b>
-          <p>Type the words reverse.ai should have fixed, the way they came out.</p>
-          <div class="in" id="rdIn"></div>
-          <div class="in ph">Anything to add? (optional)</div>
-          <div class="bt"><span>Cancel</span><span class="go" id="rdSend">Send</span></div>
-        </div>
-        <div class="toast" id="rt2"></div>
-      </div>
-      <div>
-        <b><span class="he">תיקון שפוספס</span><span class="en">A missed fix</span></b>
-        <p class="he">בתפריט ← <b dir="ltr">Report a missed fix…</b>, מקלידים את המילים כמו שהן יצאו (למשל <span class="k">akuo ugkn</span>), ולוחצים <b dir="ltr">Send</b>. גם כאן אפשר לבטל תוך 4 שניות.</p>
+        <h3><span class="en">A missed fix</span><span class="he">תיקון שפוספס</span></h3>
         <p class="en">Menu → <b dir="ltr">Report a missed fix…</b>, type the words the way they came out (for example <span class="k">akuo ugkn</span>), and click <b dir="ltr">Send</b>. Here too, you have 4 seconds to undo.</p>
+        <p class="he">בתפריט ← <b dir="ltr">Report a missed fix…</b>, מקלידים את המילים כמו שהן יצאו (למשל <span class="k">akuo ugkn</span>), ולוחצים <b dir="ltr">Send</b>. גם כאן אפשר לבטל תוך 4 שניות.</p>
       </div>
     </div>
+    <ul class="rows" style="margin-top:64px">
+      <li><h3><span class="en">What a report holds</span><span class="he">מה יש בדיווח</span></h3><div>
+        <div class="chips en"><span>The words</span><span>What reverse.ai changed them to, or would have</span><span>The keyboard languages</span><span>The app you typed in</span><span>reverse.ai and system versions</span><span>Your settings</span></div>
+        <div class="chips he"><span>המילים</span><span>למה reverse.ai שינה אותן, או היה משנה</span><span>שפות המקלדת</span><span>האפליקציה שבה הקלדתם</span><span>הגרסה של reverse.ai ושל המערכת</span><span>ההגדרות שלכם</span></div>
+        <p class="en">Never your name, your email, or anything that identifies you or your computer. The first time, reverse.ai shows you this before anything is sent. <a href="/privacy">Privacy Policy</a></p>
+        <p class="he">אף פעם לא השם שלכם, המייל או משהו שמזהה אתכם או את המחשב. בפעם הראשונה reverse.ai מראה את זה לפני שמשהו נשלח. <a href="/privacy">מדיניות פרטיות</a></p></div></li>
+      <li><h3><span class="en">Something else not working?</span><span class="he">משהו אחר לא עובד?</span></h3><div>
+        <p class="en">Menu → <b dir="ltr">Keep a diagnostic log (24 hours)</b>, do what went wrong again, then Menu → <b dir="ltr">Open log folder</b> and email <code>log.txt</code> to <a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a>.</p>
+        <p class="he">בתפריט ← <b dir="ltr">Keep a diagnostic log (24 hours)</b>, עושים שוב את מה שלא עבד, ואז בתפריט ← <b dir="ltr">Open log folder</b> ושולחים את <code>log.txt</code> במייל אל <a href="mailto:kazakov100+reverseai@gmail.com" dir="ltr">kazakov100+reverseai@gmail.com</a></p>
+        <p><span class="en">The log holds only states and counts, never what you type, and it deletes itself after a week.</span><span class="he">ביומן יש רק מצבים וספירות, אף פעם לא מה שמקלידים, והוא נמחק לבד אחרי שבוע.</span></p></div></li>
+    </ul>
   </div>
+</section>
 
-  <div class="grid" style="margin-top:12px">
-    <div class="card"><b><span class="he">מה יש בדיווח</span><span class="en">What a report holds</span></b>
-      <div class="chips he"><span>המילים</span><span>למה reverse.ai שינה אותן (או היה משנה)</span><span>שפות המקלדת</span><span>האפליקציה שבה הקלדתם</span><span>הגרסה של reverse.ai ושל המערכת</span><span>ההגדרות שלכם</span></div>
-      <div class="chips en"><span>The words</span><span>What reverse.ai changed them to (or would have)</span><span>The keyboard languages</span><span>The app you typed in</span><span>reverse.ai and system versions</span><span>Your settings</span></div>
-      <p class="he">אף פעם לא השם שלכם, המייל או משהו שמזהה אתכם או את המחשב. בפעם הראשונה reverse.ai מראה את זה לפני שמשהו נשלח. <a href="/privacy">מדיניות פרטיות</a></p>
-      <p class="en">Never your name, your email, or anything that identifies you or your computer. The first time, reverse.ai shows you this before anything is sent. <a href="/privacy">Privacy Policy</a></p></div>
-    <div class="card"><b><span class="he">משהו אחר לא עובד?</span><span class="en">Something else not working?</span></b>
-      <ol class="he">
-        <li>בתפריט ← <b dir="ltr">Keep a diagnostic log (24 hours)</b>.</li>
-        <li>עושים שוב את מה שלא עבד.</li>
-        <li>בתפריט ← <b dir="ltr">Open log folder</b>, ושולחים את הקובץ <code>log.txt</code> במייל לכתובת <a href="mailto:kazakov100+reverseai@gmail.com" dir="ltr">kazakov100+reverseai@gmail.com</a></li>
-      </ol>
-      <ol class="en">
-        <li>Menu → <b dir="ltr">Keep a diagnostic log (24 hours)</b>.</li>
-        <li>Do what went wrong again.</li>
-        <li>Menu → <b dir="ltr">Open log folder</b>, and email <code>log.txt</code> to <a href="mailto:kazakov100+reverseai@gmail.com">kazakov100+reverseai@gmail.com</a>.</li>
-      </ol>
-      <p class="he">ביומן יש רק מצבים וספירות, אף פעם לא מה שמקלידים, והוא נמחק לבד אחרי שבוע.</p>
-      <p class="en">The log holds only states and counts, never what you type, and it deletes itself after a week.</p></div>
+<section class="soft close">
+  <div class="wrap">
+    <h2><span class="en">Stop retyping.</span><span class="he">מספיק להקליד מחדש.</span></h2>
+    <div data-get data-center></div>
   </div>
+</section>
+</main>
 
-  <footer>
-    <span><span class="he">גרסת בטא</span><span class="en">Beta</span> · Mac (Apple M1+, macOS 14+) · Windows 10/11 64-bit</span>
-    <a href="/privacy"><span class="he">מדיניות פרטיות</span><span class="en">Privacy Policy</span></a>
-    <a href="/terms"><span class="he">תנאי שימוש</span><span class="en">Terms of Use</span></a>
-    <a href="/it"><span class="he">לצוותי IT</span><span class="en">For IT teams</span></a>
-  </footer>
-</div>
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="brand" href="/"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7.5" fill="var(--accent)"/><path d="M8 11h11.5m0 0-3-3m3 3-3 3M20 17.5H8.5m0 0 3-3m-3 3 3 3" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>reverse.ai</span></a>
+        <p class="small" style="max-width:300px;margin-top:14px"><span class="en">Fixes text typed on the wrong keyboard, as you type. Made in Israel.</span><span class="he">מתקן טקסט שהוקלד במקלדת הלא נכונה, תוך כדי הקלדה. נוצר בישראל.</span></p>
+      </div>
+      <div><h4><span class="en">Product</span><span class="he">המוצר</span></h4><ul>
+        <li><a href="#how"><span class="en">How it works</span><span class="he">איך זה עובד</span></a></li>
+        <li><a href="#accuracy"><span class="en">Accuracy</span><span class="he">דיוק</span></a></li>
+        <li><a href="#languages"><span class="en">Languages</span><span class="he">שפות</span></a></li>
+        <li><a href="#install"><span class="en">Install</span><span class="he">התקנה</span></a></li>
+      </ul></div>
+      <div><h4><span class="en">Trust</span><span class="he">אמון</span></h4><ul>
+        <li><a href="/privacy"><span class="en">Privacy Policy</span><span class="he">מדיניות פרטיות</span></a></li>
+        <li><a href="/terms"><span class="en">Terms of Use</span><span class="he">תנאי שימוש</span></a></li>
+        <li><a href="/it"><span class="en">For IT teams</span><span class="he">לצוותי IT</span></a></li>
+      </ul></div>
+      <div><h4><span class="en">Help</span><span class="he">עזרה</span></h4><ul>
+        <li><a href="#help"><span class="en">Report a problem</span><span class="he">דיווח על בעיה</span></a></li>
+        <li><a href="#questions"><span class="en">Questions</span><span class="he">שאלות</span></a></li>
+        <li><a href="mailto:kazakov100+reverseai@gmail.com"><span class="en">Contact</span><span class="he">יצירת קשר</span></a></li>
+      </ul></div>
+    </div>
+    <div class="fnote"><span>© 2026 Assaf Kazakov</span><span dir="ltr">Beta · Mac (Apple M1+, macOS 14+) · Windows 10/11 64-bit</span></div>
+  </div>
+</footer>
 
 <script>
 (function () {
@@ -431,22 +386,22 @@ b[dir], a[dir] { unicode-bidi: isolate; white-space: nowrap; }   /* English menu
     return '<a class="btn" href="' + file(which) + '">' + icon +
       '<span class="he">הורדה ל' + (mac ? 'מק' : 'ווינדוס') + '</span><span class="en">Download for ' + (mac ? 'Mac' : 'Windows') + '</span></a>';
   }
-  var get = document.getElementById('get');
-
-  // the chosen system drives the download button, the Mac / Windows switch and the install steps
-  var note = os === 'mobile' ? '<p class="note"><span class="he">reverse.ai עובד על מחשב. פתחו את הקישור הזה במק או בווינדוס כדי להוריד.</span><span class="en">reverse.ai runs on computers. Open this link on your Mac or Windows PC to download.</span></p>' : '';
+  var note = os === 'mobile' ? '<p class="small sys"><span class="he">reverse.ai עובד על מחשב. פתחו את הקישור הזה במק או בווינדוס כדי להוריד.</span><span class="en">reverse.ai runs on computers. Open this link on your Mac or Windows PC to download.</span></p>' : '';
+  // the chosen system drives the download buttons, the Mac / Windows switch and the install steps
   function show(which) {
     ['mac', 'win'].forEach(function (k) {
       document.getElementById('t-' + k).setAttribute('aria-selected', k === which);
       document.getElementById('p-' + k).hidden = k !== which;
     });
-    get.innerHTML = note + '<div class="btns">' + btn(which) +
-      '<div class="seg" role="group" aria-label="System">' +
-      '<button type="button" data-os="mac" aria-pressed="' + (which === 'mac') + '">Mac</button>' +
-      '<button type="button" data-os="win" aria-pressed="' + (which === 'win') + '">Windows</button></div></div>' +
-      '<p class="small"><span class="he">' + (which === 'mac' ? 'שבב של אפל (M1 ומעלה), macOS 14 ומעלה.' : 'Windows 10/11, ‏64 ביט.') + '</span>' +
-      '<span class="en">' + (which === 'mac' ? 'Apple chip (M1 or newer), macOS 14+.' : 'Windows 10/11, 64-bit.') + '</span></p>';
-    get.querySelectorAll('.seg button').forEach(function (b) { b.onclick = function () { show(b.dataset.os); }; });
+    document.querySelectorAll('[data-get]').forEach(function (get) {
+      get.innerHTML = '<div class="cta">' + btn(which) +
+        '<div class="seg" role="group" aria-label="System">' +
+        '<button type="button" data-os="mac" aria-pressed="' + (which === 'mac') + '">Mac</button>' +
+        '<button type="button" data-os="win" aria-pressed="' + (which === 'win') + '">Windows</button></div></div>' + note +
+        '<p class="small sys"><span class="he">' + (which === 'mac' ? 'בטא חינמית · שבב של אפל (M1 ומעלה), macOS 14 ומעלה' : 'בטא חינמית · Windows 10/11, ‏64 ביט') + '</span>' +
+        '<span class="en">' + (which === 'mac' ? 'Free beta · Apple chip (M1 or newer), macOS 14+' : 'Free beta · Windows 10/11, 64-bit') + '</span></p>';
+      get.querySelectorAll('.seg button').forEach(function (b) { b.onclick = function () { show(b.dataset.os); }; });
+    });
   }
   document.getElementById('t-mac').onclick = function () { show('mac'); };
   document.getElementById('t-win').onclick = function () { show('win'); };
@@ -463,7 +418,7 @@ b[dir], a[dir] { unicode-bidi: isolate; white-space: nowrap; }   /* English menu
       icon: '<svg viewBox="0 0 24 24"><rect x="6" y="2" width="3.6" height="12" rx="1.8" fill="#36C5F0"/><rect x="10" y="6" width="12" height="3.6" rx="1.8" fill="#2EB67D"/><rect x="14.4" y="10" width="3.6" height="12" rx="1.8" fill="#ECB22E"/><rect x="2" y="14.4" width="12" height="3.6" rx="1.8" fill="#E01E5A"/></svg>', src: "בשמ 'ק דטמב שכאקר ךומבי", dst: 'can we sync after lunch', more: ' tomorrow?', from: 'HE', target: 'English', auto: 2 },
     { app: 'Gmail', kind: 'gmail', ctx: '<div class="gm-head">New message</div><div class="gm-line">To<span>team@company.com</span></div>',
       send: 'Send',
-      icon: '<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M2 7v11a1.5 1.5 0 0 0 1.5 1.5H6V9.5z"/><path fill="#34A853" d="M18 9.5v10h2.5A1.5 1.5 0 0 0 22 18V7z"/><path fill="#EA4335" d="M6 9.5V19.5h0V9.5l6 4.5 6-4.5V5.2l-6 4.5-6-4.5z"/><path fill="#FBBC04" d="M18 5.2v4.3l4-2.5V6.2c0-1.4-1.6-2.2-2.7-1.4z"/><path fill="#C5221F" d="M2 6.2V7l4 2.5V5.2l-1.3-1C3.6 3.4 2 4.8 2 6.2z"/></svg>', src: 'tanj keck gsfui gs njr', dst: 'אשמח לקבל עדכון עד מחר', more: ' בבוקר 🙏', from: 'EN', target: 'Hebrew' },
+      icon: '<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M2 7v11a1.5 1.5 0 0 0 1.5 1.5H6V9.5z"/><path fill="#34A853" d="M18 9.5v10h2.5A1.5 1.5 0 0 0 22 18V7z"/><path fill="#EA4335" d="M6 9.5V19.5h0V9.5l6 4.5 6-4.5V5.2l-6 4.5-6-4.5z"/><path fill="#FBBC04" d="M18 5.2v4.3l4-2.5V6.2c0-1.4-1.6-2.2-2.7-1.4z"/><path fill="#C5221F" d="M2 6.2V7l4 2.5V5.2l-1.3-1C3.6 3.4 2 4.8 2 6.2z"/></svg>', src: 'tanj keck gsfui gs njr', dst: 'אשמח לקבל עדכון עד מחר', more: ' בבוקר, תודה', from: 'EN', target: 'Hebrew' },
     { app: 'Claude Code', kind: 'term', ctx: '<div class="tm-head"><i></i><i></i><i></i></div><div class="tm-line">✻ Welcome to Claude Code</div><div class="tm-line dim">cwd: ~/projects/web-app</div>',
       send: '',
       icon: '<svg viewBox="0 0 24 24"><g stroke="#D97757" stroke-width="2.6" stroke-linecap="round"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/></g></svg>', src: 'כןס איק ךםעןמ נוע', dst: 'fix the login bug', more: ' and add a test', from: 'HE', target: 'English' }
@@ -479,9 +434,9 @@ b[dir], a[dir] { unicode-bidi: isolate; white-space: nowrap; }   /* English menu
     field.classList.toggle('rtl', !s.term && s.from === 'HE'); typed.textContent = ''; kbLang.textContent = s.from; hint.classList.remove('show');
     sug.textContent = s.dst; sug.dir = s.target === 'Hebrew' ? 'rtl' : 'ltr'; fixLabel.textContent = 'Fix + switch to ' + s.target;
     hint.innerHTML = s.auto
-      ? '<span class="en">✓ Fixed by itself · Backspace right after undoes it</span><span class="he">✓ תוקן לבד · Backspace מיד אחרי מבטל</span>'
-      : '<span class="en">✓ Keyboard switched to ' + s.target + ' — just keep typing</span>' +
-        '<span class="he">✓ המקלדת עברה ל' + (s.target === 'Hebrew' ? 'עברית' : 'אנגלית') + ' — פשוט ממשיכים להקליד</span>';
+      ? '<span class="en">✓ Fixed by itself. Backspace right after undoes it.</span><span class="he" dir="rtl">✓ תוקן לבד. Backspace מיד אחרי מבטל.</span>'
+      : '<span class="en">✓ Keyboard switched to ' + s.target + '. Just keep typing.</span>' +
+        '<span class="he" dir="rtl">✓ המקלדת עברה ל' + (s.target === 'Hebrew' ? 'עברית' : 'אנגלית') + '. פשוט ממשיכים להקליד.</span>';
   }
   function switched(s) {
     field.classList.toggle('rtl', !s.term && s.target === 'Hebrew');
