@@ -452,14 +452,15 @@ b[dir], a[dir] { unicode-bidi: isolate; white-space: nowrap; }   /* English menu
   document.getElementById('t-win').onclick = function () { show('win'); };
   show(os === 'win' ? 'win' : 'mac');
 
-  // demo: a wrong-keyboard line in two apps; Tab fixes it, switches the keyboard, and you keep typing
+  // demo: a wrong-keyboard line in four apps. When it's sure (auto: after that many words) it fixes the line by itself;
+  // otherwise (and always in terminals) the bubble asks and Tab fixes it. Either way the keyboard switches and you keep typing.
   var scenes = [
     { app: 'WhatsApp Web', kind: 'wa', ctx: '<div class="msg">מה התוכניות לסופ״ש?</div>',
       send: '<svg viewBox="0 0 24 24"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg>',
-      icon: '<svg viewBox="0 0 24 24"><path fill="#25D366" d="M12 2a10 10 0 0 0-8.7 14.9L2 22l5.3-1.3A10 10 0 1 0 12 2z"/><path fill="#fff" d="M9 7.3c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .6.4l.8 1.9c.1.2.1.4-.1.6l-.5.6c-.1.2-.2.3 0 .6.4.7.9 1.3 1.5 1.8.7.6 1.3.9 1.6 1 .2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.7.8c.2.1.4.2.4.4 0 .3 0 1-.4 1.5-.5.5-1.3.9-2.1.8-.9-.1-2.4-.5-4-1.9-1.7-1.5-2.6-3.3-2.8-4-.2-.7-.1-1.5.3-2.1z"/></svg>', src: 'tbh rumv kgau, navu fti', dst: 'אני רוצה לעשות משהו כאן', more: ', מי בא?', from: 'EN', target: 'Hebrew' },
+      icon: '<svg viewBox="0 0 24 24"><path fill="#25D366" d="M12 2a10 10 0 0 0-8.7 14.9L2 22l5.3-1.3A10 10 0 1 0 12 2z"/><path fill="#fff" d="M9 7.3c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .6.4l.8 1.9c.1.2.1.4-.1.6l-.5.6c-.1.2-.2.3 0 .6.4.7.9 1.3 1.5 1.8.7.6 1.3.9 1.6 1 .2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.6-.1l1.7.8c.2.1.4.2.4.4 0 .3 0 1-.4 1.5-.5.5-1.3.9-2.1.8-.9-.1-2.4-.5-4-1.9-1.7-1.5-2.6-3.3-2.8-4-.2-.7-.1-1.5.3-2.1z"/></svg>', src: 'tbh rumv kgau, navu fti', dst: 'אני רוצה לעשות משהו כאן', more: ', מי בא?', from: 'EN', target: 'Hebrew', auto: 2 },
     { app: 'Slack', kind: 'slack', ctx: '<div class="sl-ch"># product</div><div class="sl-msg"><span class="av">N</span><span><b dir="ltr">Noa</b>the new build is ready for review</span></div>',
       send: '<svg viewBox="0 0 24 24"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg>',
-      icon: '<svg viewBox="0 0 24 24"><rect x="6" y="2" width="3.6" height="12" rx="1.8" fill="#36C5F0"/><rect x="10" y="6" width="12" height="3.6" rx="1.8" fill="#2EB67D"/><rect x="14.4" y="10" width="3.6" height="12" rx="1.8" fill="#ECB22E"/><rect x="2" y="14.4" width="12" height="3.6" rx="1.8" fill="#E01E5A"/></svg>', src: "בשמ 'ק דטמב שכאקר ךומבי", dst: 'can we sync after lunch', more: ' tomorrow?', from: 'HE', target: 'English' },
+      icon: '<svg viewBox="0 0 24 24"><rect x="6" y="2" width="3.6" height="12" rx="1.8" fill="#36C5F0"/><rect x="10" y="6" width="12" height="3.6" rx="1.8" fill="#2EB67D"/><rect x="14.4" y="10" width="3.6" height="12" rx="1.8" fill="#ECB22E"/><rect x="2" y="14.4" width="12" height="3.6" rx="1.8" fill="#E01E5A"/></svg>', src: "בשמ 'ק דטמב שכאקר ךומבי", dst: 'can we sync after lunch', more: ' tomorrow?', from: 'HE', target: 'English', auto: 2 },
     { app: 'Gmail', kind: 'gmail', ctx: '<div class="gm-head">New message</div><div class="gm-line">To<span>team@company.com</span></div>',
       send: 'Send',
       icon: '<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M2 7v11a1.5 1.5 0 0 0 1.5 1.5H6V9.5z"/><path fill="#34A853" d="M18 9.5v10h2.5A1.5 1.5 0 0 0 22 18V7z"/><path fill="#EA4335" d="M6 9.5V19.5h0V9.5l6 4.5 6-4.5V5.2l-6 4.5-6-4.5z"/><path fill="#FBBC04" d="M18 5.2v4.3l4-2.5V6.2c0-1.4-1.6-2.2-2.7-1.4z"/><path fill="#C5221F" d="M2 6.2V7l4 2.5V5.2l-1.3-1C3.6 3.4 2 4.8 2 6.2z"/></svg>', src: 'tanj keck gsfui gs njr', dst: 'אשמח לקבל עדכון עד מחר', more: ' בבוקר 🙏', from: 'EN', target: 'Hebrew' },
@@ -477,11 +478,17 @@ b[dir], a[dir] { unicode-bidi: isolate; white-space: nowrap; }   /* English menu
     send.className = 'send ' + s.kind; send.innerHTML = s.send; s.term = s.kind === 'term'; field.classList.toggle('term', s.term);
     field.classList.toggle('rtl', !s.term && s.from === 'HE'); typed.textContent = ''; kbLang.textContent = s.from; hint.classList.remove('show');
     sug.textContent = s.dst; sug.dir = s.target === 'Hebrew' ? 'rtl' : 'ltr'; fixLabel.textContent = 'Fix + switch to ' + s.target;
-    hint.innerHTML = '<span class="en">✓ Keyboard switched to ' + s.target + ' — just keep typing</span>' +
-      '<span class="he">✓ המקלדת עברה ל' + (s.target === 'Hebrew' ? 'עברית' : 'אנגלית') + ' — פשוט ממשיכים להקליד</span>';
+    hint.innerHTML = s.auto
+      ? '<span class="en">✓ Fixed by itself · Backspace right after undoes it</span><span class="he">✓ תוקן לבד · Backspace מיד אחרי מבטל</span>'
+      : '<span class="en">✓ Keyboard switched to ' + s.target + ' — just keep typing</span>' +
+        '<span class="he">✓ המקלדת עברה ל' + (s.target === 'Hebrew' ? 'עברית' : 'אנגלית') + ' — פשוט ממשיכים להקליד</span>';
+  }
+  function switched(s) {
+    field.classList.toggle('rtl', !s.term && s.target === 'Hebrew');
+    kbLang.textContent = s.target === 'Hebrew' ? 'HE' : 'EN'; kb.classList.add('flash'); hint.classList.add('show');
   }
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    setScene(scenes[0]); typed.textContent = scenes[0].src; bubble.classList.add('show'); return;
+    setScene(scenes[0]); typed.textContent = scenes[0].dst; switched(scenes[0]); kb.classList.remove('flash'); return;
   }
   function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
   async function type(text) {
@@ -496,14 +503,22 @@ b[dir], a[dir] { unicode-bidi: isolate; white-space: nowrap; }   /* English menu
       var s = scenes[n % scenes.length];
       setScene(s);
       await wait(700);
-      await type(s.src);
-      await wait(450); bubble.classList.add('show');
-      await wait(1900); fix.classList.add('pressed');
-      await wait(220); fix.classList.remove('pressed'); bubble.classList.remove('show');
-      typed.textContent = s.dst; field.classList.toggle('rtl', !s.term && s.target === 'Hebrew');
-      kbLang.textContent = s.target === 'Hebrew' ? 'HE' : 'EN'; kb.classList.add('flash'); hint.classList.add('show');
-      await wait(700); kb.classList.remove('flash');
-      await type(s.more);
+      if (s.auto) {                  // sure after a few words: fixed by itself, then you just keep typing
+        var src = s.src.split(' '), dst = s.dst.split(' ');
+        await type(src.slice(0, s.auto).join(' ') + ' ');
+        await wait(280);
+        typed.textContent = dst.slice(0, s.auto).join(' ') + ' '; switched(s);
+        await wait(900); kb.classList.remove('flash');
+        await type(dst.slice(s.auto).join(' ') + s.more);
+      } else {                       // not sure (or a terminal): the bubble asks, Tab fixes
+        await type(s.src);
+        await wait(450); bubble.classList.add('show');
+        await wait(1900); fix.classList.add('pressed');
+        await wait(220); fix.classList.remove('pressed'); bubble.classList.remove('show');
+        typed.textContent = s.dst; switched(s);
+        await wait(700); kb.classList.remove('flash');
+        await type(s.more);
+      }
       await wait(2400); hint.classList.remove('show');
       await wait(300);
     }
